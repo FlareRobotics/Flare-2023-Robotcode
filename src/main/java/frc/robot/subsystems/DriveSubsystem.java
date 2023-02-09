@@ -56,8 +56,8 @@ public class DriveSubsystem extends SubsystemBase {
   public DriveSubsystem() {
     
     m_odometry =
-    new DifferentialDriveOdometry(Rotation3d.);
-  SmartDashboard.putData("Field", m_field);
+    new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()),getLeftEncoderDistance(),getRightEncoderDistance(), new Pose2d(5.0,5.0, new Rotation2d()));
+    SmartDashboard.putData("Field", m_field);
 
     leftFrontMotor.setInverted(TalonFXInvertType.Clockwise);
     leftRearMotor.setInverted(TalonFXInvertType.Clockwise);
@@ -260,7 +260,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void resetOdometry(Pose2d pose) {
     resetEncoders();
-    m_odometry.resetPosition(pose, Rotation2d.fromDegrees(getHeading()));
+    m_odometry.resetPosition(Rotation2d.fromDegrees(getHeading()),getLeftEncoderDistance(),getRightEncoderDistance(), new Pose2d(5.0,5.0, new Rotation2d()));
   }
 
   public static void arcadeDrive(double fwd, double rot) {
@@ -412,8 +412,7 @@ public double getHeading() {
 }
 
 public static void drive_PID_centimeters(double cm){
-  var targetPositionRotations = (Units.inchesToMeters(6)*Math.PI*2)*DriveConstants.drive_disli_orani*2048*cm;
-  
+  var target_sensorUnits = cm/(Units.inchesToMeters(6)*Math.PI*2)*DriveConstants.drive_disli_orani*2048;
   rightRearMotor.set(TalonFXControlMode.MotionMagic, target_sensorUnits);
   leftRearMotor.set(TalonFXControlMode.MotionMagic, target_sensorUnits);
 
