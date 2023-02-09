@@ -12,7 +12,6 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClawSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
-import frc.robot.subsystems.FlareVisionSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -46,20 +45,21 @@ public class RobotContainer {
   private void configureButtonBindings() {
 <<<<<<< Updated upstream
     //  Manuel Elevator 
-    new JoystickButton(driver_joy,XboxController.Button.kA.value).whileActiveOnce(new ManuelElevator(elevatorsubsystem, true));
-    new JoystickButton(driver_joy,XboxController.Button.kY.value).whileActiveOnce(new ManuelElevator(elevatorsubsystem, false));
+    new JoystickButton(driver_joy,XboxController.Button.kA.value).whileTrue(new ManuelElevator(elevatorsubsystem, true));
+    new JoystickButton(driver_joy,XboxController.Button.kA.value).whileTrue(new ManuelElevator(elevatorsubsystem, true));
+    new JoystickButton(driver_joy,XboxController.Button.kY.value).whileTrue(new ManuelElevator(elevatorsubsystem, false));
     
     // Manuel Arm 
-    new JoystickButton(driver_joy, XboxController.Button.kX.value).whileActiveOnce(new ManuelArm(armSubsystem,true));
-    new JoystickButton(driver_joy, XboxController.Button.kB.value).whileActiveOnce(new ManuelArm(armSubsystem,false));
+    new JoystickButton(driver_joy, XboxController.Button.kX.value).whileTrue(new ManuelArm(armSubsystem,true));
+    new JoystickButton(driver_joy, XboxController.Button.kB.value).whileTrue(new ManuelArm(armSubsystem,false));
 
     // Compressor Toggle
-    new JoystickButton(driver_joy,XboxController.Button.kStart.value).toggleWhenPressed(new ToggleCompressor(clawSubsystem));
+    new JoystickButton(driver_joy,XboxController.Button.kStart.value).toggleOnTrue(new ToggleCompressor(clawSubsystem));
 
     //Claw Open
-    new JoystickButton(driver_joy, XboxController.Button.kRightBumper.value).whileActiveOnce(new ClawSet(clawSubsystem,true));
+    new JoystickButton(driver_joy, XboxController.Button.kRightBumper.value).toggleOnTrue(new ClawSet(clawSubsystem,true));
     //Claw Close
-    new JoystickButton(driver_joy, XboxController.Button.kLeftBumper.value).whileActiveOnce(new ClawSet(clawSubsystem,false));
+    new JoystickButton(driver_joy, XboxController.Button.kLeftBumper.value).toggleOnTrue(new ClawSet(clawSubsystem,false));
   
 }
 =======

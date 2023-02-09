@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -17,12 +13,10 @@ import com.ctre.phoenix.sensors.Pigeon2;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -51,17 +45,10 @@ public class DriveSubsystem extends SubsystemBase {
   private final Field2d m_field = new Field2d();
 
   public DriveSubsystem() {
-<<<<<<< Updated upstream
-    
-    m_odometry =
-    new DifferentialDriveOdometry(Rotation3d.);
-  SmartDashboard.putData("Field", m_field);
-=======
 
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()), getLeftEncoderDistance(),
         getRightEncoderDistance(), new Pose2d(1.0, 1.0, new Rotation2d()));
     SmartDashboard.putData("Field", m_field);
->>>>>>> Stashed changes
 
     leftFrontMotor.setInverted(TalonFXInvertType.Clockwise);
     leftRearMotor.setInverted(TalonFXInvertType.Clockwise);
@@ -166,24 +153,16 @@ public class DriveSubsystem extends SubsystemBase {
         PidConstants.DriveConstants.PID_PRIMARY);
     zeroSensors();
 
-<<<<<<< Updated upstream
-    setDash();
-=======
     // setDash();
 
->>>>>>> Stashed changes
   }
 
   void setDash() {
     // SmartDashboard.putNumber("Gyro Degree", gyro.getYaw());
-<<<<<<< Updated upstream
-    SmartDashboard.putNumber("Drive Velocity", rightRearMotor.getSelectedSensorVelocity());
-=======
     // SmartDashboard.putNumber("Drive Velocity",
     // rightRearMotor.getSelectedSensorVelocity());
     SmartDashboard.putNumber("Encoder Distance M", getRightEncoderDistance());
 
->>>>>>> Stashed changes
   }
 
   void zeroSensors() {
@@ -195,11 +174,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-<<<<<<< Updated upstream
-    setDash();
-=======
     // setDash();
->>>>>>> Stashed changes
     m_odometry.update(
         Rotation2d.fromDegrees(getHeading()),
         getLeftEncoderDistance(),
@@ -275,12 +250,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void resetOdometry(Pose2d pose) {
     resetEncoders();
-<<<<<<< Updated upstream
-    m_odometry.resetPosition(pose, Rotation2d.fromDegrees(getHeading()));
-=======
     m_odometry.resetPosition(Rotation2d.fromDegrees(getHeading()), getLeftEncoderDistance(), getRightEncoderDistance(),
         new Pose2d(5.0, 5.0, new Rotation2d()));
->>>>>>> Stashed changes
   }
 
   public static void arcadeDrive(double fwd, double rot) {
@@ -398,46 +369,6 @@ public class DriveSubsystem extends SubsystemBase {
     leftRearMotor.setSelectedSensorPosition(0);
   }
 
-<<<<<<< Updated upstream
-
-  public static boolean turn_angles(double angle, double startangle){
-    if(angle>0){
-
-      if((m_gyro.getYaw()-startangle) < angle){
-
-        pidDrive(0, 0.5);
-      
-      }else{
-
-         pidDrive(0,0);
-         return true;
-
-      }
-    }else {
-
-      if((m_gyro.getYaw()-startangle) > angle){
-
-        pidDrive(0, -0.5);
-      
-      }else{ 
-
-        pidDrive(0,0);
-        return true;
-      
-      }
-    }
-  return false;
-}
-
-public static void drive_PID_centimeters(double cm){
-  var targetPositionRotations = (Units.inchesToMeters(6)*Math.PI*2)*DriveConstants.drive_disli_orani*2048*cm;
-  
-  rightRearMotor.set(TalonFXControlMode.MotionMagic, target_sensorUnits);
-  leftRearMotor.set(TalonFXControlMode.MotionMagic, target_sensorUnits);
-
-}
-  
-=======
   public static boolean turn_angles(double angle, double startangle, Boolean sag) {
     if (sag) {
       if (m_gyro.getYaw() < startangle + angle) {
@@ -461,5 +392,4 @@ public static void drive_PID_centimeters(double cm){
     leftRearMotor.set(TalonFXControlMode.MotionMagic, target_sensorUnits);
     return (getAverageEncoderDistance() >= cm);
   }
->>>>>>> Stashed changes
 }
