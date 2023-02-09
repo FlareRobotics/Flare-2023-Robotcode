@@ -33,13 +33,11 @@ import frc.robot.PID.PidConstants;
 public class DriveSubsystem extends SubsystemBase {
   public static WPI_TalonFX leftFrontMotor = new WPI_TalonFX(Constants.DriveConstants.solon_falcon_port);
   public static WPI_TalonFX leftRearMotor = new WPI_TalonFX(Constants.DriveConstants.solarka_falcon_port);
- 
 
   public static WPI_TalonFX rightFrontMotor = new WPI_TalonFX(Constants.DriveConstants.sagon_falcon_port);
   public static WPI_TalonFX rightRearMotor = new WPI_TalonFX(Constants.DriveConstants.sagarka_falcon_port);
 
-
-  public static DifferentialDrive m_drive = new DifferentialDrive(leftRearMotor,rightRearMotor);
+  public static DifferentialDrive m_drive = new DifferentialDrive(leftRearMotor, rightRearMotor);
 
   public static Pigeon2 m_gyro = new Pigeon2(0);
 
@@ -52,12 +50,18 @@ public class DriveSubsystem extends SubsystemBase {
 
   private final Field2d m_field = new Field2d();
 
-
   public DriveSubsystem() {
+<<<<<<< Updated upstream
     
     m_odometry =
     new DifferentialDriveOdometry(Rotation3d.);
   SmartDashboard.putData("Field", m_field);
+=======
+
+    m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()), getLeftEncoderDistance(),
+        getRightEncoderDistance(), new Pose2d(1.0, 1.0, new Rotation2d()));
+    SmartDashboard.putData("Field", m_field);
+>>>>>>> Stashed changes
 
     leftFrontMotor.setInverted(TalonFXInvertType.Clockwise);
     leftRearMotor.setInverted(TalonFXInvertType.Clockwise);
@@ -75,8 +79,6 @@ public class DriveSubsystem extends SubsystemBase {
     rightRearMotor.setNeutralMode(defaultMode);
     leftFrontMotor.setNeutralMode(defaultMode);
     rightFrontMotor.setNeutralMode(defaultMode);
-
-
 
     leftFrontMotor.follow(leftRearMotor);
     rightFrontMotor.follow(rightRearMotor);
@@ -164,12 +166,24 @@ public class DriveSubsystem extends SubsystemBase {
         PidConstants.DriveConstants.PID_PRIMARY);
     zeroSensors();
 
+<<<<<<< Updated upstream
     setDash();
+=======
+    // setDash();
+
+>>>>>>> Stashed changes
   }
 
   void setDash() {
     // SmartDashboard.putNumber("Gyro Degree", gyro.getYaw());
+<<<<<<< Updated upstream
     SmartDashboard.putNumber("Drive Velocity", rightRearMotor.getSelectedSensorVelocity());
+=======
+    // SmartDashboard.putNumber("Drive Velocity",
+    // rightRearMotor.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("Encoder Distance M", getRightEncoderDistance());
+
+>>>>>>> Stashed changes
   }
 
   void zeroSensors() {
@@ -181,18 +195,20 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+<<<<<<< Updated upstream
     setDash();
+=======
+    // setDash();
+>>>>>>> Stashed changes
     m_odometry.update(
-      Rotation2d.fromDegrees(getHeading()),
-      getLeftEncoderDistance(),
-      getRightEncoderDistance()
-    );
+        Rotation2d.fromDegrees(getHeading()),
+        getLeftEncoderDistance(),
+        getRightEncoderDistance());
 
     m_field.setRobotPose(
-      m_odometry.getPoseMeters().getX(),
-      -m_odometry.getPoseMeters().getY(),
-      new Rotation2d(Math.toRadians(-getHeading()))
-    );
+        m_odometry.getPoseMeters().getX(),
+        -m_odometry.getPoseMeters().getY(),
+        new Rotation2d(Math.toRadians(-getHeading())));
 
   }
 
@@ -226,17 +242,16 @@ public class DriveSubsystem extends SubsystemBase {
     return (getRightEncoderDistance() + getLeftEncoderDistance()) / (2.0);
   }
 
-
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     leftRearMotor.setVoltage(leftVolts);
     leftFrontMotor.setVoltage(leftVolts);
     /*
-        if (rightVolts >= 0) {
-            rightVolts = rightVolts + 1;
-        } else {
-            rightVolts = rightVolts - 1;
-        }
-        */
+     * if (rightVolts >= 0) {
+     * rightVolts = rightVolts + 1;
+     * } else {
+     * rightVolts = rightVolts - 1;
+     * }
+     */
     rightRearMotor.setVoltage(-rightVolts);
     rightFrontMotor.setVoltage(-rightVolts);
     m_drive.feed();
@@ -245,22 +260,27 @@ public class DriveSubsystem extends SubsystemBase {
   public void setMaxOutput(double maxOutput) {
     m_drive.setMaxOutput(maxOutput);
   }
+
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     return new DifferentialDriveWheelSpeeds(
-      10.0 *
-      rightRearMotor.getSelectedSensorVelocity() *
-      (1.0 / DriveConstants.kEncoderCPR) *
-      (Math.PI * DriveConstants.kWheelDiameterMeters),
-      10.0 *
-      leftRearMotor.getSelectedSensorVelocity() *
-      (1.0 / DriveConstants.kEncoderCPR) *
-      (-Math.PI * DriveConstants.kWheelDiameterMeters)
-    );
+        10.0 *
+            rightRearMotor.getSelectedSensorVelocity() *
+            (1.0 / DriveConstants.kEncoderCPR) *
+            (Math.PI * DriveConstants.kWheelDiameterMeters),
+        10.0 *
+            leftRearMotor.getSelectedSensorVelocity() *
+            (1.0 / DriveConstants.kEncoderCPR) *
+            (-Math.PI * DriveConstants.kWheelDiameterMeters));
   }
 
   public void resetOdometry(Pose2d pose) {
     resetEncoders();
+<<<<<<< Updated upstream
     m_odometry.resetPosition(pose, Rotation2d.fromDegrees(getHeading()));
+=======
+    m_odometry.resetPosition(Rotation2d.fromDegrees(getHeading()), getLeftEncoderDistance(), getRightEncoderDistance(),
+        new Pose2d(5.0, 5.0, new Rotation2d()));
+>>>>>>> Stashed changes
   }
 
   public static void arcadeDrive(double fwd, double rot) {
@@ -357,23 +377,20 @@ public class DriveSubsystem extends SubsystemBase {
     masterConfig.primaryPID.selectedFeedbackCoefficient = 0.5;
   }
 
+  public void zeroHeading() {
+    m_gyro.setYaw(0);
 
-public void zeroHeading() {
-  m_gyro.setYaw(0);
-  
-}
-
-
-public Pose2d getPose() {
-  return m_odometry.getPoseMeters();
-}
-
-public double getHeading() {
-  return (
-    Math.IEEEremainder(m_gyro.getYaw(), 360) *-1);
   }
 
-  public void resetEncoders(){
+  public Pose2d getPose() {
+    return m_odometry.getPoseMeters();
+  }
+
+  public double getHeading() {
+    return (Math.IEEEremainder(m_gyro.getYaw(), 360) * -1);
+  }
+
+  public void resetEncoders() {
     rightFrontMotor.setSelectedSensorPosition(0);
     rightRearMotor.setSelectedSensorPosition(0);
 
@@ -381,6 +398,7 @@ public double getHeading() {
     leftRearMotor.setSelectedSensorPosition(0);
   }
 
+<<<<<<< Updated upstream
 
   public static boolean turn_angles(double angle, double startangle){
     if(angle>0){
@@ -419,4 +437,29 @@ public static void drive_PID_centimeters(double cm){
 
 }
   
+=======
+  public static boolean turn_angles(double angle, double startangle, Boolean sag) {
+    if (sag) {
+      if (m_gyro.getYaw() < startangle + angle) {
+        pidDrive(0, 0.5);
+      } else {
+        return true;
+      }
+    } else {
+      if (m_gyro.getYaw() > startangle + angle) {
+        pidDrive(0, -0.5);
+      } else {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public static boolean drive_PID_centimeters(double cm) {
+    var target_sensorUnits = cm / (Units.inchesToMeters(6) * Math.PI * 2) * DriveConstants.drive_disli_orani * 2048;
+    rightRearMotor.set(TalonFXControlMode.MotionMagic, target_sensorUnits);
+    leftRearMotor.set(TalonFXControlMode.MotionMagic, target_sensorUnits);
+    return (getAverageEncoderDistance() >= cm);
+  }
+>>>>>>> Stashed changes
 }
