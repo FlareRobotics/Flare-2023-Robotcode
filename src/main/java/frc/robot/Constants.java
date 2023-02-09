@@ -3,17 +3,6 @@ package frc.robot;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
 
-<<<<<<< Updated upstream
-/**
- * The Constants class provides a convenient place for teams to hold robot-wide
- * numerical or boolean
- * constants. This class should not be used for any other purpose. All constants
- * should be declared
- * globally (i.e. public static). Do not put anything functional in this class.
- *
-
-=======
->>>>>>> Stashed changes
 public final class Constants {
 
     public static class ElevatorConstants {
@@ -40,15 +29,9 @@ public final class Constants {
         public static int high_cube_height = 0;
         public static int mid_cube_height = 0;
         public static int low_cube_height = 0;
-<<<<<<< Updated upstream
-        //All in CM
-        public static double cone_1_distance = 46.5d;
-=======
         // All in CM
         public static double outermost_cone_distance = 46.5d;
->>>>>>> Stashed changes
-
-
+        public static double substation_distance = 59d;
     }
 
     public static class ArmConstants {
