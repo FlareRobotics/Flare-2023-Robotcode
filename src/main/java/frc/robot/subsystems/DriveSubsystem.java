@@ -56,7 +56,7 @@ public class DriveSubsystem extends SubsystemBase {
   public DriveSubsystem() {
     
     m_odometry =
-    new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()),getLeftEncoderDistance(),getRightEncoderDistance(), new Pose2d(5.0,5.0, new Rotation2d()));
+    new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()),getLeftEncoderDistance(),getRightEncoderDistance(), new Pose2d(1.0,1.0, new Rotation2d()));
     SmartDashboard.putData("Field", m_field);
 
     leftFrontMotor.setInverted(TalonFXInvertType.Clockwise);
@@ -164,12 +164,14 @@ public class DriveSubsystem extends SubsystemBase {
         PidConstants.DriveConstants.PID_PRIMARY);
     zeroSensors();
 
-    setDash();
+   // setDash();
   }
 
   void setDash() {
     // SmartDashboard.putNumber("Gyro Degree", gyro.getYaw());
-    SmartDashboard.putNumber("Drive Velocity", rightRearMotor.getSelectedSensorVelocity());
+    //SmartDashboard.putNumber("Drive Velocity", rightRearMotor.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("Encoder Distance M",getRightEncoderDistance());
+
   }
 
   void zeroSensors() {
@@ -181,7 +183,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    setDash();
+ //   setDash();
     m_odometry.update(
       Rotation2d.fromDegrees(getHeading()),
       getLeftEncoderDistance(),
