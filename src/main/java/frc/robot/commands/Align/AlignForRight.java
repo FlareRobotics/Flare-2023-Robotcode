@@ -16,7 +16,7 @@ import frc.robot.subsystems.FlareVisionSubsystem;
 
 /** An example command that uses an example subsystem. */
 
-public class AlignForLeft extends CommandBase {
+public class AlignForRight extends CommandBase {
   public PhotonTrackedTarget target;
   private Boolean done = false;  
   private double target_y;
@@ -28,8 +28,7 @@ public class AlignForLeft extends CommandBase {
   private double needed_angle;
 
   private double rot_gap = 10;
-  private int index = 0;
-  public AlignForLeft(DriveSubsystem driveSubsystem) {
+  public AlignForRight(DriveSubsystem driveSubsystem) {
     addRequirements(driveSubsystem);
   }
 
@@ -47,18 +46,18 @@ public class AlignForLeft extends CommandBase {
   @Override
   public void execute() {
     
-    if(FlareVisionSubsystem.getAprilTagID() == 8 || FlareVisionSubsystem.getAprilTagID() == 3){
+    if(FlareVisionSubsystem.getAprilTagID() == 6 || FlareVisionSubsystem.getAprilTagID() == 1){
       if(cross_distance <=0){
       calc_y = AlignConstants.outermost_cone_distance + target_y;
       cross_distance = Math.sqrt(Math.pow(calc_y,2)+Math.pow(target_distance,2))-rot_gap;
       needed_angle = Math.acos(target_distance/cross_distance);
-      if(!DriveSubsystem.turn_angles(needed_angle, gyro_aci,false)){
+      if(!DriveSubsystem.turn_angles(needed_angle, -gyro_aci)){
         return;
       }
         if(!DriveSubsystem.drive_PID_centimeters(cross_distance)){
           return;
       }
-      if(!DriveSubsystem.turn_angles(gyro_aci, needed_angle,true)){
+      if(!DriveSubsystem.turn_angles(needed_angle, gyro_aci)){
         return;
       }
 

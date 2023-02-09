@@ -33,8 +33,9 @@ public final class Constants {
         public static int mid_cube_height = 0;
         public static int low_cube_height = 0;
         //All in CM
-        public static double cone_1_distance = 46.5d;
+        public static double outermost_cone_distance = 46.5d;
 
+        public static double substation_distance = 59.0d;
 
     }
 

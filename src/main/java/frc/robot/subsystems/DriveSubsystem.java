@@ -165,6 +165,7 @@ public class DriveSubsystem extends SubsystemBase {
     zeroSensors();
 
    // setDash();
+   
   }
 
   void setDash() {
@@ -384,40 +385,31 @@ public double getHeading() {
   }
 
 
-  public static boolean turn_angles(double angle, double startangle){
-    if(angle>0){
-
-      if((m_gyro.getYaw()-startangle) < angle){
-
-        pidDrive(0, 0.5);
-      
+  public static boolean turn_angles(double angle, double startangle, Boolean sag){
+    if(sag){
+      if(m_gyro.getYaw()< startangle + angle){
+        pidDrive(0,0.5);
       }else{
-
-         pidDrive(0,0);
-         return true;
-
-      }
-    }else {
-
-      if((m_gyro.getYaw()-startangle) > angle){
-
-        pidDrive(0, -0.5);
-      
-      }else{ 
-
-        pidDrive(0,0);
         return true;
-      
       }
+    }else{
+      if(m_gyro.getYaw()> startangle + angle){
+      pidDrive(0,-0.5);
+    }else{
+      return true;
+
+    }
+
+    
     }
   return false;
 }
 
-public static void drive_PID_centimeters(double cm){
+public static boolean drive_PID_centimeters(double cm){
   var target_sensorUnits = cm/(Units.inchesToMeters(6)*Math.PI*2)*DriveConstants.drive_disli_orani*2048;
   rightRearMotor.set(TalonFXControlMode.MotionMagic, target_sensorUnits);
   leftRearMotor.set(TalonFXControlMode.MotionMagic, target_sensorUnits);
-
+  return(getAverageEncoderDistance()>=cm);
 }
   
 }
