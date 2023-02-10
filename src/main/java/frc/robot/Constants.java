@@ -14,21 +14,13 @@ public final class Constants {
         public static double elevator_distance_per_rotation = 4.5d;
 
         // All in cm
-        public static int bottom_row_height = 10;
-        public static int middle_row_height = 20;
-        public static int top_row_height = 30;
-
+        public static int bottom_row_height = 15;
+        public static int middle_row_height = 87;
+        public static int top_row_height = 117;
+        public static int substation_height = 95;
     }
 
     public static class AlignConstants {
-
-        public static int high_cone_height = 0;
-        public static int mid_cone_height = 0;
-        public static int low_cone_height = 0;
-
-        public static int high_cube_height = 0;
-        public static int mid_cube_height = 0;
-        public static int low_cube_height = 0;
         // All in CM
         public static double outermost_cone_distance = 46.5d;
         public static double substation_distance = 59d;
@@ -45,8 +37,9 @@ public final class Constants {
 
         // All in cm
         public static int bottom_row_distance = 10;
-        public static int middle_row_distance = 20;
-        public static int top_row_distance = 30;
+        public static int middle_row_distance = 60;
+        public static int top_row_distance = 103;
+        public static int substation_distance = 17;
     }
 
     public static class ClawConstants {
