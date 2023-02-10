@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class AutoElevator extends CommandBase {
   public int yukseklik;
+  private boolean finished = false;
+  private double offsetLimit = 0.25d;
 
   public AutoElevator(ElevatorSubsystem elevatorSubsystem, int yukseklik) {
     this.yukseklik = yukseklik;
@@ -25,17 +27,26 @@ public class AutoElevator extends CommandBase {
       case 1:
         ElevatorSubsystem.elevator_motor.set(ControlMode.MotionMagic,
             ElevatorSubsystem.elevator_yukseklik_units(ElevatorConstants.bottom_row_height));
+            finished = ElevatorSubsystem.elevator_yukseklik_cm() >= ElevatorConstants.bottom_row_height - offsetLimit && ElevatorSubsystem.elevator_yukseklik_cm() <= ElevatorConstants.bottom_row_height + offsetLimit;
         break;
       // Orta
       case 2:
         ElevatorSubsystem.elevator_motor.set(ControlMode.MotionMagic,
             ElevatorSubsystem.elevator_yukseklik_units(ElevatorConstants.middle_row_height));
+            finished = ElevatorSubsystem.elevator_yukseklik_cm() >= ElevatorConstants.middle_row_height - offsetLimit && ElevatorSubsystem.elevator_yukseklik_cm() <= ElevatorConstants.middle_row_height + offsetLimit;
         break;
       // Üst
       case 3:
         ElevatorSubsystem.elevator_motor.set(ControlMode.MotionMagic,
             ElevatorSubsystem.elevator_yukseklik_units(ElevatorConstants.top_row_height));
+            finished = ElevatorSubsystem.elevator_yukseklik_cm() >= ElevatorConstants.top_row_height - offsetLimit && ElevatorSubsystem.elevator_yukseklik_cm() <= ElevatorConstants.top_row_height + offsetLimit;
         break;
+      // Üst
+      case 4:
+      ElevatorSubsystem.elevator_motor.set(ControlMode.MotionMagic,
+          ElevatorSubsystem.elevator_yukseklik_units(ElevatorConstants.substation_height));
+          finished = ElevatorSubsystem.elevator_yukseklik_cm() >= ElevatorConstants.substation_height - offsetLimit && ElevatorSubsystem.elevator_yukseklik_cm() <= ElevatorConstants.substation_height + offsetLimit;
+      break;
     }
   }
 
@@ -47,6 +58,6 @@ public class AutoElevator extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return false;
+    return finished;
   }
 }
