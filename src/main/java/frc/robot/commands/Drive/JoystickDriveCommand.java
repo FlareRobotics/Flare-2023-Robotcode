@@ -13,32 +13,28 @@ public class JoystickDriveCommand extends CommandBase {
   private final DoubleSupplier m_right;
 
   public JoystickDriveCommand(
-    DriveSubsystem drive,
-    DoubleSupplier left,
-    DoubleSupplier right
-  ) {
-    // Use addRequirements() here to declare subsystem dependencies.
+      DriveSubsystem drive,
+      DoubleSupplier left,
+      DoubleSupplier right) {
     m_drive = drive;
     m_left = left;
     m_right = right;
     addRequirements(m_drive);
   }
 
-  // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     DriveSubsystem.arcadeDrive(m_left.getAsDouble(), m_right.getAsDouble());
   }
 
-  // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;

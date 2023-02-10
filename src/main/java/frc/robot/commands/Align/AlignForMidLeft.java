@@ -6,7 +6,7 @@ import frc.robot.Constants.AlignConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.FlareVisionSubsystem;
 
-public class AlignForSubstation extends CommandBase {
+public class AlignForMidLeft extends CommandBase {
   public PhotonTrackedTarget target;
   private Boolean done = false;
   private double target_y;
@@ -20,16 +20,16 @@ public class AlignForSubstation extends CommandBase {
   private double rot_gap = 10;
   private int index = 0;
 
-  public AlignForSubstation(DriveSubsystem driveSubsystem) {
+  public AlignForMidLeft(DriveSubsystem driveSubsystem) {
     addRequirements(driveSubsystem);
   }
 
   @Override
   public void initialize() {
-    if (FlareVisionSubsystem.getAprilTagID() != 4 && FlareVisionSubsystem.getAprilTagID() != 5)
+    if (FlareVisionSubsystem.getAprilTagID() != 7 && FlareVisionSubsystem.getAprilTagID() != 2)
       end(true);
 
-    // System.out.println("AUTO Align Substation Start");
+    // System.out.println("AUTO Align Left Start");
     target = FlareVisionSubsystem.getBestTarget();
     gyro_aci = DriveSubsystem.m_gyro.getYaw();
     target_distance = FlareVisionSubsystem.getDistanceToGoal(target);
@@ -39,7 +39,7 @@ public class AlignForSubstation extends CommandBase {
   @Override
   public void execute() {
     if (cross_distance <= 0) {
-      calc_y = AlignConstants.substation_distance + target_y;
+      calc_y = AlignConstants.outermost_cone_distance + target_y;
       cross_distance = Math.sqrt(Math.pow(Math.abs(calc_y), 2) + Math.pow(target_distance, 2)) - rot_gap;
       needed_angle = Math.acos(target_distance / cross_distance);
     }
@@ -69,7 +69,7 @@ public class AlignForSubstation extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    // System.out.println("AUTO Align Substation End");
+    // System.out.println("AUTO Align Left End");
   }
 
   @Override

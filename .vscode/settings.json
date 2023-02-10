@@ -1,4 +1,7 @@
 {
+  "[java]": {
+    "editor.defaultFormatter": "redhat.java",
+  },
   "java.configuration.updateBuildConfiguration": "automatic",
   "java.server.launchMode": "Standard",
   "files.exclude": {

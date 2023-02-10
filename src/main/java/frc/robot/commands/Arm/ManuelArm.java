@@ -11,36 +11,32 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 /** An example command that uses an example subsystem. */
 public class ManuelArm extends CommandBase {
 
-
   private Boolean yon;
+
   public ManuelArm(ArmSubsystem subsystem, Boolean yon) {
     this.yon = yon;
     addRequirements(subsystem);
   }
 
-
   @Override
   public void initialize() {
-  //  System.out.println("Manuel Arm Start");
+    // System.out.println("Manuel Arm Start");
   }
 
- 
   @Override
   public void execute() {
-    if(yon){
+    if (yon) {
       ArmSubsystem.arm_motor.set(ArmConstants.arm_hiz);
-    }else{
-      ArmSubsystem.arm_motor.set(ArmConstants.arm_hiz*-1);
+    } else {
+      ArmSubsystem.arm_motor.set(ArmConstants.arm_hiz * -1);
     }
   }
 
-
   @Override
   public void end(boolean interrupted) {
-  //  System.out.println("Manuel Arm End");
+    // System.out.println("Manuel Arm End");
   }
 
- 
   @Override
   public boolean isFinished() {
     return false;

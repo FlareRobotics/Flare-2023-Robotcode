@@ -1,6 +1,3 @@
-/**
- *  Class that organizes gains used when assigning values to slots
- */
 package frc.robot.PID;
 
 public class Gains {

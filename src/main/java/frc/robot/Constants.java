@@ -3,18 +3,16 @@ package frc.robot;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
 
-
-
 public final class Constants {
 
-    public static class ElevatorConstants{
+    public static class ElevatorConstants {
         public static int elevator_motor_port = 0;
         public static double elevator_gear_ratio = 20d;
 
         public static double elevator_hiz = 0.5d;
 
         public static double elevator_distance_per_rotation = 4.5d;
-        
+
         // All in cm
         public static int bottom_row_height = 10;
         public static int middle_row_height = 20;
@@ -22,44 +20,42 @@ public final class Constants {
 
     }
 
-    public static class AlignConstants{
+    public static class AlignConstants {
 
-        
         public static int high_cone_height = 0;
         public static int mid_cone_height = 0;
-        public static int low_cone_height = 0; 
+        public static int low_cone_height = 0;
 
         public static int high_cube_height = 0;
         public static int mid_cube_height = 0;
         public static int low_cube_height = 0;
-        //All in CM
+        // All in CM
         public static double outermost_cone_distance = 46.5d;
-
-        public static double substation_distance = 59.0d;
-
+        public static double substation_distance = 59d;
     }
 
-    public static class ArmConstants{
+    public static class ArmConstants {
         public static int arm_motor_port = 1;
- 
+
         public static double arm_gear_ratio = 20d;
 
         public static double arm_hiz = 0.5d;
 
         public static double arm_distance_per_rotation = 4.5d;
-        
+
         // All in cm
         public static int bottom_row_distance = 10;
         public static int middle_row_distance = 20;
         public static int top_row_distance = 30;
     }
 
-    public static class ClawConstants{
+    public static class ClawConstants {
 
         public static int claw_solenoid_port_ileri = 0;
-        public static int claw_solenoid_port_geri = 1;            
-    
+        public static int claw_solenoid_port_geri = 1;
+
     }
+
     public static class DriveConstants {
         public static int sagon_falcon_port = 8;
         public static int sagarka_falcon_port = 9;
@@ -71,7 +67,6 @@ public final class Constants {
         public static int kEncoderCPR = 2048;
         public static double kWheelDiameterMeters = Units.inchesToMeters(6);
 
-
         public static final double ksVolts = 0.22;
         public static final double kvVoltSecondsPerMeter = 1.98;
         public static final double kaVoltSecondsSquaredPerMeter = 0.2;
@@ -79,13 +74,10 @@ public final class Constants {
         // Example value only - as above, this must be tuned for your drive!
         public static final double kPDriveVel = 8.5;
 
-        public static final DifferentialDriveKinematics kDriveKinematics =
-        new DifferentialDriveKinematics(kTrackwidthMeters);
+        public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(
+                kTrackwidthMeters);
 
     }
-
-    
-   
 
     public static final class FlrvsnConstants {
 
@@ -122,8 +114,6 @@ public final class Constants {
 
     }
 
-  
-
     public static final class PigeonConstants {
         public static final int pigeon_port = 0;
     }
@@ -150,13 +140,14 @@ public final class Constants {
     public static final class AutoConstants {
         public static final double kMaxSpeedMetersPerSecond = 3;
         public static final double kMaxAccelerationMetersPerSecondSquared = 1;
-    
-        // Reasonable baseline values for a RAMSETE follower in units of meters and seconds
+
+        // Reasonable baseline values for a RAMSETE follower in units of meters and
+        // seconds
         public static final double kRamseteB = 2;
         public static final double kRamseteZeta = 0.7;
 
-        //Auto Balance pitch axis tolerance
+        // Auto Balance pitch axis tolerance
         public static final double pitch_tolerance = 0.5;
-      
-}
+
+    }
 }
