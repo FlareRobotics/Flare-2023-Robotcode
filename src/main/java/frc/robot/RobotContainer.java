@@ -3,17 +3,26 @@ package frc.robot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.Align.AlignForCube;
+import frc.robot.commands.Align.AlignForLeft;
+import frc.robot.commands.Align.AlignForLeft_2;
+import frc.robot.commands.Align.AlignForMidLeft;
+import frc.robot.commands.Align.AlignForMidRight;
+import frc.robot.commands.Align.AlignForRight;
+import frc.robot.commands.Align.AlignForRight_2;
+import frc.robot.commands.Arm.AutoArm;
 import frc.robot.commands.Arm.ManuelArm;
 import frc.robot.commands.Claw.ClawSet;
 import frc.robot.commands.Claw.ToggleCompressor;
 import frc.robot.commands.Drive.JoystickDriveCommand;
+import frc.robot.commands.Elevator.AutoElevator;
 import frc.robot.commands.Elevator.ManuelElevator;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClawSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
-
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class RobotContainer {
@@ -43,29 +52,7 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-<<<<<<< Updated upstream
-    //  Manuel Elevator 
-    new JoystickButton(driver_joy,XboxController.Button.kA.value).whileTrue(new ManuelElevator(elevatorsubsystem, true));
-    new JoystickButton(driver_joy,XboxController.Button.kA.value).whileTrue(new ManuelElevator(elevatorsubsystem, true));
-    new JoystickButton(driver_joy,XboxController.Button.kY.value).whileTrue(new ManuelElevator(elevatorsubsystem, false));
-    
-    // Manuel Arm 
-    new JoystickButton(driver_joy, XboxController.Button.kX.value).whileTrue(new ManuelArm(armSubsystem,true));
-    new JoystickButton(driver_joy, XboxController.Button.kB.value).whileTrue(new ManuelArm(armSubsystem,false));
-
-    // Compressor Toggle
-    new JoystickButton(driver_joy,XboxController.Button.kStart.value).toggleOnTrue(new ToggleCompressor(clawSubsystem));
-
-    //Claw Open
-    new JoystickButton(driver_joy, XboxController.Button.kRightBumper.value).toggleOnTrue(new ClawSet(clawSubsystem,true));
-    //Claw Close
-    new JoystickButton(driver_joy, XboxController.Button.kLeftBumper.value).toggleOnTrue(new ClawSet(clawSubsystem,false));
-  
-}
-=======
     // Manuel Elevator
-    new JoystickButton(driver_joy, XboxController.Button.kA.value)
-        .whileTrue(new ManuelElevator(elevatorsubsystem, true));
     new JoystickButton(driver_joy, XboxController.Button.kA.value)
         .whileTrue(new ManuelElevator(elevatorsubsystem, true));
     new JoystickButton(driver_joy, XboxController.Button.kY.value)
@@ -85,7 +72,40 @@ public class RobotContainer {
     // Claw Close
     new JoystickButton(driver_joy, XboxController.Button.kLeftBumper.value)
         .toggleOnTrue(new ClawSet(clawSubsystem, false));
->>>>>>> Stashed changes
+
+    // Align For Left
+    new JoystickButton(driver_joy, XboxController.Button.kA.value).whileTrue(new ParallelCommandGroup(
+        new AlignForLeft(m_robotDrive),
+        new AlignForRight_2(m_robotDrive),
+        new AlignForMidLeft(m_robotDrive)));
+    // Align For Right
+    new JoystickButton(driver_joy, XboxController.Button.kB.value).whileTrue(new ParallelCommandGroup(
+        new AlignForLeft_2(m_robotDrive),
+        new AlignForRight(m_robotDrive),
+        new AlignForMidRight(m_robotDrive)));
+
+    // Align For Cube
+    new JoystickButton(driver_joy, XboxController.Button.kY.value).whileTrue(new AlignForCube(m_robotDrive));
+
+    // Move Arm and Elevator
+    // BOTTOM ROW
+    new JoystickButton(driver_joy, XboxController.Button.kLeftBumper.value)
+        .whileTrue(new ParallelCommandGroup(new AutoArm(armSubsystem, 1),
+            new AutoElevator(elevatorsubsystem, 1)));
+
+    // Move Arm and Elevator
+    // Middle ROW
+    new JoystickButton(driver_joy, XboxController.Button.kLeftBumper.value)
+        .whileTrue(new ParallelCommandGroup(new AutoArm(armSubsystem, 2),
+            new AutoElevator(elevatorsubsystem, 2)));
+
+    // Move Arm and Elevator
+    // HIGH ROW
+    new JoystickButton(driver_joy, XboxController.Button.kLeftBumper.value)
+        .whileTrue(new ParallelCommandGroup(new AutoArm(armSubsystem, 3),
+            new AutoElevator(elevatorsubsystem, 3)));
+
+ 
 
   }
 
