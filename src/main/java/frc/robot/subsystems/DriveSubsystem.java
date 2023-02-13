@@ -35,7 +35,6 @@ public class DriveSubsystem extends SubsystemBase {
 
   public static Pigeon2 m_gyro = new Pigeon2(0);
 
-  /** Config Objects for motor controllers */
   TalonFXConfiguration _leftConfig = new TalonFXConfiguration();
   TalonFXConfiguration _rightConfig = new TalonFXConfiguration();
 
@@ -69,26 +68,13 @@ public class DriveSubsystem extends SubsystemBase {
 
     leftFrontMotor.follow(leftRearMotor);
     rightFrontMotor.follow(rightRearMotor);
-    /* Configure the left Talon's selected sensor as integrated sensor */
-    _leftConfig.primaryPID.selectedFeedbackSensor = TalonFXFeedbackDevice.IntegratedSensor.toFeedbackDevice(); // Local
-                                                                                                               // Feedback
-                                                                                                               // Source
+    _leftConfig.primaryPID.selectedFeedbackSensor = TalonFXFeedbackDevice.IntegratedSensor.toFeedbackDevice();
 
-    /*
-     * Configure the Remote (Left) Talon's selected sensor as a remote sensor for
-     * the right Talon
-     */
     _rightConfig.remoteFilter0.remoteSensorDeviceID = leftRearMotor.getDeviceID(); // Device ID of Remote Source
     _rightConfig.remoteFilter0.remoteSensorSource = RemoteSensorSource.TalonFX_SelectedSensor; // Remote Source Type
 
-    /*
-     * Now that the Left sensor can be used by the master Talon,
-     * set up the Left (Aux) and Right (Master) distance into a single
-     * Robot distance as the Master's Selected Sensor 0.
-     */
     setRobotDistanceConfigs(TalonFXInvertType.Clockwise, _rightConfig);
 
-    /* FPID for Distance */
     _rightConfig.slot0.kF = PidConstants.DriveConstants.kGains_Distanc.kF;
     _rightConfig.slot0.kP = PidConstants.DriveConstants.kGains_Distanc.kP;
     _rightConfig.slot0.kI = PidConstants.DriveConstants.kGains_Distanc.kI;
@@ -96,18 +82,8 @@ public class DriveSubsystem extends SubsystemBase {
     _rightConfig.slot0.integralZone = PidConstants.DriveConstants.kGains_Distanc.kIzone;
     _rightConfig.slot0.closedLoopPeakOutput = PidConstants.DriveConstants.kGains_Distanc.kPeakOutput;
 
-    /*
-     * false means talon's local output is PID0 + PID1, and other side Talon is PID0
-     * - PID1
-     * This is typical when the master is the right Talon FX and using Pigeon
-     * 
-     * true means talon's local output is PID0 - PID1, and other side Talon is PID0
-     * + PID1
-     * This is typical when the master is the left Talon FX and using Pigeon
-     */
     _rightConfig.auxPIDPolarity = false;
 
-    /* FPID for Heading */
     _rightConfig.slot1.kF = PidConstants.DriveConstants.kGains_Turning.kF;
     _rightConfig.slot1.kP = PidConstants.DriveConstants.kGains_Turning.kP;
     _rightConfig.slot1.kI = PidConstants.DriveConstants.kGains_Turning.kI;
@@ -115,18 +91,9 @@ public class DriveSubsystem extends SubsystemBase {
     _rightConfig.slot1.integralZone = PidConstants.DriveConstants.kGains_Turning.kIzone;
     _rightConfig.slot1.closedLoopPeakOutput = PidConstants.DriveConstants.kGains_Turning.kPeakOutput;
 
-    /* Config the neutral deadband. */
     _leftConfig.neutralDeadband = PidConstants.DriveConstants.kNeutralDeadband;
     _rightConfig.neutralDeadband = PidConstants.DriveConstants.kNeutralDeadband;
 
-    /**
-     * 1ms per loop. PID loop can be slowed down if need be.
-     * For example,
-     * - if sensor updates are too slow
-     * - sensor deltas are very small per update, so derivative error never gets
-     * large enough to be useful.
-     * - sensor movement is very slow causing the derivative error to be near zero.
-     */
     int closedLoopTimeMs = 1;
     _rightConfig.slot0.closedLoopPeriod = closedLoopTimeMs;
     _rightConfig.slot1.closedLoopPeriod = closedLoopTimeMs;
@@ -137,32 +104,22 @@ public class DriveSubsystem extends SubsystemBase {
     _rightConfig.motionAcceleration = 2000; // (distance units per 100 ms) per second
     _rightConfig.motionCruiseVelocity = 2000; // distance units per 100 ms
 
-    /* APPLY the config settings */
     leftRearMotor.configAllSettings(_leftConfig);
     rightRearMotor.configAllSettings(_rightConfig);
 
-    /* Set status frame periods to ensure we don't have stale data */
     rightRearMotor.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 20, Constants.kTimeoutMs);
     rightRearMotor.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 20, Constants.kTimeoutMs);
     leftRearMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 5, Constants.kTimeoutMs);
 
-    /* Initialize */
     rightRearMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_10_Targets, 10);
     rightRearMotor.configMotionSCurveStrength(0);
     rightRearMotor.selectProfileSlot(PidConstants.DriveConstants.kSlot_Distanc,
         PidConstants.DriveConstants.PID_PRIMARY);
     zeroSensors();
-
-    // setDash();
-
   }
 
   void setDash() {
-    // SmartDashboard.putNumber("Gyro Degree", gyro.getYaw());
-    // SmartDashboard.putNumber("Drive Velocity",
-    // rightRearMotor.getSelectedSensorVelocity());
-    SmartDashboard.putNumber("Encoder Distance M", getRightEncoderDistance());
-
+    // SmartDashboard.putNumber("Encoder Distance M", getRightEncoderDistance());
   }
 
   void zeroSensors() {
@@ -174,7 +131,6 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // setDash();
     m_odometry.update(
         Rotation2d.fromDegrees(getHeading()),
         getLeftEncoderDistance(),
@@ -184,7 +140,6 @@ public class DriveSubsystem extends SubsystemBase {
         m_odometry.getPoseMeters().getX(),
         -m_odometry.getPoseMeters().getY(),
         new Rotation2d(Math.toRadians(-getHeading())));
-
   }
 
   public double get_encoder_distance() {
@@ -220,13 +175,6 @@ public class DriveSubsystem extends SubsystemBase {
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     leftRearMotor.setVoltage(leftVolts);
     leftFrontMotor.setVoltage(leftVolts);
-    /*
-     * if (rightVolts >= 0) {
-     * rightVolts = rightVolts + 1;
-     * } else {
-     * rightVolts = rightVolts - 1;
-     * }
-     */
     rightRearMotor.setVoltage(-rightVolts);
     rightFrontMotor.setVoltage(-rightVolts);
     m_drive.feed();
@@ -265,7 +213,6 @@ public class DriveSubsystem extends SubsystemBase {
     forward = Deadband(forward);
     turn = Deadband(turn);
 
-    /* calculate targets from gamepad inputs */
     double target_sensorUnits = forward * PidConstants.DriveConstants.kSensorUnitsPerRotation
         * PidConstants.DriveConstants.kRotationsToTravel;
 
@@ -274,77 +221,27 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   static double Deadband(double value) {
-    /* Upper deadband */
     if (value >= +0.25)
       return value;
 
-    /* Lower deadband */
     if (value <= -0.25)
       return value;
 
-    /* Outside deadband */
     return 0;
   }
 
   void setRobotDistanceConfigs(TalonFXInvertType masterInvertType, TalonFXConfiguration masterConfig) {
-    /**
-     * Determine if we need a Sum or Difference.
-     * 
-     * The auxiliary Talon FX will always be positive
-     * in the forward direction because it's a selected sensor
-     * over the CAN bus.
-     * 
-     * The master's native integrated sensor may not always be positive when forward
-     * because
-     * sensor phase is only applied to *Selected Sensors*, not native
-     * sensor sources. And we need the native to be combined with the
-     * aux (other side's) distance into a single robot distance.
-     */
-
-    /*
-     * THIS FUNCTION should not need to be modified.
-     * This setup will work regardless of whether the master
-     * is on the Right or Left side since it only deals with
-     * distance magnitude.
-     */
-
-    /* Check if we're inverted */
     if (masterInvertType == TalonFXInvertType.Clockwise) {
-      /*
-       * If master is inverted, that means the integrated sensor
-       * will be negative in the forward direction.
-       * If master is inverted, the final sum/diff result will also be inverted.
-       * This is how Talon FX corrects the sensor phase when inverting
-       * the motor direction. This inversion applies to the *Selected Sensor*,
-       * not the native value.
-       * Will a sensor sum or difference give us a positive total magnitude?
-       * Remember the Master is one side of your drivetrain distance and
-       * Auxiliary is the other side's distance.
-       * Phase | Term 0 | Term 1 | Result
-       * Sum: -((-)Master + (+)Aux )| NOT OK, will cancel each other out
-       * Diff: -((-)Master - (+)Aux )| OK - This is what we want, magnitude will be
-       * correct and positive.
-       * Diff: -((+)Aux - (-)Master)| NOT OK, magnitude will be correct but negative
-       */
 
-      masterConfig.diff0Term = TalonFXFeedbackDevice.IntegratedSensor.toFeedbackDevice(); // Local Integrated Sensor
-      masterConfig.diff1Term = TalonFXFeedbackDevice.RemoteSensor0.toFeedbackDevice(); // Aux Selected Sensor
-      masterConfig.primaryPID.selectedFeedbackSensor = TalonFXFeedbackDevice.SensorDifference.toFeedbackDevice(); // Diff0
-                                                                                                                  // -
-                                                                                                                  // Diff1
+      masterConfig.diff0Term = TalonFXFeedbackDevice.IntegratedSensor.toFeedbackDevice();
+      masterConfig.diff1Term = TalonFXFeedbackDevice.RemoteSensor0.toFeedbackDevice();
+      masterConfig.primaryPID.selectedFeedbackSensor = TalonFXFeedbackDevice.SensorDifference.toFeedbackDevice();
     } else {
-      /* Master is not inverted, both sides are positive so we can sum them. */
-      masterConfig.sum0Term = TalonFXFeedbackDevice.RemoteSensor0.toFeedbackDevice(); // Aux Selected Sensor
-      masterConfig.sum1Term = TalonFXFeedbackDevice.IntegratedSensor.toFeedbackDevice(); // Local IntegratedSensor
-      masterConfig.primaryPID.selectedFeedbackSensor = TalonFXFeedbackDevice.SensorSum.toFeedbackDevice(); // Sum0 +
-                                                                                                           // Sum1
+      masterConfig.sum0Term = TalonFXFeedbackDevice.RemoteSensor0.toFeedbackDevice();
+      masterConfig.sum1Term = TalonFXFeedbackDevice.IntegratedSensor.toFeedbackDevice();
+      masterConfig.primaryPID.selectedFeedbackSensor = TalonFXFeedbackDevice.SensorSum.toFeedbackDevice();
     }
 
-    /*
-     * Since the Distance is the sum of the two sides, divide by 2 so the total
-     * isn't double
-     * the real-world value
-     */
     masterConfig.primaryPID.selectedFeedbackCoefficient = 0.5;
   }
 
