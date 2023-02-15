@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.PID.PidConstants;
 
@@ -17,42 +18,42 @@ public class ArmSubsystem extends SubsystemBase {
     arm_motor.configFactoryDefault();
 
     arm_motor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,
-        PidConstants.ArmConstants.kPIDLoopIdx,
-        PidConstants.ArmConstants.kTimeoutMs);
+            Constants.kPIDLoopIdx,
+            Constants.kTimeoutMs);
 
-    arm_motor.configNeutralDeadband(0.001, PidConstants.ArmConstants.kTimeoutMs);
+    arm_motor.configNeutralDeadband(0.001, Constants.kTimeoutMs);
 
     arm_motor.setSensorPhase(false);
     arm_motor.setInverted(false);
 
     arm_motor.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10,
-        PidConstants.ArmConstants.kTimeoutMs);
+            Constants.kTimeoutMs);
     arm_motor.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10,
-        PidConstants.ArmConstants.kTimeoutMs);
+            Constants.kTimeoutMs);
 
-    arm_motor.configNominalOutputForward(0, PidConstants.ArmConstants.kTimeoutMs);
-    arm_motor.configNominalOutputReverse(0, PidConstants.ArmConstants.kTimeoutMs);
+    arm_motor.configNominalOutputForward(0, Constants.kTimeoutMs);
+    arm_motor.configNominalOutputReverse(0, Constants.kTimeoutMs);
     arm_motor.configPeakOutputForward(PidConstants.ArmConstants.kGains.kPeakOutput,
-        PidConstants.ArmConstants.kTimeoutMs);
+            Constants.kTimeoutMs);
     arm_motor.configPeakOutputReverse(-PidConstants.ArmConstants.kGains.kPeakOutput,
-        PidConstants.ArmConstants.kTimeoutMs);
+            Constants.kTimeoutMs);
 
-    arm_motor.selectProfileSlot(PidConstants.ArmConstants.kSlotIdx,
-        PidConstants.ArmConstants.kPIDLoopIdx);
-    arm_motor.config_kF(PidConstants.ArmConstants.kSlotIdx, PidConstants.ArmConstants.kGains.kF,
-        PidConstants.ArmConstants.kTimeoutMs);
-    arm_motor.config_kP(PidConstants.ArmConstants.kSlotIdx, PidConstants.ArmConstants.kGains.kP,
-        PidConstants.ArmConstants.kTimeoutMs);
-    arm_motor.config_kI(PidConstants.ArmConstants.kSlotIdx, PidConstants.ArmConstants.kGains.kI,
-        PidConstants.ArmConstants.kTimeoutMs);
-    arm_motor.config_kD(PidConstants.ArmConstants.kSlotIdx, PidConstants.ArmConstants.kGains.kD,
-        PidConstants.ArmConstants.kTimeoutMs);
+    arm_motor.selectProfileSlot(Constants.kSlotIdx,
+            Constants.kPIDLoopIdx);
+    arm_motor.config_kF(Constants.kSlotIdx, PidConstants.ArmConstants.kGains.kF,
+            Constants.kTimeoutMs);
+    arm_motor.config_kP(Constants.kSlotIdx, PidConstants.ArmConstants.kGains.kP,
+            Constants.kTimeoutMs);
+    arm_motor.config_kI(Constants.kSlotIdx, PidConstants.ArmConstants.kGains.kI,
+            Constants.kTimeoutMs);
+    arm_motor.config_kD(Constants.kSlotIdx, PidConstants.ArmConstants.kGains.kD,
+            Constants.kTimeoutMs);
 
-    arm_motor.configMotionCruiseVelocity(3000, PidConstants.ArmConstants.kTimeoutMs);
-    arm_motor.configMotionAcceleration(4000, PidConstants.ArmConstants.kTimeoutMs);
+    arm_motor.configMotionCruiseVelocity(3000, Constants.kTimeoutMs);
+    arm_motor.configMotionAcceleration(4000, Constants.kTimeoutMs);
 
-    arm_motor.setSelectedSensorPosition(0, PidConstants.ArmConstants.kPIDLoopIdx,
-        PidConstants.ArmConstants.kTimeoutMs);
+    arm_motor.setSelectedSensorPosition(0, Constants.kPIDLoopIdx,
+            Constants.kTimeoutMs);
 
     arm_motor.setNeutralMode(NeutralMode.Brake);
 

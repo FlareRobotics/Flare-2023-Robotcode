@@ -3,13 +3,6 @@ package frc.robot.PID;
 public class PidConstants {
 
 	public static class ElevatorConstants {
-		public static final int kSlotIdx = 0;
-
-		public static final int kPIDLoopIdx = 0;
-
-		
-		public static final int kTimeoutMs = 30;
-
 		/**
 		 * Gains used in Motion Magic, to be adjusted accordingly
 		 * Gains(kp, ki, kd, kf, izone, peak output);
@@ -18,13 +11,6 @@ public class PidConstants {
 	}
 
 	public static class ArmConstants {
-		public static final int kSlotIdx = 0;
-
-		public static final int kPIDLoopIdx = 0;
-
-		
-		public static final int kTimeoutMs = 30;
-
 		/**
 		 * Gains used in Motion Magic, to be adjusted accordingly
 		 * Gains(kp, ki, kd, kf, izone, peak output);
@@ -37,10 +23,7 @@ public class PidConstants {
 
 		public final static double kRotationsToTravel = 6;
 
-
 		public final static double kTurnTravelUnitsPerRotation = 3600;
-
-		public final static int kTimeoutMs = 30;
 
 		public final static double kNeutralDeadband = 0.001;
 

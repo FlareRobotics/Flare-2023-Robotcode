@@ -45,6 +45,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   public DriveSubsystem() {
 
+    // Pose2D(x,y) is the distance from the bottom left of the field!!
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()), getLeftEncoderDistance(),
         getRightEncoderDistance(), new Pose2d(1.0, 1.0, new Rotation2d()));
     SmartDashboard.putData("Field", m_field);
@@ -136,10 +137,15 @@ public class DriveSubsystem extends SubsystemBase {
         getLeftEncoderDistance(),
         getRightEncoderDistance());
 
-    m_field.setRobotPose(
-        m_odometry.getPoseMeters().getX(),
-        -m_odometry.getPoseMeters().getY(),
-        new Rotation2d(Math.toRadians(-getHeading())));
+    // m_field.setRobotPose(
+    // m_odometry.getPoseMeters().getX(),
+    // -m_odometry.getPoseMeters().getY(),
+    // new Rotation2d(Math.toRadians(-getHeading())));
+    m_field.setRobotPose(m_odometry.getPoseMeters());
+
+    // Ayrıca field_2D'de trajectory görmek için
+    // _field.getObject("traj").setTrajectory(m_trajectory);
+    // kullanabiliriz!!
   }
 
   public double get_encoder_distance() {
@@ -174,9 +180,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     leftRearMotor.setVoltage(leftVolts);
-    leftFrontMotor.setVoltage(leftVolts);
-    rightRearMotor.setVoltage(-rightVolts);
-    rightFrontMotor.setVoltage(-rightVolts);
+    rightRearMotor.setVoltage(rightVolts);
     m_drive.feed();
   }
 

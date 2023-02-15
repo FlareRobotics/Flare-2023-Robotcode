@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.PID.PidConstants;
 
@@ -16,42 +17,42 @@ public class ElevatorSubsystem extends SubsystemBase {
                 elevator_motor.configFactoryDefault();
 
                 elevator_motor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,
-                                PidConstants.ElevatorConstants.kPIDLoopIdx,
-                                PidConstants.ElevatorConstants.kTimeoutMs);
+                                Constants.kPIDLoopIdx,
+                                Constants.kTimeoutMs);
 
-                elevator_motor.configNeutralDeadband(0.001, PidConstants.ElevatorConstants.kTimeoutMs);
+                elevator_motor.configNeutralDeadband(0.001, Constants.kTimeoutMs);
 
                 elevator_motor.setSensorPhase(false);
                 elevator_motor.setInverted(false);
 
                 elevator_motor.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10,
-                                PidConstants.ElevatorConstants.kTimeoutMs);
+                                Constants.kTimeoutMs);
                 elevator_motor.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10,
-                                PidConstants.ElevatorConstants.kTimeoutMs);
+                                Constants.kTimeoutMs);
 
-                elevator_motor.configNominalOutputForward(0, PidConstants.ElevatorConstants.kTimeoutMs);
-                elevator_motor.configNominalOutputReverse(0, PidConstants.ElevatorConstants.kTimeoutMs);
+                elevator_motor.configNominalOutputForward(0, Constants.kTimeoutMs);
+                elevator_motor.configNominalOutputReverse(0, Constants.kTimeoutMs);
                 elevator_motor.configPeakOutputForward(PidConstants.ElevatorConstants.kGains.kPeakOutput,
-                                PidConstants.ElevatorConstants.kTimeoutMs);
+                                Constants.kTimeoutMs);
                 elevator_motor.configPeakOutputReverse(-PidConstants.ElevatorConstants.kGains.kPeakOutput,
-                                PidConstants.ElevatorConstants.kTimeoutMs);
+                                Constants.kTimeoutMs);
 
-                elevator_motor.selectProfileSlot(PidConstants.ElevatorConstants.kSlotIdx,
-                                PidConstants.ElevatorConstants.kPIDLoopIdx);
-                elevator_motor.config_kF(PidConstants.ElevatorConstants.kSlotIdx, PidConstants.ElevatorConstants.kGains.kF,
-                                PidConstants.ElevatorConstants.kTimeoutMs);
-                elevator_motor.config_kP(PidConstants.ElevatorConstants.kSlotIdx, PidConstants.ElevatorConstants.kGains.kP,
-                                PidConstants.ElevatorConstants.kTimeoutMs);
-                elevator_motor.config_kI(PidConstants.ElevatorConstants.kSlotIdx, PidConstants.ElevatorConstants.kGains.kI,
-                                PidConstants.ElevatorConstants.kTimeoutMs);
-                elevator_motor.config_kD(PidConstants.ElevatorConstants.kSlotIdx, PidConstants.ElevatorConstants.kGains.kD,
-                                PidConstants.ElevatorConstants.kTimeoutMs);
+                elevator_motor.selectProfileSlot(Constants.kSlotIdx,
+                                Constants.kPIDLoopIdx);
+                elevator_motor.config_kF(Constants.kSlotIdx, PidConstants.ElevatorConstants.kGains.kF,
+                                Constants.kTimeoutMs);
+                elevator_motor.config_kP(Constants.kSlotIdx, PidConstants.ElevatorConstants.kGains.kP,
+                                Constants.kTimeoutMs);
+                elevator_motor.config_kI(Constants.kSlotIdx, PidConstants.ElevatorConstants.kGains.kI,
+                                Constants.kTimeoutMs);
+                elevator_motor.config_kD(Constants.kSlotIdx, PidConstants.ElevatorConstants.kGains.kD,
+                                Constants.kTimeoutMs);
 
-                elevator_motor.configMotionCruiseVelocity(3000, PidConstants.ElevatorConstants.kTimeoutMs);
-                elevator_motor.configMotionAcceleration(4000, PidConstants.ElevatorConstants.kTimeoutMs);
+                elevator_motor.configMotionCruiseVelocity(3000, Constants.kTimeoutMs);
+                elevator_motor.configMotionAcceleration(4000, Constants.kTimeoutMs);
 
-                elevator_motor.setSelectedSensorPosition(0, PidConstants.ElevatorConstants.kPIDLoopIdx,
-                                PidConstants.ElevatorConstants.kTimeoutMs);
+                elevator_motor.setSelectedSensorPosition(0, Constants.kPIDLoopIdx,
+                                Constants.kTimeoutMs);
 
                 elevator_motor.setNeutralMode(NeutralMode.Brake);
 
