@@ -26,9 +26,9 @@ public class ManuelArm extends CommandBase {
   @Override
   public void execute() {
     if (yon) {
-      ArmSubsystem.arm_motor.set(ArmConstants.arm_hiz);
+      ArmSubsystem.arm_motor.set(ArmConstants.arm_speed);
     } else {
-      ArmSubsystem.arm_motor.set(ArmConstants.arm_hiz * -1);
+      ArmSubsystem.arm_motor.set(ArmConstants.arm_speed * -1);
     }
   }
 
