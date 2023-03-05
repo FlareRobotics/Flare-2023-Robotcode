@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class ToggleCompressor extends CommandBase {
 
   public ToggleCompressor(ClawSubsystem subsystem) {
-
     addRequirements(subsystem);
   }
 
