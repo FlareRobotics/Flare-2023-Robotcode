@@ -41,6 +41,8 @@ public class RobotContainer {
 
   public static SendableChooser<Integer> autoChooser = new SendableChooser<>();
 
+  public static boolean LedInterrupt = false;
+  
   public RobotContainer() {
     configureButtonBindings();
     autoChooser.setDefaultOption("TAXI", 0);
