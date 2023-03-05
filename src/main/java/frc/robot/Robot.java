@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -24,14 +20,6 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void disabledInit() {
-  }
-
-  @Override
-  public void disabledPeriodic() {
-  }
-
-  @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
@@ -45,31 +33,5 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-  }
-
-  /** This function is called periodically during operator control. */
-  @Override
-  public void teleopPeriodic() {
-  }
-
-  @Override
-  public void testInit() {
-    // Cancels all running commands at the start of test mode.
-    CommandScheduler.getInstance().cancelAll();
-  }
-
-  /** This function is called periodically during test mode. */
-  @Override
-  public void testPeriodic() {
-  }
-
-  /** This function is called once when the robot is first started up. */
-  @Override
-  public void simulationInit() {
-  }
-
-  /** This function is called periodically whilst in simulation. */
-  @Override
-  public void simulationPeriodic() {
   }
 }
