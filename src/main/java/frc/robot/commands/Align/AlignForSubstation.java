@@ -49,7 +49,7 @@ public class AlignForSubstation extends CommandBase {
       gyro_aci = DriveSubsystem.m_gyro.getYaw();
     }
 
-    if (!DriveSubsystem.turn_angles(needed_angle, gyro_aci, Math.abs(target_y) > AlignConstants.cone_distance))
+    if (!DriveSubsystem.turn_angles(needed_angle, gyro_aci, Math.abs(target_y) > AlignConstants.outermost_cone_distance))
       return;
 
     if (!DriveSubsystem.drive_PID_centimeters(cross_distance))
@@ -60,7 +60,7 @@ public class AlignForSubstation extends CommandBase {
       gyro_aci = DriveSubsystem.m_gyro.getYaw();
     }
 
-    if (!DriveSubsystem.turn_angles(gyro_aci, needed_angle, !(Math.abs(target_y) > AlignConstants.cone_distance)))
+    if (!DriveSubsystem.turn_angles(gyro_aci, needed_angle, !(Math.abs(target_y) > AlignConstants.outermost_cone_distance)))
       return;
 
     if (DriveSubsystem.drive_PID_centimeters(rot_gap))

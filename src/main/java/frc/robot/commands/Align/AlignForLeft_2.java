@@ -39,7 +39,7 @@ public class AlignForLeft_2 extends CommandBase {
   @Override
   public void execute() {
     if (cross_distance <= 0) {
-      calc_y = AlignConstants.cone_distance - target_y;
+      calc_y = AlignConstants.outermost_cone_distance - target_y;
       cross_distance = Math.sqrt(Math.pow(Math.abs(calc_y), 2) + Math.pow(target_distance, 2)) - rot_gap;
       needed_angle = Math.acos(target_distance / cross_distance);
     }

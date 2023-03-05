@@ -20,9 +20,9 @@ public class ManuelElevator extends CommandBase {
   @Override
   public void execute() {
     if (yon) {
-      ElevatorSubsystem.elevator_motor_set(ElevatorConstants.elevator_speed * 1);
+      ElevatorSubsystem.elevator_motor_set(ElevatorConstants.elevator_hiz * 1);
     } else {
-      ElevatorSubsystem.elevator_motor_set(ElevatorConstants.elevator_speed * -1);
+      ElevatorSubsystem.elevator_motor_set(ElevatorConstants.elevator_hiz * -1);
     }
   }
 

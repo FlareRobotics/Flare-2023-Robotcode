@@ -39,7 +39,7 @@ public class AlignForMidRight extends CommandBase {
   @Override
   public void execute() {
     if (cross_distance <= 0) {
-      calc_y = AlignConstants.cone_distance - target_y;
+      calc_y = AlignConstants.outermost_cone_distance - target_y;
       cross_distance = Math.sqrt(Math.pow(Math.abs(calc_y), 2) + Math.pow(target_distance, 2)) - rot_gap;
       needed_angle = Math.acos(target_distance / cross_distance);
     }
@@ -49,7 +49,7 @@ public class AlignForMidRight extends CommandBase {
       gyro_aci = DriveSubsystem.m_gyro.getYaw();
     }
 
-    if (!DriveSubsystem.turn_angles(needed_angle, gyro_aci, Math.abs(target_y) < AlignConstants.cone_distance))
+    if (!DriveSubsystem.turn_angles(needed_angle, gyro_aci, Math.abs(target_y) < AlignConstants.outermost_cone_distance))
       return;
 
     if (!DriveSubsystem.drive_PID_centimeters(cross_distance))
@@ -60,7 +60,7 @@ public class AlignForMidRight extends CommandBase {
       gyro_aci = DriveSubsystem.m_gyro.getYaw();
     }
 
-    if (!DriveSubsystem.turn_angles(gyro_aci, needed_angle, !(Math.abs(target_y) < AlignConstants.cone_distance)))
+    if (!DriveSubsystem.turn_angles(gyro_aci, needed_angle, !(Math.abs(target_y) < AlignConstants.outermost_cone_distance)))
       return;
 
     if (DriveSubsystem.drive_PID_centimeters(rot_gap))
