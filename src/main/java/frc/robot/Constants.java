@@ -110,10 +110,7 @@ public final class Constants {
     public static final class PigeonConstants {
         public static final int pigeon_port = 0;
     }
-    public static final class LedConstans{
-        public static final int led_port = 0;
-        public static final int led_uzunluk = 30;
-    }
+
     /**
      * Which PID slot to pull gains from. Starting 2018, you can choose from
      * 0,1,2 or 3. Only the first two (0,1) are visible in web-based
