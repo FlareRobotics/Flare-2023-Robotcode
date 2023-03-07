@@ -12,15 +12,9 @@ public class LedSubsystem extends SubsystemBase {
 
     private static int m_rainbowFirstPixelHue;
 
-    private static int bluePulseBrightness = 0;
-    private static int blueStreakLED = 3;
-    private static int numLoops = 3;
-
     private static int yellowPulseBrightness = 0;
-    // private static int yellowStreakLED = 3;
 
     private static int purplePulseBrightness = 0;
-    // private static int purpleStreakLED = 3;
 
     public LedSubsystem() {
 
@@ -34,7 +28,7 @@ public class LedSubsystem extends SubsystemBase {
         m_led.start();
     }
 
-    public static void rainbow() {
+    public void rainbow() {
 
         for (var i = 0; i < m_ledBuffer.getLength(); i++) {
 
@@ -50,7 +44,7 @@ public class LedSubsystem extends SubsystemBase {
         m_led.setData(m_ledBuffer);
     }
 
-    public static void red() {
+    public void red() {
         for (var i = 0; i < m_ledBuffer.getLength(); i++) {
 
             m_ledBuffer.setRGB(i, 255, 0, 0);
@@ -59,16 +53,7 @@ public class LedSubsystem extends SubsystemBase {
         m_led.setData(m_ledBuffer);
     }
 
-    public static void blue() {
-        for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-
-            m_ledBuffer.setRGB(i, 0, 0, 255);
-        }
-
-        m_led.setData(m_ledBuffer);
-    }
-
-    public static void green() {
+    public void green() {
         for (var i = 0; i < m_ledBuffer.getLength(); i++) {
 
             m_ledBuffer.setRGB(i, 0, 255, 0);
@@ -77,7 +62,7 @@ public class LedSubsystem extends SubsystemBase {
         m_led.setData(m_ledBuffer);
     }
 
-    public static void yellow() {
+    public void yellow() {
         for (var i = 0; i < m_ledBuffer.getLength(); i++) {
 
             m_ledBuffer.setRGB(i, 255, 255, 0);
@@ -86,7 +71,7 @@ public class LedSubsystem extends SubsystemBase {
         m_led.setData(m_ledBuffer);
     }
 
-    public static void purple() {
+    public void purple() {
         for (var i = 0; i < m_ledBuffer.getLength(); i++) {
 
             m_ledBuffer.setRGB(i, 148, 0, 211);
@@ -95,21 +80,7 @@ public class LedSubsystem extends SubsystemBase {
         m_led.setData(m_ledBuffer);
     }
 
-    public static void bluePulse() {
-        for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-
-            m_ledBuffer.setRGB(i, 0, 0, bluePulseBrightness);
-        }
-
-        bluePulseBrightness += 10;
-
-        bluePulseBrightness %= 255;
-
-        m_led.setData(m_ledBuffer);
-
-    }
-
-    public static void yellowPulse() {
+    public void yellowPulse() {
         for (var i = 0; i < m_ledBuffer.getLength(); i++) {
 
             m_ledBuffer.setRGB(i, yellowPulseBrightness, yellowPulseBrightness, 0);
@@ -123,7 +94,7 @@ public class LedSubsystem extends SubsystemBase {
 
     }
 
-    public static void purplePulse() {
+    public void purplePulse() {
         for (var i = 0; i < m_ledBuffer.getLength(); i++) {
 
             m_ledBuffer.setRGB(i, 0, purplePulseBrightness, purplePulseBrightness);
@@ -135,25 +106,5 @@ public class LedSubsystem extends SubsystemBase {
 
         m_led.setData(m_ledBuffer);
 
-    }
-
-    public static void blueStreak() {
-        for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-
-            m_ledBuffer.setRGB(i, 0, 0, 255);
-        }
-
-        m_ledBuffer.setRGB(blueStreakLED, 255, 0, 0);
-
-        if (numLoops % 3 == 0) {
-            blueStreakLED += 1;
-
-            blueStreakLED %= m_ledBuffer.getLength();
-        }
-
-        m_led.setData(m_ledBuffer);
-
-        numLoops += 1;
-        // Timer.delay(0.2);
     }
 }
