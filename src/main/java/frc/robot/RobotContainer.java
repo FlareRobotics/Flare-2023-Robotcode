@@ -1,5 +1,8 @@
 package frc.robot;
 
+import java.util.HashMap;
+import java.util.List;
+
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -29,6 +32,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
 
 //8054 <3
 public class RobotContainer {
@@ -115,6 +121,8 @@ public class RobotContainer {
             new AutoArm(armSubsystem, 3)));
   }
 
+  public static HashMap<String, Command> mainPathEvents = new HashMap<>();
+
   public static Command getAuto() {
     switch (autoChooser.getSelected()) {
       case 0:
@@ -123,7 +131,15 @@ public class RobotContainer {
         return null;
       case 2:
         // Flare Trajectory Example
-        return new FlareTrajectory(m_robotDrive);
+        List<PathPlannerTrajectory> examplePath = PathPlanner.loadPathGroup("Main Path", new PathConstraints(4, 3));
+
+        mainPathEvents.put("Start", new SequentialCommandGroup(new AutoElevator(elevatorsubsystem, 3),
+            new AutoArm(armSubsystem, 3)));
+        mainPathEvents.put("Pick", new ClawSet(clawSubsystem, true));
+        mainPathEvents.put("Put", new SequentialCommandGroup(new AutoElevator(elevatorsubsystem, 2),
+            new AutoArm(armSubsystem, 2)));
+
+        return new FlareTrajectory(m_robotDrive, examplePath, mainPathEvents);
       case 3:
         return null;
       default:
