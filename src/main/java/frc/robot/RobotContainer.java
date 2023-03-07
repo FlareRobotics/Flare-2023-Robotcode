@@ -132,7 +132,7 @@ public class RobotContainer {
         .whileTrue(new SequentialCommandGroup(new AutoElevator(elevatorsubsystem, 3), 
             new AutoArm(armSubsystem, 3)));
 
-    // Supply Gather (Cube or Cone or None)
+    // Supply Gather (Cube or Cone)
     new JoystickButton(driver_2, XboxController.Button.kLeftBumper.value)
         .toggleOnTrue(new SupplyGather(ledSubsystem));
   }
