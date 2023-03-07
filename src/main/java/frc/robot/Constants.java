@@ -76,8 +76,16 @@ public final class Constants {
 
     public static final int kSlotIdx = 0;
 
+    /**
+     * Talon FX supports multiple (cascaded) PID loops. For
+     * now we just want the primary one.
+     */
     public static final int kPIDLoopIdx = 0;
 
+    /**
+     * Set to zero to skip waiting for confirmation, set to nonzero to wait and
+     * report to DS if action fails.
+     */
     public static final int kTimeoutMs = 30;
 
     public static final class AutoConstants {

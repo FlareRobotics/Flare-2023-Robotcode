@@ -6,7 +6,6 @@ import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.PID.PidConstants;
 
@@ -14,45 +13,71 @@ public class ElevatorSubsystem extends SubsystemBase {
         public static WPI_TalonFX elevator_motor = new WPI_TalonFX(ElevatorConstants.elevator_motor_port);
 
         public ElevatorSubsystem() {
+                /* Factory default hardware to prevent unexpected behavior */
                 elevator_motor.configFactoryDefault();
 
+                /* Configure Sensor Source for Pirmary PID */
                 elevator_motor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,
-                                Constants.kPIDLoopIdx,
-                                Constants.kTimeoutMs);
+                                PidConstants.TurretConstants.kPIDLoopIdx,
+                                PidConstants.TurretConstants.kTimeoutMs);
 
-                elevator_motor.configNeutralDeadband(0.001, Constants.kTimeoutMs);
+                /*
+                 * set deadband to super small 0.001 (0.1 %).
+                 * The default deadband is 0.04 (4 %)
+                 */
+                elevator_motor.configNeutralDeadband(0.001, PidConstants.TurretConstants.kTimeoutMs);
 
+                /**
+                 * Configure Talon FX Output and Sensor direction accordingly Invert Motor to
+                 * have green LEDs when driving Talon Forward / Requesting Postiive Output Phase
+                 * sensor to have positive increment when driving Talon Forward (Green LED)
+                 */
                 elevator_motor.setSensorPhase(false);
                 elevator_motor.setInverted(false);
+                /*
+                 * Talon FX does not need sensor phase set for its integrated sensor
+                 * This is because it will always be correct if the selected feedback device is
+                 * integrated sensor (default value)
+                 * and the user calls getSelectedSensor* to get the sensor's position/velocity.
+                 * 
+                 * https://phoenix-documentation.readthedocs.io/en/latest/ch14_MCSensor.html#
+                 * sensor-phase
+                 */
+                // elevator_motor.setSensorPhase(true);
 
+                /* Set relevant frame periods to be at least as fast as periodic rate */
                 elevator_motor.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10,
-                                Constants.kTimeoutMs);
+                                PidConstants.TurretConstants.kTimeoutMs);
                 elevator_motor.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10,
-                                Constants.kTimeoutMs);
+                                PidConstants.TurretConstants.kTimeoutMs);
 
-                elevator_motor.configNominalOutputForward(0, Constants.kTimeoutMs);
-                elevator_motor.configNominalOutputReverse(0, Constants.kTimeoutMs);
-                elevator_motor.configPeakOutputForward(PidConstants.ElevatorConstants.kGains.kPeakOutput,
-                                Constants.kTimeoutMs);
-                elevator_motor.configPeakOutputReverse(-PidConstants.ElevatorConstants.kGains.kPeakOutput,
-                                Constants.kTimeoutMs);
+                /* Set the peak and nominal outputs */
+                elevator_motor.configNominalOutputForward(0, PidConstants.TurretConstants.kTimeoutMs);
+                elevator_motor.configNominalOutputReverse(0, PidConstants.TurretConstants.kTimeoutMs);
+                elevator_motor.configPeakOutputForward(PidConstants.TurretConstants.kGains.kPeakOutput,
+                                PidConstants.TurretConstants.kTimeoutMs);
+                elevator_motor.configPeakOutputReverse(-PidConstants.TurretConstants.kGains.kPeakOutput,
+                                PidConstants.TurretConstants.kTimeoutMs);
 
-                elevator_motor.selectProfileSlot(Constants.kSlotIdx,
-                                Constants.kPIDLoopIdx);
-                elevator_motor.config_kF(Constants.kSlotIdx, PidConstants.ElevatorConstants.kGains.kF,
-                                Constants.kTimeoutMs);
-                elevator_motor.config_kP(Constants.kSlotIdx, PidConstants.ElevatorConstants.kGains.kP,
-                                Constants.kTimeoutMs);
-                elevator_motor.config_kI(Constants.kSlotIdx, PidConstants.ElevatorConstants.kGains.kI,
-                                Constants.kTimeoutMs);
-                elevator_motor.config_kD(Constants.kSlotIdx, PidConstants.ElevatorConstants.kGains.kD,
-                                Constants.kTimeoutMs);
+                /* Set Motion Magic gains in slot0 - see documentation */
+                elevator_motor.selectProfileSlot(PidConstants.TurretConstants.kSlotIdx,
+                                PidConstants.TurretConstants.kPIDLoopIdx);
+                elevator_motor.config_kF(PidConstants.TurretConstants.kSlotIdx, PidConstants.TurretConstants.kGains.kF,
+                                PidConstants.TurretConstants.kTimeoutMs);
+                elevator_motor.config_kP(PidConstants.TurretConstants.kSlotIdx, PidConstants.TurretConstants.kGains.kP,
+                                PidConstants.TurretConstants.kTimeoutMs);
+                elevator_motor.config_kI(PidConstants.TurretConstants.kSlotIdx, PidConstants.TurretConstants.kGains.kI,
+                                PidConstants.TurretConstants.kTimeoutMs);
+                elevator_motor.config_kD(PidConstants.TurretConstants.kSlotIdx, PidConstants.TurretConstants.kGains.kD,
+                                PidConstants.TurretConstants.kTimeoutMs);
 
-                elevator_motor.configMotionCruiseVelocity(3000, Constants.kTimeoutMs);
-                elevator_motor.configMotionAcceleration(4000, Constants.kTimeoutMs);
+                /* Set acceleration and vcruise velocity - see documentation */
+                elevator_motor.configMotionCruiseVelocity(3000, PidConstants.TurretConstants.kTimeoutMs);
+                elevator_motor.configMotionAcceleration(4000, PidConstants.TurretConstants.kTimeoutMs);
 
-                elevator_motor.setSelectedSensorPosition(0, Constants.kPIDLoopIdx,
-                                Constants.kTimeoutMs);
+                /* Zero the sensor once on robot boot up */
+                elevator_motor.setSelectedSensorPosition(0, PidConstants.TurretConstants.kPIDLoopIdx,
+                                PidConstants.TurretConstants.kTimeoutMs);
 
                 elevator_motor.setNeutralMode(NeutralMode.Brake);
 
