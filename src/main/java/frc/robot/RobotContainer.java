@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Custom.DPadButton;
+import frc.robot.Custom.ResetRobot;
 import frc.robot.Custom.DPadButton.Direction;
 import frc.robot.Custom.RobotState;
 import frc.robot.Custom.SupplyGather;
@@ -135,6 +136,10 @@ public class RobotContainer {
     // Supply Gather (Cube or Cone)
     new JoystickButton(driver_2, XboxController.Button.kLeftBumper.value)
         .toggleOnTrue(new SupplyGather(ledSubsystem));
+
+    // Reset robot
+    new JoystickButton(driver_2, XboxController.Button.kRightBumper.value)
+        .toggleOnTrue(new ResetRobot(armSubsystem, elevatorsubsystem, clawSubsystem));
   }
 
   public static HashMap<String, Command> mainPathEvents = new HashMap<>();
