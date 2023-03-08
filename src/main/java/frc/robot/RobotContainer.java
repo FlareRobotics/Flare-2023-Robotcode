@@ -51,7 +51,7 @@ public class RobotContainer {
   private static final ClawSubsystem clawSubsystem = new ClawSubsystem();
   private static final ArmSubsystem armSubsystem = new ArmSubsystem();
   private static final DriveSubsystem m_robotDrive = new DriveSubsystem();
-  public static final LedSubsystem ledSubsystem = new LedSubsystem();
+  public  final LedSubsystem ledSubsystem = new LedSubsystem();
 
   public static SendableChooser<Integer> autoChooser = new SendableChooser<>();
 
