@@ -51,7 +51,7 @@ public class RobotContainer {
   private static final ClawSubsystem clawSubsystem = new ClawSubsystem();
   private static final ArmSubsystem armSubsystem = new ArmSubsystem();
   private static final DriveSubsystem m_robotDrive = new DriveSubsystem();
-  private static final LedSubsystem ledSubsystem = new LedSubsystem();
+  public static final LedSubsystem ledSubsystem = new LedSubsystem();
 
   public static SendableChooser<Integer> autoChooser = new SendableChooser<>();
 
@@ -73,9 +73,9 @@ public class RobotContainer {
             new LedController(ledSubsystem, currentState)));
   }
 
-  private void configureButtonBindings() {
+  private void configureButtonBindings() {/*
     // Manuel Elevator
-    new JoystickButton(driver_main, XboxController.Button.kA.value)
+     new JoystickButton(driver_main, XboxController.Button.kA.value)
         .whileTrue(new ManuelElevator(elevatorsubsystem, true));
     new JoystickButton(driver_main, XboxController.Button.kY.value)
         .whileTrue(new ManuelElevator(elevatorsubsystem, false));
@@ -139,7 +139,7 @@ public class RobotContainer {
 
     // Reset robot
     new JoystickButton(driver_2, XboxController.Button.kRightBumper.value)
-        .toggleOnTrue(new ResetRobot(armSubsystem, elevatorsubsystem, clawSubsystem));
+        .toggleOnTrue(new ResetRobot(armSubsystem, elevatorsubsystem, clawSubsystem));  */
   }
 
   public static HashMap<String, Command> mainPathEvents = new HashMap<>();

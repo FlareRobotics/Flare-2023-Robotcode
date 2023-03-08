@@ -18,7 +18,7 @@ public class LedSubsystem extends SubsystemBase {
 
     public LedSubsystem() {
 
-        m_led = new AddressableLED(LedConstans.led_port);
+        m_led = new AddressableLED(LedConstans.led_port_sag);
 
         m_ledBuffer = new AddressableLEDBuffer(LedConstans.led_uzunluk);
         m_led.setLength(m_ledBuffer.getLength());

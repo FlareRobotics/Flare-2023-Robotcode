@@ -70,8 +70,9 @@ public final class Constants {
     }
 
     public static final class LedConstans {
-        public static final int led_port = 0;
-        public static final int led_uzunluk = 30;
+        public static final int led_port_sag = 9;
+        public static final int led_port_sol = 8;
+        public static final int led_uzunluk = 25;
     }
 
     public static final int kSlotIdx = 0;
