@@ -34,7 +34,6 @@ public class AutobalanceCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     System.out.println("AutoBalance END!");
-  RobotContainer.currentState = RobotState.None;
   }
 
   @Override

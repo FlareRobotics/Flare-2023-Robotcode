@@ -33,7 +33,6 @@ public class ClawSet extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     System.out.println("ClawSet End!");
-    RobotContainer.currentState = RobotState.None;
   }
 
   @Override

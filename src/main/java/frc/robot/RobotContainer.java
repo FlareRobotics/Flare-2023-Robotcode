@@ -51,13 +51,13 @@ public class RobotContainer {
   private static final ClawSubsystem clawSubsystem = new ClawSubsystem();
   private static final ArmSubsystem armSubsystem = new ArmSubsystem();
   private static final DriveSubsystem m_robotDrive = new DriveSubsystem();
-  public  final LedSubsystem ledSubsystem = new LedSubsystem();
+  public final LedSubsystem ledSubsystem = new LedSubsystem();
 
   public static SendableChooser<Integer> autoChooser = new SendableChooser<>();
 
   public static boolean clawOpen = false;
   public static RobotState currentState = RobotState.None;
-  
+
   public RobotContainer() {
     configureButtonBindings();
     autoChooser.setDefaultOption("TAXI", 0);
@@ -65,22 +65,18 @@ public class RobotContainer {
     autoChooser.addOption("1 Piece Forward + Auto Balance", 2);
     autoChooser.addOption("Auto Balance", 3);
     SmartDashboard.putData(autoChooser);
-    
+
     ledSubsystem.setDefaultCommand(new LedController(ledSubsystem, currentState));
     m_robotDrive.setDefaultCommand(
         new ParallelCommandGroup(new JoystickDriveCommand(
             m_robotDrive,
             () -> -driver_main.getLeftY(),
-            () -> driver_main.getRightX()))
-           
-            )
-            
-           ;
+            () -> driver_main.getRightX())));
   }
 
   private void configureButtonBindings() {
     // Manuel Elevator
-     new JoystickButton(driver_main, XboxController.Button.kA.value)
+    new JoystickButton(driver_main, XboxController.Button.kA.value)
         .whileTrue(new ManuelElevator(elevatorsubsystem, true));
     new JoystickButton(driver_main, XboxController.Button.kY.value)
         .whileTrue(new ManuelElevator(elevatorsubsystem, false));
@@ -92,65 +88,69 @@ public class RobotContainer {
     // Compressor Toggle
     new JoystickButton(driver_main, XboxController.Button.kStart.value)
         .toggleOnTrue(new ToggleCompressor(clawSubsystem));
-/*
-    // Claw For Cone
-      new JoystickButton(driver_main, XboxController.Button.kRightBumper.value)
-        .toggleOnTrue(new ClawSet(clawSubsystem, !clawOpen, true));
-
-    // Claw For Cube
-    new JoystickButton(driver_main, XboxController.Button.kRightBumper.value)
-        .toggleOnTrue(new ClawSet(clawSubsystem, !clawOpen, false));
-
-   // Align For Left
-     new DPadButton(driver_2, Direction.LEFT).whileTrue(new ParallelCommandGroup(
-        new AlignForLeft(m_robotDrive),
-        new AlignForRight_2(m_robotDrive),
-        new AlignForMidLeft(m_robotDrive)));
-
-    // Align For Right
-    new DPadButton(driver_2, Direction.RIGHT).whileTrue(new ParallelCommandGroup(
-        new AlignForLeft_2(m_robotDrive),
-        new AlignForRight(m_robotDrive),
-        new AlignForMidRight(m_robotDrive)));
-
-    // Align For Cube
-    new DPadButton(driver_2, Direction.UP).whileTrue(new AlignForCube(m_robotDrive));
-
-    // Align For Substation + move arm and elevator
-    new DPadButton(driver_2, Direction.DOWN).whileTrue(new SequentialCommandGroup(new AlignForSubstation(m_robotDrive), new AutoElevator(elevatorsubsystem, 4), 
-    new AutoArm(armSubsystem, 4)));
-
-    // Move Arm and Elevator
-    // BOTTOM ROW
-    new JoystickButton(driver_2, XboxController.Button.kA.value)
-        .whileTrue(new SequentialCommandGroup(new AutoElevator(elevatorsubsystem, 1), 
-            new AutoArm(armSubsystem, 1)));
-
-    // Move Arm and Elevator
-    // Middle ROW
-    new JoystickButton(driver_2, XboxController.Button.kX.value)
-        .whileTrue(new SequentialCommandGroup(new AutoElevator(elevatorsubsystem, 2), 
-            new AutoArm(armSubsystem, 2)));
-
-    // Move Arm and Elevator
-    // HIGH ROW
-    new JoystickButton(driver_2, XboxController.Button.kY.value)
-        .whileTrue(new SequentialCommandGroup(new AutoElevator(elevatorsubsystem, 3), 
-            new AutoArm(armSubsystem, 3)));
-
-   */  // Supply Gather (Cube or Cone)
+    /*
+     * // Claw For Cone
+     * new JoystickButton(driver_main, XboxController.Button.kRightBumper.value)
+     * .toggleOnTrue(new ClawSet(clawSubsystem, !clawOpen, true));
+     * 
+     * // Claw For Cube
+     * new JoystickButton(driver_main, XboxController.Button.kRightBumper.value)
+     * .toggleOnTrue(new ClawSet(clawSubsystem, !clawOpen, false));
+     * 
+     * // Align For Left
+     * new DPadButton(driver_2, Direction.LEFT).whileTrue(new ParallelCommandGroup(
+     * new AlignForLeft(m_robotDrive),
+     * new AlignForRight_2(m_robotDrive),
+     * new AlignForMidLeft(m_robotDrive)));
+     * 
+     * // Align For Right
+     * new DPadButton(driver_2, Direction.RIGHT).whileTrue(new ParallelCommandGroup(
+     * new AlignForLeft_2(m_robotDrive),
+     * new AlignForRight(m_robotDrive),
+     * new AlignForMidRight(m_robotDrive)));
+     * 
+     * // Align For Cube
+     * new DPadButton(driver_2, Direction.UP).whileTrue(new
+     * AlignForCube(m_robotDrive));
+     * 
+     * // Align For Substation + move arm and elevator
+     * new DPadButton(driver_2, Direction.DOWN).whileTrue(new
+     * SequentialCommandGroup(new AlignForSubstation(m_robotDrive), new
+     * AutoElevator(elevatorsubsystem, 4),
+     * new AutoArm(armSubsystem, 4)));
+     * 
+     * // Move Arm and Elevator
+     * // BOTTOM ROW
+     * new JoystickButton(driver_2, XboxController.Button.kA.value)
+     * .whileTrue(new SequentialCommandGroup(new AutoElevator(elevatorsubsystem, 1),
+     * new AutoArm(armSubsystem, 1)));
+     * 
+     * // Move Arm and Elevator
+     * // Middle ROW
+     * new JoystickButton(driver_2, XboxController.Button.kX.value)
+     * .whileTrue(new SequentialCommandGroup(new AutoElevator(elevatorsubsystem, 2),
+     * new AutoArm(armSubsystem, 2)));
+     * 
+     * // Move Arm and Elevator
+     * // HIGH ROW
+     * new JoystickButton(driver_2, XboxController.Button.kY.value)
+     * .whileTrue(new SequentialCommandGroup(new AutoElevator(elevatorsubsystem, 3),
+     * new AutoArm(armSubsystem, 3)));
+     * 
+     */ // Supply Gather (Cube or Cone)
     new JoystickButton(driver_main, XboxController.Button.kLeftBumper.value)
         .whileTrue(new SupplyGather(ledSubsystem));
 
     // Reset robot
-   // new JoystickButton(driver_2, XboxController.Button.kRightBumper.value)
-    //    .toggleOnTrue(new ResetRobot(armSubsystem, elevatorsubsystem, clawSubsystem));
+    // new JoystickButton(driver_2, XboxController.Button.kRightBumper.value)
+    // .toggleOnTrue(new ResetRobot(armSubsystem, elevatorsubsystem,
+    // clawSubsystem));
   }
 
   public static HashMap<String, Command> mainPathEvents = new HashMap<>();
 
   public static Command getAuto() {
-   switch (autoChooser.getSelected()) {
+    switch (autoChooser.getSelected()) {
       case 0:
         return null;
       case 1:
