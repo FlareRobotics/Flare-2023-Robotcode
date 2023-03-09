@@ -22,7 +22,8 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-    m_robotContainer.ledSubsystem.rainbow();
+    //m_robotContainer.ledSubsystem.rainbow();
+    
   }
 
   @Override
@@ -47,7 +48,7 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
-      RobotContainer.mainPathEvents.clear();
+     // RobotContainer.mainPathEvents.clear();
     }
   }
 

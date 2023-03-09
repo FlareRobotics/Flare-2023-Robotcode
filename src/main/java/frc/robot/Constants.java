@@ -48,10 +48,10 @@ public final class Constants {
     }
 
     public static class DriveConstants {
-        public static int sagon_falcon_port = 8;
-        public static int sagarka_falcon_port = 9;
-        public static int solon_falcon_port = 3;
-        public static int solarka_falcon_port = 4;
+        public static int sagon_falcon_port = 4;
+        public static int sagarka_falcon_port = 3;
+        public static int solon_falcon_port = 9;
+        public static int solarka_falcon_port = 8;
 
         public static double drive_disli_orani = (34 / 18 * 5);
 

@@ -15,7 +15,7 @@ public class SupplyGather extends CommandBase {
 
     @Override
     public void initialize() {
-        System.out.println("Claw Set Start!");
+        System.out.println("Supply Gather START");
 
         RobotContainer.currentState = cone ? RobotState.ConeWanted : RobotState.CubeWanted;
     }
@@ -27,7 +27,7 @@ public class SupplyGather extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        System.out.println("ClawSet End!");
+        System.out.println("SupplyGather End!");
     }
 
     @Override

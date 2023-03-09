@@ -65,15 +65,20 @@ public class RobotContainer {
     autoChooser.addOption("1 Piece Forward + Auto Balance", 2);
     autoChooser.addOption("Auto Balance", 3);
     SmartDashboard.putData(autoChooser);
+    
+    ledSubsystem.setDefaultCommand(new LedController(ledSubsystem, currentState));
     m_robotDrive.setDefaultCommand(
         new ParallelCommandGroup(new JoystickDriveCommand(
             m_robotDrive,
             () -> -driver_main.getLeftY(),
-            () -> driver_main.getRightX()),
-            new LedController(ledSubsystem, currentState)));
+            () -> driver_main.getRightX()))
+           
+            )
+            
+           ;
   }
 
-  private void configureButtonBindings() {/*
+  private void configureButtonBindings() {
     // Manuel Elevator
      new JoystickButton(driver_main, XboxController.Button.kA.value)
         .whileTrue(new ManuelElevator(elevatorsubsystem, true));
@@ -87,17 +92,17 @@ public class RobotContainer {
     // Compressor Toggle
     new JoystickButton(driver_main, XboxController.Button.kStart.value)
         .toggleOnTrue(new ToggleCompressor(clawSubsystem));
-
+/*
     // Claw For Cone
-    new JoystickButton(driver_main, XboxController.Button.kRightBumper.value)
+      new JoystickButton(driver_main, XboxController.Button.kRightBumper.value)
         .toggleOnTrue(new ClawSet(clawSubsystem, !clawOpen, true));
 
     // Claw For Cube
     new JoystickButton(driver_main, XboxController.Button.kRightBumper.value)
         .toggleOnTrue(new ClawSet(clawSubsystem, !clawOpen, false));
 
-    // Align For Left
-    new DPadButton(driver_2, Direction.LEFT).whileTrue(new ParallelCommandGroup(
+   // Align For Left
+     new DPadButton(driver_2, Direction.LEFT).whileTrue(new ParallelCommandGroup(
         new AlignForLeft(m_robotDrive),
         new AlignForRight_2(m_robotDrive),
         new AlignForMidLeft(m_robotDrive)));
@@ -133,19 +138,19 @@ public class RobotContainer {
         .whileTrue(new SequentialCommandGroup(new AutoElevator(elevatorsubsystem, 3), 
             new AutoArm(armSubsystem, 3)));
 
-    // Supply Gather (Cube or Cone)
-    new JoystickButton(driver_2, XboxController.Button.kLeftBumper.value)
-        .toggleOnTrue(new SupplyGather(ledSubsystem));
+   */  // Supply Gather (Cube or Cone)
+    new JoystickButton(driver_main, XboxController.Button.kLeftBumper.value)
+        .whileTrue(new SupplyGather(ledSubsystem));
 
     // Reset robot
-    new JoystickButton(driver_2, XboxController.Button.kRightBumper.value)
-        .toggleOnTrue(new ResetRobot(armSubsystem, elevatorsubsystem, clawSubsystem));  */
+   // new JoystickButton(driver_2, XboxController.Button.kRightBumper.value)
+    //    .toggleOnTrue(new ResetRobot(armSubsystem, elevatorsubsystem, clawSubsystem));
   }
 
   public static HashMap<String, Command> mainPathEvents = new HashMap<>();
 
   public static Command getAuto() {
-    switch (autoChooser.getSelected()) {
+   switch (autoChooser.getSelected()) {
       case 0:
         return null;
       case 1:
@@ -169,6 +174,6 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return getAuto();
+    return null;
   }
 }

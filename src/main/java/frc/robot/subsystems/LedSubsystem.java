@@ -10,8 +10,9 @@ import frc.robot.Constants.LedConstans;
 public class LedSubsystem extends SubsystemBase {
 
     private static AddressableLED m_led;
-    private static AddressableLED m2_led;
+    
     private static AddressableLEDBuffer m_ledBuffer;
+    
 
 
     private static int m_rainbowFirstPixelHue;
@@ -23,18 +24,18 @@ public class LedSubsystem extends SubsystemBase {
     public LedSubsystem() {
 
         m_led = new AddressableLED(LedConstans.led_port_sag);
-        m2_led = new AddressableLED(LedConstans.led_port_sol);
+        
 
         m_ledBuffer = new AddressableLEDBuffer(LedConstans.led_uzunluk);
         m_led.setLength(m_ledBuffer.getLength());
-        m2_led.setLength(m_ledBuffer.getLength());
+        
 
         // Set the data
         m_led.setData(m_ledBuffer);
-        m2_led.setData(m_ledBuffer);
+        
 
         m_led.start();
-        m2_led.start();
+        
     }
 
     @Override
@@ -49,6 +50,7 @@ public class LedSubsystem extends SubsystemBase {
             final var hue = (m_rainbowFirstPixelHue + (i * 180 / m_ledBuffer.getLength())) % 180;
 
             m_ledBuffer.setHSV(i, hue, 255, 128);
+            
         }
 
         m_rainbowFirstPixelHue += 3;
@@ -56,53 +58,58 @@ public class LedSubsystem extends SubsystemBase {
         m_rainbowFirstPixelHue %= 180;
 
         m_led.setData(m_ledBuffer);
-        m2_led.setData(m_ledBuffer);
+        
     }
 
     public void red() {
         for (var i = 0; i < m_ledBuffer.getLength(); i++) {
 
             m_ledBuffer.setRGB(i, 255, 0, 0);
+            
         }
 
         m_led.setData(m_ledBuffer);
-        m2_led.setData(m_ledBuffer);
+        
     }
 
     public void green() {
         for (var i = 0; i < m_ledBuffer.getLength(); i++) {
 
             m_ledBuffer.setRGB(i, 0, 255, 0);
+            
         }
 
         m_led.setData(m_ledBuffer);
-        m2_led.setData(m_ledBuffer);
+        
     }
 
     public void yellow() {
         for (var i = 0; i < m_ledBuffer.getLength(); i++) {
 
             m_ledBuffer.setRGB(i, 255, 255, 0);
+            
         }
 
         m_led.setData(m_ledBuffer);
-        m2_led.setData(m_ledBuffer);
+        
     }
 
     public void purple() {
         for (var i = 0; i < m_ledBuffer.getLength(); i++) {
 
             m_ledBuffer.setRGB(i, 148, 0, 211);
+            
         }
 
         m_led.setData(m_ledBuffer);
-        m2_led.setData(m_ledBuffer);
+        
     }
 
     public void yellowPulse() {
         for (var i = 0; i < m_ledBuffer.getLength(); i++) {
 
             m_ledBuffer.setRGB(i, yellowPulseBrightness, yellowPulseBrightness, 0);
+            
         }
 
         yellowPulseBrightness += 10;
@@ -110,7 +117,7 @@ public class LedSubsystem extends SubsystemBase {
         yellowPulseBrightness %= 255;
 
         m_led.setData(m_ledBuffer);
-        m2_led.setData(m_ledBuffer);
+        
 
     }
 
@@ -118,6 +125,7 @@ public class LedSubsystem extends SubsystemBase {
         for (var i = 0; i < m_ledBuffer.getLength(); i++) {
 
             m_ledBuffer.setRGB(i, 0, purplePulseBrightness, purplePulseBrightness);
+            
         }
 
         yellowPulseBrightness += 10;
@@ -125,7 +133,7 @@ public class LedSubsystem extends SubsystemBase {
         yellowPulseBrightness %= 128;
 
         m_led.setData(m_ledBuffer);
-        m2_led.setData(m_ledBuffer);
+        
 
     }
 }
