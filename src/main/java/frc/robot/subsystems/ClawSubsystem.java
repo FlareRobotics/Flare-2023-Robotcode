@@ -26,9 +26,7 @@ public class ClawSubsystem extends SubsystemBase {
   }
 
   public void setDash() {
-
     SmartDashboard.putBoolean("Claw Piston", claw_solenoid1.isFwdSolenoidDisabled());
-
   }
 
   public static void claw_open() {

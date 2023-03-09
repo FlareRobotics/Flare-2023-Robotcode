@@ -2,13 +2,17 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.LedConstans;
 
 public class LedSubsystem extends SubsystemBase {
 
     private static AddressableLED m_led;
+    private static AddressableLED m2_led;
     private static AddressableLEDBuffer m_ledBuffer;
+
 
     private static int m_rainbowFirstPixelHue;
 
@@ -19,13 +23,23 @@ public class LedSubsystem extends SubsystemBase {
     public LedSubsystem() {
 
         m_led = new AddressableLED(LedConstans.led_port_sag);
+        m2_led = new AddressableLED(LedConstans.led_port_sol);
 
         m_ledBuffer = new AddressableLEDBuffer(LedConstans.led_uzunluk);
         m_led.setLength(m_ledBuffer.getLength());
+        m2_led.setLength(m_ledBuffer.getLength());
 
         // Set the data
         m_led.setData(m_ledBuffer);
+        m2_led.setData(m_ledBuffer);
+
         m_led.start();
+        m2_led.start();
+    }
+
+    @Override
+    public void periodic() {
+        SmartDashboard.putString("RobotState", RobotContainer.currentState.toString());
     }
 
     public void rainbow() {
@@ -42,6 +56,7 @@ public class LedSubsystem extends SubsystemBase {
         m_rainbowFirstPixelHue %= 180;
 
         m_led.setData(m_ledBuffer);
+        m2_led.setData(m_ledBuffer);
     }
 
     public void red() {
@@ -51,6 +66,7 @@ public class LedSubsystem extends SubsystemBase {
         }
 
         m_led.setData(m_ledBuffer);
+        m2_led.setData(m_ledBuffer);
     }
 
     public void green() {
@@ -60,6 +76,7 @@ public class LedSubsystem extends SubsystemBase {
         }
 
         m_led.setData(m_ledBuffer);
+        m2_led.setData(m_ledBuffer);
     }
 
     public void yellow() {
@@ -69,6 +86,7 @@ public class LedSubsystem extends SubsystemBase {
         }
 
         m_led.setData(m_ledBuffer);
+        m2_led.setData(m_ledBuffer);
     }
 
     public void purple() {
@@ -78,6 +96,7 @@ public class LedSubsystem extends SubsystemBase {
         }
 
         m_led.setData(m_ledBuffer);
+        m2_led.setData(m_ledBuffer);
     }
 
     public void yellowPulse() {
@@ -91,6 +110,7 @@ public class LedSubsystem extends SubsystemBase {
         yellowPulseBrightness %= 255;
 
         m_led.setData(m_ledBuffer);
+        m2_led.setData(m_ledBuffer);
 
     }
 
@@ -105,6 +125,7 @@ public class LedSubsystem extends SubsystemBase {
         yellowPulseBrightness %= 128;
 
         m_led.setData(m_ledBuffer);
+        m2_led.setData(m_ledBuffer);
 
     }
 }

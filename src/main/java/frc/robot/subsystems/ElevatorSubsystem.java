@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.PID.PidConstants;
@@ -86,7 +87,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
         @Override
         public void periodic() {
-
+                SmartDashboard.putNumber("ElevatorDistance", elevator_yukseklik_cm());
         }
 
         public void reset_encoder() {

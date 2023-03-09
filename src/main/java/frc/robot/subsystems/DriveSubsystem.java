@@ -158,11 +158,10 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   void setDash() {
-    // SmartDashboard.putNumber("Gyro Degree", gyro.getYaw());
-    // SmartDashboard.putNumber("Drive Velocity",
-    // rightRearMotor.getSelectedSensorVelocity());
-    SmartDashboard.putNumber("Encoder Distance M", getRightEncoderDistance());
-
+    SmartDashboard.putNumber("Encoder Distance M", getAverageEncoderDistance());
+    SmartDashboard.putNumber("Pigeon Yaw", m_gyro.getYaw());
+    SmartDashboard.putNumber("Pigeon Heading", getHeading());
+    SmartDashboard.putData(m_field);
   }
 
   void zeroSensors() {
