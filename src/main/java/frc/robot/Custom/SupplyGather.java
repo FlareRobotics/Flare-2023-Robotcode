@@ -16,8 +16,8 @@ public class SupplyGather extends CommandBase {
     @Override
     public void initialize() {
         System.out.println("Supply Gather START");
-
-        RobotContainer.currentState = cone ? RobotState.ConeWanted : RobotState.CubeWanted;
+        RobotContainer.currentState = RobotState.ConePicked;
+        //RobotContainer.currentState = cone ? RobotState.ConeWanted : RobotState.CubeWanted;
     }
 
     @Override

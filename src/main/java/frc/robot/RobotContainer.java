@@ -66,7 +66,7 @@ public class RobotContainer {
     autoChooser.addOption("Auto Balance", 3);
     SmartDashboard.putData(autoChooser);
 
-    ledSubsystem.setDefaultCommand(new LedController(ledSubsystem, currentState));
+    ledSubsystem.setDefaultCommand(new LedController(ledSubsystem, RobotContainer.currentState));
     m_robotDrive.setDefaultCommand(
         new ParallelCommandGroup(new JoystickDriveCommand(
             m_robotDrive,

@@ -1,5 +1,6 @@
 package frc.robot.commands.Led;
 
+import frc.robot.RobotContainer;
 import frc.robot.Custom.RobotState;
 import frc.robot.subsystems.LedSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -10,7 +11,7 @@ public class LedController extends CommandBase {
 
   public LedController(LedSubsystem subsystem, RobotState robotState) {
     
-    this.currentState = robotState;
+    this.currentState = RobotContainer.currentState;
     this.ledSubsystem = subsystem;
     addRequirements(subsystem);
   }
@@ -22,8 +23,8 @@ public class LedController extends CommandBase {
 
   @Override
   public void execute() {
-   System.out.println(currentState);
-   /*switch (currentState) {
+   System.out.println(RobotContainer.currentState);
+   switch (RobotContainer.currentState) {
       case None:
         ledSubsystem.rainbow();
         break;
@@ -54,15 +55,10 @@ public class LedController extends CommandBase {
 
       default:
         break;
-    }*/
-    if(currentState == RobotState.ConeWanted){
-      ledSubsystem.rainbow();
-      System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-    }else if(currentState == RobotState.None){
-      ledSubsystem.yellow();
-      System.out.println("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
     }
-  }
+   
+    }
+  
 
   @Override
   public void end(boolean interrupted) {

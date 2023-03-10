@@ -41,6 +41,7 @@ public class LedSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         SmartDashboard.putString("RobotState", RobotContainer.currentState.toString());
+        
     }
 
     public void rainbow() {
@@ -91,7 +92,7 @@ public class LedSubsystem extends SubsystemBase {
         }
 
         m_led.setData(m_ledBuffer);
-        
+        System.out.println("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
     }
 
     public void purple() {
