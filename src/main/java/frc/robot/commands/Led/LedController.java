@@ -1,17 +1,14 @@
 package frc.robot.commands.Led;
 
 import frc.robot.RobotContainer;
-import frc.robot.Custom.RobotState;
 import frc.robot.subsystems.LedSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class LedController extends CommandBase {
-  private RobotState currentState = RobotState.ConePicked;
   private LedSubsystem ledSubsystem;
 
-  public LedController(LedSubsystem subsystem, RobotState robotState) {
-    
-    this.currentState = RobotContainer.currentState;
+  public LedController(LedSubsystem subsystem) {
+
     this.ledSubsystem = subsystem;
     addRequirements(subsystem);
   }
@@ -38,11 +35,11 @@ public class LedController extends CommandBase {
         break;
 
       case CubeWanted:
-        ledSubsystem.purple();
+        ledSubsystem.purpleAnimated();
         break;
 
       case ConeWanted:
-        ledSubsystem.yellow();
+        ledSubsystem.yellowAnimated();
         break;
 
       case NotBalanced:
