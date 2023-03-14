@@ -35,11 +35,11 @@ public class LedController extends CommandBase {
         break;
 
       case CubeWanted:
-        ledSubsystem.purpleAnimated();
+        ledSubsystem.purple();
         break;
 
       case ConeWanted:
-        ledSubsystem.yellowAnimated();
+        ledSubsystem.yellow();
         break;
 
       case NotBalanced:

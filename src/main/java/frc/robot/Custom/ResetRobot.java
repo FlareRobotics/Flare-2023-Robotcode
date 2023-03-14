@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ResetRobot extends CommandBase {
+    private boolean isReseted = false;
 
     public ResetRobot(ArmSubsystem armSubsystem, ElevatorSubsystem elevatorSubsystem, ClawSubsystem clawSubsystem) {
         addRequirements(armSubsystem, elevatorSubsystem, clawSubsystem);
@@ -28,6 +29,8 @@ public class ResetRobot extends CommandBase {
                 ElevatorSubsystem.elevator_yukseklik_units(0));
 
         ClawSubsystem.claw_close();
+
+        isReseted = ArmSubsystem.arm_uzunluk_cm() <= 1d && ElevatorSubsystem.elevator_yukseklik_cm() <= 1d;
     }
 
     @Override
@@ -37,6 +40,6 @@ public class ResetRobot extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return false;
+        return isReseted;
     }
 }
