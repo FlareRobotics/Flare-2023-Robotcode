@@ -12,9 +12,9 @@ public class ClawSubsystem extends SubsystemBase {
 
   public static Compressor Compressor = new Compressor(0, PneumaticsModuleType.CTREPCM);
   public static DoubleSolenoid claw_solenoid1 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,
-      ClawConstants.claw_solenoid_port_ileri, ClawConstants.claw_solenoid_port_geri);
-  // public static DoubleSolenoid claw_solenoid2 = new
-  // DoubleSolenoid(PneumaticsModuleType.CTREPCM,ClawConstants.claw_solenoid_port_ileri,ClawConstants.claw_solenoid_port_geri);
+      ClawConstants.claw_solenoid1_port_ileri, ClawConstants.claw_solenoid1_port_geri);
+   public static DoubleSolenoid claw_solenoid2 = new
+   DoubleSolenoid(PneumaticsModuleType.CTREPCM,ClawConstants.claw_solenoid2_port_ileri,ClawConstants.claw_solenoid2_port_geri);
 
   public ClawSubsystem() {
 
@@ -31,9 +31,15 @@ public class ClawSubsystem extends SubsystemBase {
 
   public static void claw_open() {
     claw_solenoid1.set(Value.kForward);
+    claw_solenoid2.set(Value.kForward);
   }
 
-  public static void claw_close() {
+  public static void claw_close_cone() {
+    claw_solenoid1.set(Value.kReverse);
+    claw_solenoid2.set(Value.kReverse);
+  }
+  public static void claw_close_cube() {
     claw_solenoid1.set(Value.kReverse);
   }
+
 }

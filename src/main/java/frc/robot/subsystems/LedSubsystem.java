@@ -1,9 +1,6 @@
 package frc.robot.subsystems;
 
-import java.net.URI;
 
-import javax.swing.UIManager;
-import javax.swing.ScrollPaneLayout.UIResource;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
@@ -154,7 +151,7 @@ public class LedSubsystem extends SubsystemBase {
 
         }
 
-        yellowPulseBrightness += 10;
+        yellowPulseBrightness += 25;
 
         yellowPulseBrightness %= 255;
 
@@ -165,15 +162,14 @@ public class LedSubsystem extends SubsystemBase {
     public void purplePulse() {
         for (var i = 0; i < m_ledBuffer.getLength(); i++) {
 
-            m_ledBuffer.setRGB(i, 0, purplePulseBrightness, purplePulseBrightness);
+            m_ledBuffer.setRGB(i, purplePulseBrightness, 0, purplePulseBrightness);
 
         }
 
-        yellowPulseBrightness += 10;
+        purplePulseBrightness += 10;
 
-        yellowPulseBrightness %= 128;
+        purplePulseBrightness %= 128;
 
         m_led.setData(m_ledBuffer);
-
-    }
+}
 }

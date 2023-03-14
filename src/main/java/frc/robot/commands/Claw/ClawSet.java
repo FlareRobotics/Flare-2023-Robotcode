@@ -6,33 +6,42 @@ import frc.robot.subsystems.ClawSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ClawSet extends CommandBase {
-  private boolean claw_position;
+  private boolean cone;
 
-  public ClawSet(ClawSubsystem subsystem, boolean claw_position, boolean cone) {
-    this.claw_position = claw_position;
+  public ClawSet(ClawSubsystem subsystem, boolean cone) {
+    this.cone = cone;
     RobotContainer.clawOpen = !RobotContainer.clawOpen;
-    if (claw_position)
-      RobotContainer.currentState = cone ? RobotState.ConePicked : RobotState.CubePicked;
+
     addRequirements(subsystem);
   }
 
   @Override
   public void initialize() {
     System.out.println("Claw Set Start!");
+    if (cone){
+  RobotContainer.currentState = RobotState.ConePicked;
+    }else{
+      RobotContainer.currentState = RobotState.CubePicked;
+    }
   }
 
   @Override
   public void execute() {
-    if (claw_position) {
-      ClawSubsystem.claw_open();
-    } else {
-      ClawSubsystem.claw_close();
+    if(cone){
+      ClawSubsystem.claw_close_cone();
+    }else{
+      ClawSubsystem.claw_close_cube();
     }
+
+      
+    
   }
 
   @Override
   public void end(boolean interrupted) {
     System.out.println("ClawSet End!");
+    ClawSubsystem.claw_open();  
+    RobotContainer.currentState = RobotState.None;
   }
 
   @Override

@@ -43,8 +43,10 @@ public final class Constants {
     }
 
     public static class ClawConstants {
-        public static int claw_solenoid_port_ileri = 0;
-        public static int claw_solenoid_port_geri = 1;
+        public static int claw_solenoid1_port_ileri = 0;
+        public static int claw_solenoid1_port_geri = 1;
+        public static int claw_solenoid2_port_ileri = 2;
+        public static int claw_solenoid2_port_geri = 3;
     }
 
     public static class DriveConstants {

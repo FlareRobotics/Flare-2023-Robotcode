@@ -35,7 +35,9 @@ public class ManuelArm extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     // System.out.println("Manuel Arm End");
+    ArmSubsystem.arm_motor.set(0);
   }
+
 
   @Override
   public boolean isFinished() {

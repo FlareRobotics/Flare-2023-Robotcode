@@ -51,12 +51,13 @@ public class RobotContainer {
   private static final ClawSubsystem clawSubsystem = new ClawSubsystem();
   private static final ArmSubsystem armSubsystem = new ArmSubsystem();
   private static final DriveSubsystem m_robotDrive = new DriveSubsystem();
-  public final LedSubsystem ledSubsystem = new LedSubsystem();
+  public final static LedSubsystem ledSubsystem = new LedSubsystem();
 
   public static SendableChooser<Integer> autoChooser = new SendableChooser<>();
 
   public static boolean clawOpen = false;
   public static RobotState currentState = RobotState.None;
+  public static boolean wantedCone = false;
 
   public RobotContainer() {
     configureButtonBindings();
@@ -88,15 +89,15 @@ public class RobotContainer {
     // Compressor Toggle
     new JoystickButton(driver_main, XboxController.Button.kStart.value)
         .toggleOnTrue(new ToggleCompressor(clawSubsystem));
-    /*
-     * // Claw For Cone
-     * new JoystickButton(driver_main, XboxController.Button.kRightBumper.value)
-     * .toggleOnTrue(new ClawSet(clawSubsystem, !clawOpen, true));
-     * 
-     * // Claw For Cube
-     * new JoystickButton(driver_main, XboxController.Button.kRightBumper.value)
-     * .toggleOnTrue(new ClawSet(clawSubsystem, !clawOpen, false));
-     * 
+    
+      // Claw For Cone
+  //    new JoystickButton(driver_main, XboxController.Button.kRightBumper.value)
+  //    .toggleOnTrue(new ClawSet(clawSubsystem, true));
+      
+      // Claw For Cube
+     new JoystickButton(driver_main, XboxController.Button.kRightBumper.value)
+     .toggleOnTrue(new ClawSet(clawSubsystem,  false));
+    /* 
      * // Align For Left
      * new DPadButton(driver_2, Direction.LEFT).whileTrue(new ParallelCommandGroup(
      * new AlignForLeft(m_robotDrive),
@@ -161,7 +162,7 @@ public class RobotContainer {
 
         mainPathEvents.put("Start", new SequentialCommandGroup(new AutoElevator(elevatorsubsystem, 3),
             new AutoArm(armSubsystem, 3)));
-        mainPathEvents.put("Pick", new ClawSet(clawSubsystem, true, false));
+        mainPathEvents.put("Pick", new ClawSet(clawSubsystem, false));
         mainPathEvents.put("Put", new SequentialCommandGroup(new AutoElevator(elevatorsubsystem, 2),
             new AutoArm(armSubsystem, 2)));
 
