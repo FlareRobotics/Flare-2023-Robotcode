@@ -7,6 +7,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.PID.PidConstants;
 
@@ -83,6 +84,12 @@ public class ElevatorSubsystem extends SubsystemBase {
                 elevator_motor.setNeutralMode(NeutralMode.Brake);
 
                 elevator_motor.configMotionSCurveStrength(25);
+
+                elevator_motor.configForwardSoftLimitThreshold(Constants.ElevatorConstants.elevator_forward_limit);
+                elevator_motor.configReverseSoftLimitThreshold(0);
+
+                elevator_motor.configForwardSoftLimitEnable(true, 0);
+                elevator_motor.configReverseSoftLimitEnable(true, 0);
         }
 
         @Override

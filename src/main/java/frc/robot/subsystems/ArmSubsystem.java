@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.PID.PidConstants;
 
@@ -86,6 +87,11 @@ public class ArmSubsystem extends SubsystemBase {
 
     arm_motor.configMotionSCurveStrength(25);
 
+    arm_motor.configForwardSoftLimitThreshold(Constants.ArmConstants.arm_forward_limit);
+    arm_motor.configReverseSoftLimitThreshold(0);
+
+    arm_motor.configForwardSoftLimitEnable(true, 0);
+    arm_motor.configReverseSoftLimitEnable(true, 0);
   }
 
   @Override

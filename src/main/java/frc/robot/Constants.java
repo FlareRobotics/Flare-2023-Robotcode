@@ -13,6 +13,8 @@ public final class Constants {
 
         public static double elevator_distance_per_rotation = 4.5d;
 
+        public static double elevator_forward_limit = 150;
+
         // All in cm
         public static int bottom_row_height = 15;
         public static int middle_row_height = 87;
@@ -34,6 +36,8 @@ public final class Constants {
         public static double arm_speed = 0.3d;
 
         public static double arm_distance_per_rotation = 4.5d;
+
+        public static double arm_forward_limit = 150;
 
         // All in cm
         public static int bottom_row_distance = 10;
