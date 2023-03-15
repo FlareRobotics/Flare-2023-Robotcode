@@ -91,12 +91,12 @@ public class RobotContainer {
         .toggleOnTrue(new ToggleCompressor(clawSubsystem));
     
       // Claw For Cone
-  //    new JoystickButton(driver_main, XboxController.Button.kRightBumper.value)
-  //    .toggleOnTrue(new ClawSet(clawSubsystem, true));
+      new JoystickButton(driver_main, XboxController.Button.kRightBumper.value)
+      .toggleOnTrue(new ClawSet(clawSubsystem, true));
       
       // Claw For Cube
-     new JoystickButton(driver_main, XboxController.Button.kRightBumper.value)
-     .toggleOnTrue(new ClawSet(clawSubsystem,  false));
+   //  new JoystickButton(driver_main, XboxController.Button.kRightBumper.value)
+  //   .toggleOnTrue(new ClawSet(clawSubsystem,  false));
     /* 
      * // Align For Left
      * new DPadButton(driver_2, Direction.LEFT).whileTrue(new ParallelCommandGroup(

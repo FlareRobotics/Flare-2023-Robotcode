@@ -9,7 +9,7 @@ public final class Constants {
         public static int elevator_motor_port = 0;
         public static double elevator_gear_ratio = 20d;
 
-        public static double elevator_speed = 0.5d;
+        public static double elevator_speed = 0.8d;
 
         public static double elevator_distance_per_rotation = 4.5d;
 
@@ -31,7 +31,7 @@ public final class Constants {
 
         public static double arm_gear_ratio = 20d;
 
-        public static double arm_speed = 0.5d;
+        public static double arm_speed = 0.3d;
 
         public static double arm_distance_per_rotation = 4.5d;
 
