@@ -66,11 +66,11 @@ public class ElevatorSubsystem extends SubsystemBase {
                                 PidConstants.TurretConstants.kPIDLoopIdx);
                 elevator_motor.config_kF(PidConstants.TurretConstants.kSlotIdx, PidConstants.TurretConstants.kGains.kF,
                                 PidConstants.TurretConstants.kTimeoutMs);
-                elevator_motor.config_kP(PidConstants.TurretConstants.kSlotIdx, PidConstants.TurretConstants.kGains.kP,
+                elevator_motor.config_kP(PidConstants.TurretConstants.kSlotIdx, 29.5,
                                 PidConstants.TurretConstants.kTimeoutMs);
                 elevator_motor.config_kI(PidConstants.TurretConstants.kSlotIdx, PidConstants.TurretConstants.kGains.kI,
                                 PidConstants.TurretConstants.kTimeoutMs);
-                elevator_motor.config_kD(PidConstants.TurretConstants.kSlotIdx, PidConstants.TurretConstants.kGains.kD,
+                elevator_motor.config_kD(PidConstants.TurretConstants.kSlotIdx, 0,
                                 PidConstants.TurretConstants.kTimeoutMs);
 
                 /* Set acceleration and vcruise velocity - see documentation */
@@ -81,7 +81,7 @@ public class ElevatorSubsystem extends SubsystemBase {
                 elevator_motor.setSelectedSensorPosition(0, PidConstants.TurretConstants.kPIDLoopIdx,
                                 PidConstants.TurretConstants.kTimeoutMs);
 
-                elevator_motor.setNeutralMode(NeutralMode.Brake);
+                elevator_motor.setNeutralMode(NeutralMode.Coast);
 
                 elevator_motor.configMotionSCurveStrength(25);
 
@@ -89,12 +89,12 @@ public class ElevatorSubsystem extends SubsystemBase {
                 elevator_motor.configReverseSoftLimitThreshold(0);
 
                 elevator_motor.configForwardSoftLimitEnable(true, 0);
-                elevator_motor.configReverseSoftLimitEnable(true, 0);
+              //  elevator_motor.configReverseSoftLimitEnable(true, 0);
         }
 
         @Override
         public void periodic() {
-                SmartDashboard.putNumber("ElevatorDistance", elevator_yukseklik_cm());
+                SmartDashboard.putNumber("ElevatorDistance", elevator_motor.getSelectedSensorPosition());
         }
 
         public void reset_encoder() {

@@ -22,15 +22,7 @@ public class ResetRobot extends CommandBase {
 
     @Override
     public void execute() {
-        ArmSubsystem.arm_motor.set(ControlMode.MotionMagic,
-                ArmSubsystem.arm_uzunluk_units(0));
-
-        ElevatorSubsystem.elevator_motor.set(ControlMode.MotionMagic,
-                ElevatorSubsystem.elevator_yukseklik_units(0));
-
-        ClawSubsystem.claw_open();
-
-        isReseted = ArmSubsystem.arm_uzunluk_cm() <= 1d && ElevatorSubsystem.elevator_yukseklik_cm() <= 1d;
+        ElevatorSubsystem.elevator_motor.setSelectedSensorPosition(0);
     }
 
     @Override

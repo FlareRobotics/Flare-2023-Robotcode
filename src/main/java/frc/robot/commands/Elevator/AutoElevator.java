@@ -22,32 +22,31 @@ public class AutoElevator extends CommandBase {
 
   @Override
   public void execute() {
+    double goal = 0;
     switch (yukseklik) {
       // Alt
       case 1:
-        ElevatorSubsystem.elevator_motor.set(ControlMode.MotionMagic,
-            ElevatorSubsystem.elevator_yukseklik_units(ElevatorConstants.bottom_row_height));
-            finished = ElevatorSubsystem.elevator_yukseklik_cm() >= ElevatorConstants.bottom_row_height - offsetLimit && ElevatorSubsystem.elevator_yukseklik_cm() <= ElevatorConstants.bottom_row_height + offsetLimit;
+        goal = ElevatorConstants.bottom_row_height;
         break;
       // Orta
       case 2:
-        ElevatorSubsystem.elevator_motor.set(ControlMode.MotionMagic,
-            ElevatorSubsystem.elevator_yukseklik_units(ElevatorConstants.middle_row_height));
-            finished = ElevatorSubsystem.elevator_yukseklik_cm() >= ElevatorConstants.middle_row_height - offsetLimit && ElevatorSubsystem.elevator_yukseklik_cm() <= ElevatorConstants.middle_row_height + offsetLimit;
+        goal = ElevatorConstants.middle_row_height;
         break;
       // Üst
       case 3:
-        ElevatorSubsystem.elevator_motor.set(ControlMode.MotionMagic,
-            ElevatorSubsystem.elevator_yukseklik_units(ElevatorConstants.top_row_height));
-            finished = ElevatorSubsystem.elevator_yukseklik_cm() >= ElevatorConstants.top_row_height - offsetLimit && ElevatorSubsystem.elevator_yukseklik_cm() <= ElevatorConstants.top_row_height + offsetLimit;
+        goal = ElevatorConstants.top_row_height;
         break;
       // Üst
       case 4:
-      ElevatorSubsystem.elevator_motor.set(ControlMode.MotionMagic,
-          ElevatorSubsystem.elevator_yukseklik_units(ElevatorConstants.substation_height));
-          finished = ElevatorSubsystem.elevator_yukseklik_cm() >= ElevatorConstants.substation_height - offsetLimit && ElevatorSubsystem.elevator_yukseklik_cm() <= ElevatorConstants.substation_height + offsetLimit;
+        goal = ElevatorConstants.substation_height;
       break;
     }
+
+
+
+    goal = goal- ElevatorSubsystem.elevator_motor.getSelectedSensorPosition()  ;
+    System.out.println(goal);
+    ElevatorSubsystem.elevator_motor.set(ControlMode.MotionMagic, goal);
   }
 
   @Override

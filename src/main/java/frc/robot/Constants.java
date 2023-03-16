@@ -9,15 +9,15 @@ public final class Constants {
         public static int elevator_motor_port = 0;
         public static double elevator_gear_ratio = 20d;
 
-        public static double elevator_speed = 0.8d;
+        public static double elevator_speed = 0.5d;
 
         public static double elevator_distance_per_rotation = 4.5d;
 
-        public static double elevator_forward_limit = 150;
+        public static double elevator_forward_limit = 510000;
 
         // All in cm
         public static int bottom_row_height = 15;
-        public static int middle_row_height = 87;
+        public static int middle_row_height = 100000;
         public static int top_row_height = 117;
         public static int substation_height = 95;
     }
@@ -33,7 +33,7 @@ public final class Constants {
 
         public static double arm_gear_ratio = 20d;
 
-        public static double arm_speed = 0.3d;
+        public static double arm_speed = 0.5d;
 
         public static double arm_distance_per_rotation = 4.5d;
 

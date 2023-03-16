@@ -83,8 +83,8 @@ public class RobotContainer {
         .whileTrue(new ManuelElevator(elevatorsubsystem, false));
 
     // Manuel Arm
-    new JoystickButton(driver_main, XboxController.Button.kX.value).whileTrue(new ManuelArm(armSubsystem, true));
-    new JoystickButton(driver_main, XboxController.Button.kB.value).whileTrue(new ManuelArm(armSubsystem, false));
+  //  new JoystickButton(driver_main, XboxController.Button.kX.value).whileTrue(new ManuelArm(armSubsystem, true));
+  // new JoystickButton(driver_main, XboxController.Button.kB.value).whileTrue(new ManuelArm(armSubsystem, false));
 
     // Compressor Toggle
     new JoystickButton(driver_main, XboxController.Button.kStart.value)
@@ -127,11 +127,13 @@ public class RobotContainer {
      * new AutoArm(armSubsystem, 1)));
      * 
      * // Move Arm and Elevator
-     * // Middle ROW
-     * new JoystickButton(driver_2, XboxController.Button.kX.value)
-     * .whileTrue(new SequentialCommandGroup(new AutoElevator(elevatorsubsystem, 2),
-     * new AutoArm(armSubsystem, 2)));
-     * 
+     // Middle ROW
+      */new JoystickButton(driver_main, XboxController.Button.kX.value)
+      .whileTrue(new SequentialCommandGroup(new AutoElevator(elevatorsubsystem, 2)
+      //new AutoArm(armSubsystem, 2)
+      ));
+
+     /* 
      * // Move Arm and Elevator
      * // HIGH ROW
      * new JoystickButton(driver_2, XboxController.Button.kY.value)
@@ -142,6 +144,7 @@ public class RobotContainer {
     new JoystickButton(driver_main, XboxController.Button.kLeftBumper.value)
         .whileTrue(new SupplyGather(ledSubsystem));
 
+        new JoystickButton(driver_main, XboxController.Button.kB.value).whileTrue(new ResetRobot(armSubsystem, elevatorsubsystem, clawSubsystem));
     // Reset robot
     // new JoystickButton(driver_2, XboxController.Button.kRightBumper.value)
     // .toggleOnTrue(new ResetRobot(armSubsystem, elevatorsubsystem,

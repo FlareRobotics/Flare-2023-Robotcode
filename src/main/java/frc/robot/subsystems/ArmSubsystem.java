@@ -90,8 +90,8 @@ public class ArmSubsystem extends SubsystemBase {
     arm_motor.configForwardSoftLimitThreshold(Constants.ArmConstants.arm_forward_limit);
     arm_motor.configReverseSoftLimitThreshold(0);
 
-    arm_motor.configForwardSoftLimitEnable(true, 0);
-    arm_motor.configReverseSoftLimitEnable(true, 0);
+  //  arm_motor.configForwardSoftLimitEnable(true, 0);
+  //  arm_motor.configReverseSoftLimitEnable(true, 0);
   }
 
   @Override
