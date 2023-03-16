@@ -29,7 +29,7 @@ public class PidConstants {
 		 * Gains used in Motion Magic, to be adjusted accordingly
 		 * Gains(kp, ki, kd, kf, izone, peak output);
 		 */
-		public static final Gains kGains = new Gains(1, 0.0, 0.5, 0.2, 0, 2d);
+		public static final Gains kGains = new Gains(0.5, 0.005, 0.5, 0.2, 0, 50d);
 	}
 
 	public static class DriveConstants {

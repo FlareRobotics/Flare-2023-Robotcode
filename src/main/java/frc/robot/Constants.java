@@ -17,7 +17,7 @@ public final class Constants {
 
         // All in cm
         public static int bottom_row_height = 15;
-        public static int middle_row_height = 100000;
+        public static int middle_row_height = 150000;
         public static int top_row_height = 117;
         public static int substation_height = 95;
     }

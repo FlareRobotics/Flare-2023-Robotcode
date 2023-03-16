@@ -66,16 +66,16 @@ public class ElevatorSubsystem extends SubsystemBase {
                                 PidConstants.TurretConstants.kPIDLoopIdx);
                 elevator_motor.config_kF(PidConstants.TurretConstants.kSlotIdx, PidConstants.TurretConstants.kGains.kF,
                                 PidConstants.TurretConstants.kTimeoutMs);
-                elevator_motor.config_kP(PidConstants.TurretConstants.kSlotIdx, 29.5,
+                elevator_motor.config_kP(PidConstants.TurretConstants.kSlotIdx, PidConstants.TurretConstants.kGains.kP,
                                 PidConstants.TurretConstants.kTimeoutMs);
                 elevator_motor.config_kI(PidConstants.TurretConstants.kSlotIdx, PidConstants.TurretConstants.kGains.kI,
                                 PidConstants.TurretConstants.kTimeoutMs);
-                elevator_motor.config_kD(PidConstants.TurretConstants.kSlotIdx, 0,
+                elevator_motor.config_kD(PidConstants.TurretConstants.kSlotIdx, PidConstants.TurretConstants.kGains.kD,
                                 PidConstants.TurretConstants.kTimeoutMs);
 
                 /* Set acceleration and vcruise velocity - see documentation */
-                elevator_motor.configMotionCruiseVelocity(3000, PidConstants.TurretConstants.kTimeoutMs);
-                elevator_motor.configMotionAcceleration(4000, PidConstants.TurretConstants.kTimeoutMs);
+                elevator_motor.configMotionCruiseVelocity(20000, PidConstants.TurretConstants.kTimeoutMs);
+                elevator_motor.configMotionAcceleration(10000, PidConstants.TurretConstants.kTimeoutMs);
 
                 /* Zero the sensor once on robot boot up */
                 elevator_motor.setSelectedSensorPosition(0, PidConstants.TurretConstants.kPIDLoopIdx,
@@ -83,7 +83,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
                 elevator_motor.setNeutralMode(NeutralMode.Coast);
 
-                elevator_motor.configMotionSCurveStrength(25);
+                elevator_motor.configMotionSCurveStrength(1);
 
                 elevator_motor.configForwardSoftLimitThreshold(Constants.ElevatorConstants.elevator_forward_limit);
                 elevator_motor.configReverseSoftLimitThreshold(0);
