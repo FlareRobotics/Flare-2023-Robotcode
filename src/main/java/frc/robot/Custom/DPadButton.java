@@ -6,12 +6,13 @@ import edu.wpi.first.wpilibj2.command.button.Button;
 @SuppressWarnings("deprecation")
 public class DPadButton extends Button {
 
-    XboxController joystick;
-    Direction direction;
+    static XboxController joystick;
+    static Direction direction;
 
-    public DPadButton(XboxController joystick, Direction direction) {
-        this.joystick = joystick;
-        this.direction = direction;
+    public DPadButton(XboxController Joystick, Direction Direction) {
+        super(() -> get());
+        joystick = Joystick;
+        direction = Direction;
     }
 
     public static enum Direction {
@@ -24,7 +25,7 @@ public class DPadButton extends Button {
         }
     }
 
-    public boolean get() {
+    public static boolean get() {
         int dPadValue = joystick.getPOV();
         return (dPadValue == direction.direction) || (dPadValue == (direction.direction + 45) % 360)
                 || (dPadValue == (direction.direction + 315) % 360);

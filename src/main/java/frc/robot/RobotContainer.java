@@ -1,39 +1,17 @@
 package frc.robot;
 
-import java.util.HashMap;
-import java.util.List;
-
-import com.pathplanner.lib.PathConstraints;
-import com.pathplanner.lib.PathPlanner;
-import com.pathplanner.lib.PathPlannerTrajectory;
-
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Custom.DPadButton;
-import frc.robot.Custom.ResetRobot;
-import frc.robot.Custom.DPadButton.Direction;
 import frc.robot.Custom.RobotState;
-import frc.robot.Custom.SupplyGather;
-import frc.robot.commands.Align.AlignForCube;
-import frc.robot.commands.Align.AlignForLeft;
-import frc.robot.commands.Align.AlignForLeft_2;
-import frc.robot.commands.Align.AlignForMidLeft;
-import frc.robot.commands.Align.AlignForMidRight;
-import frc.robot.commands.Align.AlignForRight;
-import frc.robot.commands.Align.AlignForRight_2;
-import frc.robot.commands.Align.AlignForSubstation;
-import frc.robot.commands.Arm.AutoArm;
 import frc.robot.commands.Arm.ManuelArm;
 import frc.robot.commands.Auto.FlareTrajectory;
 import frc.robot.commands.Claw.ClawSet;
 import frc.robot.commands.Claw.ToggleCompressor;
 import frc.robot.commands.Drive.JoystickDriveCommand;
-import frc.robot.commands.Elevator.AutoElevator;
 import frc.robot.commands.Elevator.ManuelElevator;
 import frc.robot.commands.Led.LedController;
 import frc.robot.subsystems.ArmSubsystem;
@@ -61,7 +39,7 @@ public class RobotContainer {
 
   public RobotContainer() {
     configureButtonBindings();
-    autoChooser.setDefaultOption("TAXI", 0);
+    autoChooser.setDefaultOption("No Auto", 0);
     autoChooser.addOption("1 Piece Forward + TAXI", 1);
     autoChooser.addOption("1 Piece Forward + Auto Balance", 2);
     autoChooser.addOption("Auto Balance", 3);
@@ -83,75 +61,17 @@ public class RobotContainer {
         .whileTrue(new ManuelElevator(elevatorsubsystem, false));
 
     // Manuel Arm
-  //  new JoystickButton(driver_main, XboxController.Button.kX.value).whileTrue(new ManuelArm(armSubsystem, true));
-  // new JoystickButton(driver_main, XboxController.Button.kB.value).whileTrue(new ManuelArm(armSubsystem, false));
+    new JoystickButton(driver_main, XboxController.Button.kX.value).whileTrue(new ManuelArm(armSubsystem, true));
+    new JoystickButton(driver_main, XboxController.Button.kB.value).whileTrue(new ManuelArm(armSubsystem, false));
 
     // Compressor Toggle
     new JoystickButton(driver_main, XboxController.Button.kStart.value)
         .toggleOnTrue(new ToggleCompressor(clawSubsystem));
-    
-      // Claw For Cone
-      new JoystickButton(driver_main, XboxController.Button.kRightBumper.value)
-      .toggleOnTrue(new ClawSet(clawSubsystem, true));
-      
-      // Claw For Cube
-   //  new JoystickButton(driver_main, XboxController.Button.kRightBumper.value)
-  //   .toggleOnTrue(new ClawSet(clawSubsystem,  false));
-    /* 
-     * // Align For Left
-     * new DPadButton(driver_2, Direction.LEFT).whileTrue(new ParallelCommandGroup(
-     * new AlignForLeft(m_robotDrive),
-     * new AlignForRight_2(m_robotDrive),
-     * new AlignForMidLeft(m_robotDrive)));
-     * 
-     * // Align For Right
-     * new DPadButton(driver_2, Direction.RIGHT).whileTrue(new ParallelCommandGroup(
-     * new AlignForLeft_2(m_robotDrive),
-     * new AlignForRight(m_robotDrive),
-     * new AlignForMidRight(m_robotDrive)));
-     * 
-     * // Align For Cube
-     * new DPadButton(driver_2, Direction.UP).whileTrue(new
-     * AlignForCube(m_robotDrive));
-     * 
-     * // Align For Substation + move arm and elevator
-     * new DPadButton(driver_2, Direction.DOWN).whileTrue(new
-     * SequentialCommandGroup(new AlignForSubstation(m_robotDrive), new
-     * AutoElevator(elevatorsubsystem, 4),
-     * new AutoArm(armSubsystem, 4)));
-     * 
-     * // Move Arm and Elevator
-     * // BOTTOM ROW
-     * new JoystickButton(driver_2, XboxController.Button.kA.value)
-     * .whileTrue(new SequentialCommandGroup(new AutoElevator(elevatorsubsystem, 1),
-     * new AutoArm(armSubsystem, 1)));
-     * 
-     * // Move Arm and Elevator
-     // Middle ROW
-      */new JoystickButton(driver_main, XboxController.Button.kX.value)
-      .whileTrue(new SequentialCommandGroup(new AutoElevator(elevatorsubsystem, 2)
-      //new AutoArm(armSubsystem, 2)
-      ));
 
-     /* 
-     * // Move Arm and Elevator
-     * // HIGH ROW
-     * new JoystickButton(driver_2, XboxController.Button.kY.value)
-     * .whileTrue(new SequentialCommandGroup(new AutoElevator(elevatorsubsystem, 3),
-     * new AutoArm(armSubsystem, 3)));
-     * 
-     */ // Supply Gather (Cube or Cone)
-    new JoystickButton(driver_main, XboxController.Button.kLeftBumper.value)
-        .whileTrue(new SupplyGather(ledSubsystem));
-
-        new JoystickButton(driver_main, XboxController.Button.kB.value).whileTrue(new ResetRobot(armSubsystem, elevatorsubsystem, clawSubsystem));
-    // Reset robot
-    // new JoystickButton(driver_2, XboxController.Button.kRightBumper.value)
-    // .toggleOnTrue(new ResetRobot(armSubsystem, elevatorsubsystem,
-    // clawSubsystem));
+    // Claw For Cone
+    new JoystickButton(driver_main, XboxController.Button.kRightBumper.value)
+        .toggleOnTrue(new ClawSet(clawSubsystem, true));
   }
-
-  public static HashMap<String, Command> mainPathEvents = new HashMap<>();
 
   public static Command getAuto() {
     switch (autoChooser.getSelected()) {
@@ -161,15 +81,7 @@ public class RobotContainer {
         return null;
       case 2:
         // Flare Trajectory Example
-        List<PathPlannerTrajectory> examplePath = PathPlanner.loadPathGroup("Main Path", new PathConstraints(4, 3));
-
-        mainPathEvents.put("Start", new SequentialCommandGroup(new AutoElevator(elevatorsubsystem, 3),
-            new AutoArm(armSubsystem, 3)));
-        mainPathEvents.put("Pick", new ClawSet(clawSubsystem, false));
-        mainPathEvents.put("Put", new SequentialCommandGroup(new AutoElevator(elevatorsubsystem, 2),
-            new AutoArm(armSubsystem, 2)));
-
-        return new FlareTrajectory(m_robotDrive, examplePath, mainPathEvents);
+        return new FlareTrajectory(m_robotDrive, elevatorsubsystem, armSubsystem, clawSubsystem);
       case 3:
         return null;
       default:

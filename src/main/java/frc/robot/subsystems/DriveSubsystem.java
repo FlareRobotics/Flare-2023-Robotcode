@@ -1,5 +1,9 @@
 package frc.robot.subsystems;
 
+import java.util.Optional;
+
+import org.photonvision.EstimatedRobotPose;
+
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
@@ -11,6 +15,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.Pigeon2;
 
+import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
@@ -21,6 +26,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.PID.PidConstants;
 
@@ -32,6 +38,10 @@ public class DriveSubsystem extends SubsystemBase {
   public static WPI_TalonFX rightRearMotor = new WPI_TalonFX(Constants.DriveConstants.sagarka_falcon_port);
 
   public static DifferentialDrive m_drive = new DifferentialDrive(leftRearMotor, rightRearMotor);
+
+  private final DifferentialDrivePoseEstimator m_poseEstimator =
+            new DifferentialDrivePoseEstimator(
+                    AutoConstants.kDriveKinematics, Rotation2d.fromDegrees(getHeading()), 0.0, 0.0, new Pose2d());
 
   public static Pigeon2 m_gyro = new Pigeon2(0);
 
@@ -178,6 +188,18 @@ public class DriveSubsystem extends SubsystemBase {
         Rotation2d.fromDegrees(getHeading()),
         getLeftEncoderDistance(),
         getRightEncoderDistance());
+    
+    m_poseEstimator.update(Rotation2d.fromDegrees(getHeading()), getLeftEncoderDistance(), getRightEncoderDistance());
+
+    Optional<EstimatedRobotPose> result = FlareVisionSubsystem.getEstimatedGlobalPose(m_poseEstimator.getEstimatedPosition());
+
+    if (result.isPresent()) {
+      EstimatedRobotPose camPose = result.get();
+      m_poseEstimator.addVisionMeasurement(
+              camPose.estimatedPose.toPose2d(), camPose.timestampSeconds);
+    }
+
+    m_field.setRobotPose(m_poseEstimator.getEstimatedPosition());
 
     m_field.setRobotPose(
         m_odometry.getPoseMeters().getX(),

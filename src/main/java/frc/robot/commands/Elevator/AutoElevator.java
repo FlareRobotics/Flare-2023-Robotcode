@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class AutoElevator extends CommandBase {
   public int yukseklik;
   private boolean finished = false;
-  private double offsetLimit = 0.25d;
+  private double offsetLimit = 1000;
 
   public AutoElevator(ElevatorSubsystem elevatorSubsystem, int yukseklik) {
     this.yukseklik = yukseklik;
@@ -43,16 +43,16 @@ public class AutoElevator extends CommandBase {
     }
 
 
-
     goal = goal- ElevatorSubsystem.elevator_motor.getSelectedSensorPosition()  ;
     System.out.println(goal);
     ElevatorSubsystem.elevator_motor.set(ControlMode.MotionMagic, goal);
+
+    finished = Math.abs(ElevatorSubsystem.elevator_motor.getSelectedSensorPosition() - goal) <= offsetLimit;
   }
 
   @Override
   public void end(boolean interrupted) {
     ElevatorSubsystem.elevator_motor_set(0);
-    // System.out.println("AUTO Elevator End");
   }
 
   @Override
