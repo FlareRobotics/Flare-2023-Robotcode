@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class FlareVisionSubsystem extends SubsystemBase {
 
   public static PhotonCamera camera;
-  private PhotonPoseEstimator photonPoseEstimator;
+  private static PhotonPoseEstimator photonPoseEstimator;
 
   public FlareVisionSubsystem()
   {
@@ -40,7 +40,7 @@ public class FlareVisionSubsystem extends SubsystemBase {
   }
   }
 
-  public Optional<EstimatedRobotPose> getEstimatedGlobalPose(Pose2d prevEstimatedRobotPose) {
+  public static Optional<EstimatedRobotPose> getEstimatedGlobalPose(Pose2d prevEstimatedRobotPose) {
     if (photonPoseEstimator == null) {
         // The field layout failed to load, so we cannot estimate poses.
         return Optional.empty();
