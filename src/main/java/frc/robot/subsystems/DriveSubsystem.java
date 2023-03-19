@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import java.util.Optional;
 
 import org.photonvision.EstimatedRobotPose;
-
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
@@ -18,7 +17,6 @@ import com.ctre.phoenix.sensors.Pigeon2;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -50,14 +48,10 @@ public class DriveSubsystem extends SubsystemBase {
   TalonFXConfiguration _rightConfig = new TalonFXConfiguration();
 
   private NeutralMode defaultMode = NeutralMode.Coast;
-  private final DifferentialDriveOdometry m_odometry;
 
   private final Field2d m_field = new Field2d();
 
   public DriveSubsystem() {
-
-    m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()), getLeftEncoderDistance(),
-        getRightEncoderDistance(), new Pose2d(1.0, 1.0, new Rotation2d()));
     SmartDashboard.putData("Field", m_field);
 
     leftFrontMotor.setInverted(TalonFXInvertType.Clockwise);
@@ -183,12 +177,6 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // setDash();
-    m_odometry.update(
-        Rotation2d.fromDegrees(getHeading()),
-        getLeftEncoderDistance(),
-        getRightEncoderDistance());
-    
     m_poseEstimator.update(Rotation2d.fromDegrees(getHeading()), getLeftEncoderDistance(), getRightEncoderDistance());
 
     Optional<EstimatedRobotPose> result = FlareVisionSubsystem.getEstimatedGlobalPose(m_poseEstimator.getEstimatedPosition());
@@ -200,12 +188,6 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     m_field.setRobotPose(m_poseEstimator.getEstimatedPosition());
-
-    m_field.setRobotPose(
-        m_odometry.getPoseMeters().getX(),
-        -m_odometry.getPoseMeters().getY(),
-        new Rotation2d(Math.toRadians(-getHeading())));
-
   }
 
   public double get_encoder_distance() {
@@ -271,7 +253,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void resetOdometry(Pose2d pose) {
     resetEncoders();
-    m_odometry.resetPosition(Rotation2d.fromDegrees(getHeading()), getLeftEncoderDistance(), getRightEncoderDistance(),
+    m_poseEstimator.resetPosition(Rotation2d.fromDegrees(getHeading()), getLeftEncoderDistance(),
+        getRightEncoderDistance(),
         new Pose2d(5.0, 5.0, new Rotation2d()));
   }
 
@@ -375,7 +358,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public Pose2d getPose() {
-    return m_odometry.getPoseMeters();
+    return m_poseEstimator.getEstimatedPosition();
   }
 
   public double getHeading() {

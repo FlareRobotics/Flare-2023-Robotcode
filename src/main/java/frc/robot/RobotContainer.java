@@ -70,7 +70,7 @@ public class RobotContainer {
 
     // Claw For Cone
     new JoystickButton(driver_main, XboxController.Button.kRightBumper.value)
-        .toggleOnTrue(new ClawSet(clawSubsystem, true));
+        .toggleOnTrue(new ClawSet(clawSubsystem, currentState == RobotState.ConeWanted));
   }
 
   public static Command getAuto() {
