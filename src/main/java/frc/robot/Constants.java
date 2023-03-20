@@ -37,7 +37,7 @@ public final class Constants {
 
         public static double arm_distance_per_rotation = 4.5d;
 
-        public static double arm_forward_limit = 150;
+        public static double arm_forward_limit = 410000;
 
         // All in cm
         public static int bottom_row_distance = 10;
@@ -47,10 +47,8 @@ public final class Constants {
     }
 
     public static class ClawConstants {
-        public static int claw_solenoid1_port_ileri = 0;
-        public static int claw_solenoid1_port_geri = 1;
-        public static int claw_solenoid2_port_ileri = 2;
-        public static int claw_solenoid2_port_geri = 3;
+        public static int claw_solenoid1_port_ileri = 4;
+        public static int claw_solenoid1_port_geri = 5;
     }
 
     public static class DriveConstants {

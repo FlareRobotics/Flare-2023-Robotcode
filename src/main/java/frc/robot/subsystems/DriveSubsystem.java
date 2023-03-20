@@ -279,11 +279,11 @@ public class DriveSubsystem extends SubsystemBase {
 
   static double Deadband(double value) {
     /* Upper deadband */
-    if (value >= +0.25)
+    if (value >= +0.15)
       return value;
 
     /* Lower deadband */
-    if (value <= -0.25)
+    if (value <= -0.15)
       return value;
 
     /* Outside deadband */

@@ -82,6 +82,7 @@ public class ArmSubsystem extends SubsystemBase {
     /* Zero the sensor once on robot boot up */
     arm_motor.setSelectedSensorPosition(0, PidConstants.TurretConstants.kPIDLoopIdx,
         PidConstants.TurretConstants.kTimeoutMs);
+    arm_motor.setInverted(true);
 
     arm_motor.setNeutralMode(NeutralMode.Brake);
 
@@ -90,13 +91,13 @@ public class ArmSubsystem extends SubsystemBase {
     arm_motor.configForwardSoftLimitThreshold(Constants.ArmConstants.arm_forward_limit);
     arm_motor.configReverseSoftLimitThreshold(0);
 
-  //  arm_motor.configForwardSoftLimitEnable(true, 0);
-  //  arm_motor.configReverseSoftLimitEnable(true, 0);
+    arm_motor.configForwardSoftLimitEnable(true);
+    arm_motor.configReverseSoftLimitEnable(true);
   }
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Arm Distance", arm_uzunluk_cm());
+    SmartDashboard.putNumber("Arm Distance", arm_motor.getSelectedSensorPosition());
   }
 
   public void reset_encoder() {

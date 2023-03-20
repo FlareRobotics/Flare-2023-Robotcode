@@ -18,30 +18,27 @@ public class ClawSet extends CommandBase {
   @Override
   public void initialize() {
     System.out.println("Claw Set Start!");
-    if (cone){
-  RobotContainer.currentState = RobotState.ConePicked;
-    }else{
-      RobotContainer.currentState = RobotState.CubePicked;
-    }
   }
 
   @Override
   public void execute() {
-    if(cone){
+    if (cone) {
       ClawSubsystem.claw_close_cone();
-    }else{
+    } else {
       ClawSubsystem.claw_close_cube();
     }
 
-      
-    
   }
 
   @Override
   public void end(boolean interrupted) {
     System.out.println("ClawSet End!");
-    ClawSubsystem.claw_open();  
-    RobotContainer.currentState = RobotState.None;
+    ClawSubsystem.claw_open();
+    if (cone) {
+      RobotContainer.currentState = RobotState.ConePicked;
+    } else {
+      RobotContainer.currentState = RobotState.CubePicked;
+    }
   }
 
   @Override

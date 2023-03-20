@@ -1,8 +1,11 @@
 package frc.robot.commands.Elevator;
 
+import frc.robot.Constants;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.subsystems.ElevatorSubsystem;
-import com.ctre.phoenix.motorcontrol.ControlMode;
+
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class AutoElevator extends CommandBase {
@@ -17,7 +20,7 @@ public class AutoElevator extends CommandBase {
 
   @Override
   public void initialize() {
-    // System.out.println("AUTO Elevator Start");
+    System.out.println("AUTO Elevator Start");
   }
 
   @Override
@@ -43,15 +46,14 @@ public class AutoElevator extends CommandBase {
     }
 
 
-    goal = goal- ElevatorSubsystem.elevator_motor.getSelectedSensorPosition()  ;
-    System.out.println(goal);
-    ElevatorSubsystem.elevator_motor.set(ControlMode.MotionMagic, goal);
-
+    goal = goal - ElevatorSubsystem.elevator_motor.getSelectedSensorPosition();
+    ElevatorSubsystem.elevator_motor.set(TalonFXControlMode.MotionMagic, goal);
     finished = Math.abs(ElevatorSubsystem.elevator_motor.getSelectedSensorPosition() - goal) <= offsetLimit;
   }
 
   @Override
   public void end(boolean interrupted) {
+    System.out.println("Auto elevator end");
     ElevatorSubsystem.elevator_motor_set(0);
   }
 

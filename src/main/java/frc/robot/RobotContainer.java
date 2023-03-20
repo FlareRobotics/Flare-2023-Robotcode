@@ -7,11 +7,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Custom.RobotState;
+import frc.robot.Custom.SupplyGather;
 import frc.robot.commands.Arm.ManuelArm;
 import frc.robot.commands.Auto.FlareTrajectory;
 import frc.robot.commands.Claw.ClawSet;
 import frc.robot.commands.Claw.ToggleCompressor;
 import frc.robot.commands.Drive.JoystickDriveCommand;
+import frc.robot.commands.Elevator.AutoElevator;
 import frc.robot.commands.Elevator.ManuelElevator;
 import frc.robot.commands.Led.LedController;
 import frc.robot.subsystems.ArmSubsystem;
@@ -49,8 +51,8 @@ public class RobotContainer {
     m_robotDrive.setDefaultCommand(
         new ParallelCommandGroup(new JoystickDriveCommand(
             m_robotDrive,
-            () -> -driver_main.getLeftY(),
-            () -> driver_main.getRightX())));
+            () -> -driver_main.getLeftY()/1.5,
+            () -> -driver_main.getRightX()/2)));
   }
 
   private void configureButtonBindings() {
@@ -71,6 +73,12 @@ public class RobotContainer {
     // Claw For Cone
     new JoystickButton(driver_main, XboxController.Button.kRightBumper.value)
         .toggleOnTrue(new ClawSet(clawSubsystem, currentState == RobotState.ConeWanted));
+
+    // Wanted Status
+  
+    //new JoystickButton(driver_main, XboxController.Button.kLeftBumper.value).toggleOnTrue(new SupplyGather(ledSubsystem));
+  
+    new JoystickButton(driver_main, XboxController.Button.kLeftBumper.value).whileTrue(new AutoElevator(elevatorsubsystem, 2));
   }
 
   public static Command getAuto() {

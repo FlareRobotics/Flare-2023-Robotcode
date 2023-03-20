@@ -84,7 +84,7 @@ public class LedSubsystem extends SubsystemBase {
     public void yellow() {
         for (var i = 0; i < m_ledBuffer.getLength(); i++) {
 
-            m_ledBuffer.setRGB(i, 255, 255, 0);
+            m_ledBuffer.setRGB(i, 246, 190, 0);
 
         }
 
