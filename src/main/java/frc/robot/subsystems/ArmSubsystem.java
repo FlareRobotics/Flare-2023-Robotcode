@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
@@ -117,5 +118,11 @@ public class ArmSubsystem extends SubsystemBase {
   // cm to Units
   public static int arm_uzunluk_units(int cm) {
     return (int) (2048 * ArmConstants.arm_gear_ratio * cm / ArmConstants.arm_distance_per_rotation);
+  }
+
+  public static void reset_arm_to_safe(){
+    if(arm_motor.getSelectedSensorPosition()<0){
+        arm_motor.set(TalonFXControlMode.MotionMagic,Math.abs(arm_motor.getSelectedSensorPosition()));
+    }
   }
 }

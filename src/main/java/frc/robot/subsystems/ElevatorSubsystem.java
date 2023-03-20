@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
@@ -117,4 +118,10 @@ public class ElevatorSubsystem extends SubsystemBase {
                 return (int) (2048 * ElevatorConstants.elevator_gear_ratio * cm
                                 / ElevatorConstants.elevator_distance_per_rotation);
         }
+
+        public static void reset_elevator_to_safe(){
+                if(elevator_motor.getSelectedSensorPosition()<0){
+                        elevator_motor.set(TalonFXControlMode.MotionMagic,Math.abs(elevator_motor.getSelectedSensorPosition()));
+                }
+}
 }
