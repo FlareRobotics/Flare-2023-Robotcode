@@ -16,10 +16,9 @@ public final class Constants {
         public static double elevator_forward_limit = 510000;
 
         // All in cm
-        public static int bottom_row_height = 15;
-        public static int middle_row_height = 150000;
-        public static int top_row_height = 117;
-        public static int substation_height = 95;
+        public static int middle_row_height_cube = 315000;
+        public static int middle_row_height = 485000;
+
     }
 
     public static class AlignConstants {
@@ -40,10 +39,7 @@ public final class Constants {
         public static double arm_forward_limit = 410000;
 
         // All in cm
-        public static int bottom_row_distance = 10;
-        public static int middle_row_distance = 60;
-        public static int top_row_distance = 103;
-        public static int substation_distance = 17;
+        public static int middle_row_distance = 228000;
     }
 
     public static class ClawConstants {

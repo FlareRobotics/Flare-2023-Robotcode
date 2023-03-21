@@ -10,26 +10,21 @@ public class ClawSet extends CommandBase {
 
   public ClawSet(ClawSubsystem subsystem, boolean cone) {
     this.cone = cone;
-    RobotContainer.clawOpen = !RobotContainer.clawOpen;
-
     addRequirements(subsystem);
   }
 
   @Override
   public void initialize() {
     System.out.println("Claw Set Start!");
+    RobotContainer.clawOpen = !RobotContainer.clawOpen;
+    RobotContainer.currentState = RobotState.None;
   }
 
   @Override
   public void execute() {
-    if (cone) {
-      ClawSubsystem.claw_close_cone();
-    } else {
-      ClawSubsystem.claw_close_cube();
-    }
-
+      ClawSubsystem.claw_close();
+  
   }
-
   @Override
   public void end(boolean interrupted) {
     System.out.println("ClawSet End!");

@@ -5,10 +5,10 @@ import frc.robot.subsystems.ClawSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class ResetRobot extends CommandBase {
+public class ResetElevator extends CommandBase {
     private boolean isReseted = false;
 
-    public ResetRobot(ArmSubsystem armSubsystem, ElevatorSubsystem elevatorSubsystem, ClawSubsystem clawSubsystem) {
+    public ResetElevator(ArmSubsystem armSubsystem, ElevatorSubsystem elevatorSubsystem, ClawSubsystem clawSubsystem) {
         addRequirements(armSubsystem, elevatorSubsystem, clawSubsystem);
     }
 
@@ -20,7 +20,6 @@ public class ResetRobot extends CommandBase {
     @Override
     public void execute() {
         ElevatorSubsystem.elevator_motor.setSelectedSensorPosition(0);
-        ArmSubsystem.arm_motor.setSelectedSensorPosition(0);
     }
 
     @Override

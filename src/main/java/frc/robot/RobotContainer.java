@@ -6,8 +6,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Custom.ResetRobot;
 import frc.robot.Custom.RobotState;
 import frc.robot.Custom.SupplyGather;
+import frc.robot.commands.Arm.AutoArm;
 import frc.robot.commands.Arm.ManuelArm;
 import frc.robot.commands.Auto.FlareTrajectory;
 import frc.robot.commands.Claw.ClawSet;
@@ -25,8 +27,8 @@ import frc.robot.subsystems.LedSubsystem;
 //8054 <3
 public class RobotContainer {
 
-  public static XboxController driver_main = new XboxController(0);
-  public static XboxController driver_2 = new XboxController(1);
+  public static XboxController driver_main = new XboxController(1);
+  public static XboxController driver_2 = new XboxController(2);
   private static final ElevatorSubsystem elevatorsubsystem = new ElevatorSubsystem();
   private static final ClawSubsystem clawSubsystem = new ClawSubsystem();
   private static final ArmSubsystem armSubsystem = new ArmSubsystem();
@@ -35,7 +37,7 @@ public class RobotContainer {
 
   public static SendableChooser<Integer> autoChooser = new SendableChooser<>();
 
-  public static boolean clawOpen = false;
+  public static boolean clawOpen = true;
   public static RobotState currentState = RobotState.None;
   public static boolean wantedCone = false;
 
@@ -57,9 +59,9 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     // Manuel Elevator
-    new JoystickButton(driver_main, XboxController.Button.kA.value)
+    new JoystickButton(driver_2, 8)
         .whileTrue(new ManuelElevator(elevatorsubsystem, true));
-    new JoystickButton(driver_main, XboxController.Button.kY.value)
+    new JoystickButton(driver_2, 7)
         .whileTrue(new ManuelElevator(elevatorsubsystem, false));
 
     // Manuel Arm
@@ -76,9 +78,15 @@ public class RobotContainer {
 
     // Wanted Status
   
-    //new JoystickButton(driver_main, XboxController.Button.kLeftBumper.value).toggleOnTrue(new SupplyGather(ledSubsystem));
+    new JoystickButton(driver_2, 5).toggleOnTrue(new SupplyGather(ledSubsystem));
+
+    new JoystickButton(driver_2, 9).toggleOnTrue(new ResetRobot(armSubsystem, elevatorsubsystem, clawSubsystem));
+
+    new JoystickButton(driver_2,3).whileTrue(new AutoElevator(elevatorsubsystem, -1));
+
+    new JoystickButton(driver_2, 2).whileTrue(new AutoElevator(elevatorsubsystem, 1));
   
-    new JoystickButton(driver_main, XboxController.Button.kLeftBumper.value).whileTrue(new AutoElevator(elevatorsubsystem, 2));
+    new JoystickButton(driver_2, 1).whileTrue(new AutoElevator(elevatorsubsystem, 2));
   }
 
   public static Command getAuto() {

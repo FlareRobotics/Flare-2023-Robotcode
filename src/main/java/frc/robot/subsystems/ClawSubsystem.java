@@ -30,11 +30,9 @@ public class ClawSubsystem extends SubsystemBase {
     claw_solenoid1.set(Value.kForward);
   }
 
-  public static void claw_close_cone() {
+  public static void claw_close() {
     claw_solenoid1.set(Value.kReverse);
   }
-  public static void claw_close_cube() {
-    claw_solenoid1.set(Value.kReverse);
-  }
+
 
 }

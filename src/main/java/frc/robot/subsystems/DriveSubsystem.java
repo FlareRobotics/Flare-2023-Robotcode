@@ -41,7 +41,7 @@ public class DriveSubsystem extends SubsystemBase {
             new DifferentialDrivePoseEstimator(
                     AutoConstants.kDriveKinematics, Rotation2d.fromDegrees(getHeading()), 0.0, 0.0, new Pose2d());
 
-  public static Pigeon2 m_gyro = new Pigeon2(0);
+  public static Pigeon2 m_gyro = new Pigeon2(7);
 
   /** Config Objects for motor controllers */
   TalonFXConfiguration _leftConfig = new TalonFXConfiguration();

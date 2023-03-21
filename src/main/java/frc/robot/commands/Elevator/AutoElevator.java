@@ -2,6 +2,7 @@ package frc.robot.commands.Elevator;
 
 
 import frc.robot.Constants.ElevatorConstants;
+import frc.robot.PID.PidConstants;
 import frc.robot.subsystems.ElevatorSubsystem;
 
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
@@ -11,7 +12,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class AutoElevator extends CommandBase {
   public int yukseklik;
   private boolean finished = false;
-  private double offsetLimit = 1000;
+  private double offsetLimit = 500;
+  private double goal = 0;
 
   public AutoElevator(ElevatorSubsystem elevatorSubsystem, int yukseklik) {
     this.yukseklik = yukseklik;
@@ -21,32 +23,33 @@ public class AutoElevator extends CommandBase {
   @Override
   public void initialize() {
     System.out.println("AUTO Elevator Start");
-  }
-
-  @Override
-  public void execute() {
-    double goal = 0;
     switch (yukseklik) {
+      case -1:
+      goal = 0;
+      break;
       // Alt
       case 1:
-        goal = ElevatorConstants.bottom_row_height;
+        goal = ElevatorConstants.middle_row_height_cube;
         break;
       // Orta
       case 2:
         goal = ElevatorConstants.middle_row_height;
         break;
-      // Üst
-      case 3:
-        goal = ElevatorConstants.top_row_height;
-        break;
-      // Üst
-      case 4:
-        goal = ElevatorConstants.substation_height;
-      break;
     }
+  }
 
-
-    goal = goal - ElevatorSubsystem.elevator_motor.getSelectedSensorPosition();
+  @Override
+  public void execute() {
+    if(goal > ElevatorSubsystem.elevator_motor.getSelectedSensorPosition())
+    {
+      ElevatorSubsystem.elevator_motor.configMotionCruiseVelocity(15000, PidConstants.TurretConstants.kTimeoutMs);
+      ElevatorSubsystem.elevator_motor.configMotionAcceleration(18000, PidConstants.TurretConstants.kTimeoutMs);
+    }
+    else
+    {
+      ElevatorSubsystem.elevator_motor.configMotionCruiseVelocity(7500, PidConstants.TurretConstants.kTimeoutMs);
+      ElevatorSubsystem.elevator_motor.configMotionAcceleration(15000, PidConstants.TurretConstants.kTimeoutMs);
+    }
     ElevatorSubsystem.elevator_motor.set(TalonFXControlMode.MotionMagic, goal);
     finished = Math.abs(ElevatorSubsystem.elevator_motor.getSelectedSensorPosition() - goal) <= offsetLimit;
   }

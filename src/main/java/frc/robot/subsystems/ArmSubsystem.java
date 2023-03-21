@@ -85,15 +85,15 @@ public class ArmSubsystem extends SubsystemBase {
         PidConstants.TurretConstants.kTimeoutMs);
     arm_motor.setInverted(true);
 
-    arm_motor.setNeutralMode(NeutralMode.Brake);
+    arm_motor.setNeutralMode(NeutralMode.Coast);
 
     arm_motor.configMotionSCurveStrength(25);
 
     arm_motor.configForwardSoftLimitThreshold(Constants.ArmConstants.arm_forward_limit);
     arm_motor.configReverseSoftLimitThreshold(0);
 
-    arm_motor.configForwardSoftLimitEnable(true);
-    arm_motor.configReverseSoftLimitEnable(true);
+    // arm_motor.configForwardSoftLimitEnable(true);
+    // arm_motor.configReverseSoftLimitEnable(true);
   }
 
   @Override
