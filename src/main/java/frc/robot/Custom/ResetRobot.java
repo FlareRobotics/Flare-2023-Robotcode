@@ -2,6 +2,7 @@ package frc.robot.Custom;
 
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClawSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -21,6 +22,7 @@ public class ResetRobot extends CommandBase {
     public void execute() {
         ElevatorSubsystem.elevator_motor.setSelectedSensorPosition(0);
         ArmSubsystem.arm_motor.setSelectedSensorPosition(0);
+        DriveSubsystem.zeroSensors();
     }
 
     @Override

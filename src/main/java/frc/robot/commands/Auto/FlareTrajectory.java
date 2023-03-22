@@ -43,7 +43,7 @@ public class FlareTrajectory extends CommandBase {
 
         mainPathEvents.put("Start", new SequentialCommandGroup(new AutoElevator(elevatorsubsystem, 3),
             new AutoArm(armSubsystem, 3)));
-        mainPathEvents.put("Pick", new ClawSet(clawSubsystem, false));
+        mainPathEvents.put("Pick", new ClawSet(clawSubsystem));
         mainPathEvents.put("Put", new SequentialCommandGroup(new AutoElevator(elevatorsubsystem, 2),
             new AutoArm(armSubsystem, 2)));
         RamseteAutoBuilder autoBuilder = new RamseteAutoBuilder(

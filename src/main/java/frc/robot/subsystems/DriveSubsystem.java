@@ -47,7 +47,7 @@ public class DriveSubsystem extends SubsystemBase {
   TalonFXConfiguration _leftConfig = new TalonFXConfiguration();
   TalonFXConfiguration _rightConfig = new TalonFXConfiguration();
 
-  private NeutralMode defaultMode = NeutralMode.Coast;
+  private NeutralMode defaultMode = NeutralMode.Brake;
 
   private final Field2d m_field = new Field2d();
 
@@ -138,41 +138,44 @@ public class DriveSubsystem extends SubsystemBase {
     _rightConfig.slot3.closedLoopPeriod = closedLoopTimeMs;
 
     /* Motion Magic Configs */
-    _rightConfig.motionAcceleration = 2000; // (distance units per 100 ms) per second
-    _rightConfig.motionCruiseVelocity = 2000; // distance units per 100 ms
+    _rightConfig.motionAcceleration = 5000; // (distance units per 100 ms) per second
+    _rightConfig.motionCruiseVelocity = 3000; // distance units per 100 ms
 
     /* APPLY the config settings */
-    leftRearMotor.configAllSettings(_leftConfig);
+
+    leftRearMotor.configAllSettings(_rightConfig);
     rightRearMotor.configAllSettings(_rightConfig);
 
     /* Set status frame periods to ensure we don't have stale data */
     rightRearMotor.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 20, Constants.kTimeoutMs);
     rightRearMotor.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 20, Constants.kTimeoutMs);
-    leftRearMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 5, Constants.kTimeoutMs);
-
+    leftRearMotor.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 20, Constants.kTimeoutMs);
+    leftRearMotor.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 20, Constants.kTimeoutMs);
     /* Initialize */
     rightRearMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_10_Targets, 10);
     rightRearMotor.configMotionSCurveStrength(0);
     rightRearMotor.selectProfileSlot(PidConstants.DriveConstants.kSlot_Distanc,
         PidConstants.DriveConstants.PID_PRIMARY);
+    leftRearMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_10_Targets, 10);
+    leftRearMotor.configMotionSCurveStrength(0);
+    leftRearMotor.selectProfileSlot(PidConstants.DriveConstants.kSlot_Distanc,
+        PidConstants.DriveConstants.PID_PRIMARY);
     zeroSensors();
 
-    // setDash();
+    setDash();
 
   }
 
   void setDash() {
-    SmartDashboard.putNumber("Encoder Distance M", getAverageEncoderDistance());
     SmartDashboard.putNumber("Pigeon Yaw", m_gyro.getYaw());
     SmartDashboard.putNumber("Pigeon Heading", getHeading());
     SmartDashboard.putData(m_field);
   }
 
-  void zeroSensors() {
+  public static void zeroSensors() {
     leftRearMotor.getSensorCollection().setIntegratedSensorPosition(0, Constants.kTimeoutMs);
     rightRearMotor.getSensorCollection().setIntegratedSensorPosition(0, Constants.kTimeoutMs);
     m_gyro.setYaw(0);
-   
   }
 
   @Override
@@ -188,6 +191,9 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     m_field.setRobotPose(m_poseEstimator.getEstimatedPosition());
+
+    SmartDashboard.putNumber("Meters Encoder", getAverageEncoderDistance());
+    setDash();
   }
 
   public double get_encoder_distance() {
@@ -205,15 +211,11 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public static double getRightEncoderDistance() {
-    return rightRearMotor.getSelectedSensorPosition()
-        * (Constants.DriveConstants.drive_disli_orani / Constants.DriveConstants.kEncoderCPR)
-        * (Math.PI * Constants.DriveConstants.kWheelDiameterMeters);
+    return rightRearMotor.getSelectedSensorPosition() * 47.85d / DriveConstants.drive_disli_orani / 2048;
   }
 
   public static double getLeftEncoderDistance() {
-    return leftRearMotor.getSelectedSensorPosition()
-        * (Constants.DriveConstants.drive_disli_orani / Constants.DriveConstants.kEncoderCPR)
-        * (-Math.PI * Constants.DriveConstants.kWheelDiameterMeters);
+    return leftRearMotor.getSelectedSensorPosition() * 47.85d / DriveConstants.drive_disli_orani / 2048;
   }
 
   public static double getAverageEncoderDistance() {
@@ -265,15 +267,17 @@ public class DriveSubsystem extends SubsystemBase {
     m_drive.arcadeDrive(fwd, rot);
   }
 
-  public static void pidDrive(double forward, double turn) {
+  public static void pidDrive(double forward) {
     forward = Deadband(forward);
-    turn = Deadband(turn);
-
-    double target_sensorUnits = forward * PidConstants.DriveConstants.kSensorUnitsPerRotation
-        * PidConstants.DriveConstants.kRotationsToTravel;
+    double target_sensorUnits = (forward / 47.85d) * 2048 * DriveConstants.drive_disli_orani;
 
     rightRearMotor.set(TalonFXControlMode.MotionMagic, target_sensorUnits);
-    leftRearMotor.set(TalonFXControlMode.MotionMagic, target_sensorUnits);
+    leftRearMotor.set(TalonFXControlMode.Follower, 3);
+  }
+
+  public static void turnDegrees(double degree)
+  {
+    arcadeDrive(0, degree > 0 ? 0.3d : -0.3d);
   }
 
   static double Deadband(double value) {
@@ -346,13 +350,13 @@ public class DriveSubsystem extends SubsystemBase {
   public static boolean turn_angles(double angle, double startangle, Boolean sag) {
     if (sag) {
       if (m_gyro.getYaw() < startangle + angle) {
-        pidDrive(0, 0.5);
+        arcadeDrive(0, 0.5);
       } else {
         return true;
       }
     } else {
       if (m_gyro.getYaw() > startangle + angle) {
-        pidDrive(0, -0.5);
+        arcadeDrive(0, -0.5);
       } else {
         return true;
       }

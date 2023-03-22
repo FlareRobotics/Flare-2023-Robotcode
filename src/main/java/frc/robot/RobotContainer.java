@@ -9,12 +9,13 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Custom.ResetRobot;
 import frc.robot.Custom.RobotState;
 import frc.robot.Custom.SupplyGather;
-import frc.robot.commands.Arm.AutoArm;
 import frc.robot.commands.Arm.ManuelArm;
 import frc.robot.commands.Auto.FlareTrajectory;
 import frc.robot.commands.Claw.ClawSet;
 import frc.robot.commands.Claw.ToggleCompressor;
+import frc.robot.commands.Drive.DriveMeters;
 import frc.robot.commands.Drive.JoystickDriveCommand;
+import frc.robot.commands.Drive.TurnDegrees;
 import frc.robot.commands.Elevator.AutoElevator;
 import frc.robot.commands.Elevator.ManuelElevator;
 import frc.robot.commands.Led.LedController;
@@ -74,18 +75,22 @@ public class RobotContainer {
 
     // Claw For Cone
     new JoystickButton(driver_main, XboxController.Button.kRightBumper.value)
-        .toggleOnTrue(new ClawSet(clawSubsystem, currentState == RobotState.ConeWanted));
+        .toggleOnTrue(new ClawSet(clawSubsystem));
+
+    new JoystickButton(driver_main, XboxController.Button.kLeftBumper.value)
+        .whileTrue(new TurnDegrees(m_robotDrive, 90));
 
     // Wanted Status
-  
     new JoystickButton(driver_2, 5).toggleOnTrue(new SupplyGather(ledSubsystem));
 
-    new JoystickButton(driver_2, 9).toggleOnTrue(new ResetRobot(armSubsystem, elevatorsubsystem, clawSubsystem));
+    new JoystickButton(driver_2, 9).whileTrue(new ResetRobot(armSubsystem, elevatorsubsystem, clawSubsystem));
 
     new JoystickButton(driver_2,3).whileTrue(new AutoElevator(elevatorsubsystem, -1));
 
-    new JoystickButton(driver_2, 2).whileTrue(new AutoElevator(elevatorsubsystem, 1));
+    new JoystickButton(driver_2,4).whileTrue(new DriveMeters(m_robotDrive, 100));
   
+    new JoystickButton(driver_2, 2).whileTrue(new AutoElevator(elevatorsubsystem, 1));
+
     new JoystickButton(driver_2, 1).whileTrue(new AutoElevator(elevatorsubsystem, 2));
   }
 

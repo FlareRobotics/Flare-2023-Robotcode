@@ -7,17 +7,23 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ClawSet extends CommandBase {
   private boolean cone;
+  public static RobotState lastState = RobotState.None;
 
-  public ClawSet(ClawSubsystem subsystem, boolean cone) {
-    this.cone = cone;
+  public ClawSet(ClawSubsystem subsystem) {
     addRequirements(subsystem);
   }
 
   @Override
   public void initialize() {
     System.out.println("Claw Set Start!");
+    this.cone = RobotContainer.currentState == RobotState.ConeWanted;
     RobotContainer.clawOpen = !RobotContainer.clawOpen;
-    RobotContainer.currentState = RobotState.None;
+
+    if(RobotContainer.currentState == RobotState.ConeWanted || RobotContainer.currentState == RobotState.CubeWanted)
+    {
+      lastState = RobotContainer.currentState;
+    }
+    RobotContainer.currentState = lastState;
   }
 
   @Override

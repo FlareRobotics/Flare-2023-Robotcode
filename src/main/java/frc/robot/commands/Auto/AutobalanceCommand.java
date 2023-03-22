@@ -21,13 +21,13 @@ public class AutobalanceCommand extends CommandBase {
   public void execute() {
     if (DriveSubsystem.m_gyro.getPitch() > 0 + AutoConstants.pitch_tolerance) {
       RobotContainer.currentState = RobotState.NotBalanced;
-      DriveSubsystem.pidDrive(0.2, 0);
+      DriveSubsystem.arcadeDrive(0.2, 0);
     } else if (DriveSubsystem.m_gyro.getPitch() < (0 - AutoConstants.pitch_tolerance)) {
       RobotContainer.currentState = RobotState.NotBalanced;
-      DriveSubsystem.pidDrive(-0.2, 0);
+      DriveSubsystem.arcadeDrive(-0.2, 0);
     } else {
       RobotContainer.currentState = RobotState.Balanced;
-      DriveSubsystem.pidDrive(0, 0);
+      DriveSubsystem.arcadeDrive(0, 0);
     }
   }
 

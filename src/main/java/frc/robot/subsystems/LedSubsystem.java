@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.LedConstans;
+import frc.robot.commands.Claw.ClawSet;
 
 public class LedSubsystem extends SubsystemBase {
 
@@ -38,6 +39,7 @@ public class LedSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         SmartDashboard.putString("RobotState", RobotContainer.currentState.toString());
+        SmartDashboard.putString("LastState", ClawSet.lastState.toString());
 
     }
 
