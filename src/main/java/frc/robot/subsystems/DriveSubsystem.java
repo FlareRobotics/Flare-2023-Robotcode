@@ -47,7 +47,7 @@ public class DriveSubsystem extends SubsystemBase {
   TalonFXConfiguration _leftConfig = new TalonFXConfiguration();
   TalonFXConfiguration _rightConfig = new TalonFXConfiguration();
 
-  private NeutralMode defaultMode = NeutralMode.Brake;
+  private NeutralMode defaultMode = NeutralMode.Coast;
 
   private final Field2d m_field = new Field2d();
 
@@ -168,6 +168,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   void setDash() {
     SmartDashboard.putNumber("Pigeon Yaw", m_gyro.getYaw());
+    SmartDashboard.putNumber("Pigeon Pitch", m_gyro.getPitch());
     SmartDashboard.putNumber("Pigeon Heading", getHeading());
     SmartDashboard.putData(m_field);
   }
