@@ -1,8 +1,5 @@
 package frc.robot.subsystems;
 
-import java.util.Optional;
-
-import org.photonvision.EstimatedRobotPose;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
@@ -14,17 +11,12 @@ import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.Pigeon2;
 
-import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.PID.PidConstants;
 
@@ -37,11 +29,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   public static DifferentialDrive m_drive = new DifferentialDrive(leftRearMotor, rightRearMotor);
 
-  private final DifferentialDrivePoseEstimator m_poseEstimator =
-            new DifferentialDrivePoseEstimator(
-                    AutoConstants.kDriveKinematics, Rotation2d.fromDegrees(getHeading()), 0.0, 0.0, new Pose2d());
-
-  public static Pigeon2 m_gyro = new Pigeon2(7);
+ 
+  public static Pigeon2 m_gyro = new Pigeon2(Constants.DriveConstants.pigeon_port);
 
   /** Config Objects for motor controllers */
   TalonFXConfiguration _leftConfig = new TalonFXConfiguration();
@@ -49,11 +38,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   private NeutralMode defaultMode = NeutralMode.Coast;
 
-  private final Field2d m_field = new Field2d();
-
   public DriveSubsystem() {
-    SmartDashboard.putData("Field", m_field);
-
+  
     leftFrontMotor.setInverted(TalonFXInvertType.Clockwise);
     leftRearMotor.setInverted(TalonFXInvertType.Clockwise);
     rightFrontMotor.setInverted(TalonFXInvertType.CounterClockwise);
@@ -167,10 +153,12 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   void setDash() {
+
     SmartDashboard.putNumber("Pigeon Yaw", m_gyro.getYaw());
     SmartDashboard.putNumber("Pigeon Pitch", m_gyro.getPitch());
     SmartDashboard.putNumber("Pigeon Heading", getHeading());
-    SmartDashboard.putData(m_field);
+    SmartDashboard.putNumber("Meters Encoder", getAverageEncoderDistance());
+    
   }
 
   public static void zeroSensors() {
@@ -181,19 +169,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    m_poseEstimator.update(Rotation2d.fromDegrees(getHeading()), getLeftEncoderDistance(), getRightEncoderDistance());
-
-    Optional<EstimatedRobotPose> result = FlareVisionSubsystem.getEstimatedGlobalPose(m_poseEstimator.getEstimatedPosition());
-
-    if (result.isPresent()) {
-      EstimatedRobotPose camPose = result.get();
-      m_poseEstimator.addVisionMeasurement(
-              camPose.estimatedPose.toPose2d(), camPose.timestampSeconds);
-    }
-
-    m_field.setRobotPose(m_poseEstimator.getEstimatedPosition());
-
-    SmartDashboard.putNumber("Meters Encoder", getAverageEncoderDistance());
+    
     setDash();
   }
 
@@ -252,13 +228,6 @@ public class DriveSubsystem extends SubsystemBase {
             leftRearMotor.getSelectedSensorVelocity() *
             (1.0 / DriveConstants.kEncoderCPR) *
             (-Math.PI * DriveConstants.kWheelDiameterMeters));
-  }
-
-  public void resetOdometry(Pose2d pose) {
-    resetEncoders();
-    m_poseEstimator.resetPosition(Rotation2d.fromDegrees(getHeading()), getLeftEncoderDistance(),
-        getRightEncoderDistance(),
-        new Pose2d(5.0, 5.0, new Rotation2d()));
   }
 
   public static void arcadeDrive(double fwd, double rot) {
@@ -330,10 +299,6 @@ public class DriveSubsystem extends SubsystemBase {
   public void zeroHeading() {
     m_gyro.setYaw(0);
 
-  }
-
-  public Pose2d getPose() {
-    return m_poseEstimator.getEstimatedPosition();
   }
 
   public double getHeading() {

@@ -53,6 +53,8 @@ public final class Constants {
         public static int solon_falcon_port = 9;
         public static int solarka_falcon_port = 8;
 
+        public static final int pigeon_port = 7;
+
         public static double drive_disli_orani = (34 / 18 * 5);
 
         public static int kEncoderCPR = 2048;
@@ -65,9 +67,6 @@ public final class Constants {
         public static final String Camera_Name = "Camera";
     }
 
-    public static final class PigeonConstants {
-        public static final int pigeon_port = 0;
-    }
 
     public static final class LedConstans {
         public static final int led_port_sag = 9;

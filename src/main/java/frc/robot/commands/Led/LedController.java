@@ -49,7 +49,8 @@ public class LedController extends CommandBase {
       case Balanced:
         ledSubsystem.green();
         break;
-
+      case LedCLose:
+      ledSubsystem.close();
       default:
         break;
     }

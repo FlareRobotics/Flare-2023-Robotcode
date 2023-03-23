@@ -1,20 +1,18 @@
-package frc.robot.commands.Drive;
+package frc.robot.commands.Auto;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 
-public class DriveMeters extends CommandBase {
+public class Drive_PitchControl extends CommandBase {
 
-  /** Creates a new JoystickDriveCommand. */
+  
   private final DriveSubsystem m_drive;
 
-  private final double cm;
+  private boolean yon;
 
-  public DriveMeters(
-      DriveSubsystem drive,
-      double meters) {
+  public Drive_PitchControl(DriveSubsystem drive, boolean yon){
     m_drive = drive;
-    cm = meters;
+    this.yon = yon;
     addRequirements(m_drive);
   }
 
@@ -24,7 +22,7 @@ public class DriveMeters extends CommandBase {
 
   @Override
   public void execute() {
-    DriveSubsystem.arcadeDrive(cm > 0 ? 0.5d : -0.5d, 0);
+    DriveSubsystem.arcadeDrive(yon ? 0.3d : -0.3d,0);
   }
 
   @Override
@@ -34,6 +32,6 @@ public class DriveMeters extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return DriveSubsystem.getAverageEncoderDistance() > cm - 6.25d;
+    return DriveSubsystem.m_gyro.getPitch() > 1;
   }
 }

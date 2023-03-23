@@ -7,5 +7,6 @@ public enum RobotState {
     CubeWanted,
     ConeWanted,
     Balanced,
-    NotBalanced
+    NotBalanced,
+    LedCLose
 }

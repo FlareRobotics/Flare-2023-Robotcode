@@ -2,17 +2,11 @@ package frc.robot.commands.Arm;
 
 
 import frc.robot.Constants.ArmConstants;
-import frc.robot.PID.PidConstants;
 import frc.robot.subsystems.ArmSubsystem;
-
-import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class AutoArm extends CommandBase {
   public int yukseklik;
-  private boolean finished = false;
-  private double offsetLimit = 500;
   private double goal = 0;
 
   public AutoArm(ArmSubsystem armSubsystem, int yukseklik) {
@@ -36,18 +30,7 @@ public class AutoArm extends CommandBase {
 
   @Override
   public void execute() {
-    if(goal < ArmSubsystem.arm_motor.getSelectedSensorPosition())
-    {
-      ArmSubsystem.arm_motor.configMotionCruiseVelocity(15000, PidConstants.TurretConstants.kTimeoutMs);
-      ArmSubsystem.arm_motor.configMotionAcceleration(18000, PidConstants.TurretConstants.kTimeoutMs);
-    }
-    else
-    {
-      ArmSubsystem.arm_motor.configMotionCruiseVelocity(7500, PidConstants.TurretConstants.kTimeoutMs);
-      ArmSubsystem.arm_motor.configMotionAcceleration(15000, PidConstants.TurretConstants.kTimeoutMs);
-    }
-    ArmSubsystem.arm_motor.set(TalonFXControlMode.MotionMagic, goal);
-    finished = Math.abs(ArmSubsystem.arm_motor.getSelectedSensorPosition() - goal) <= offsetLimit;
+    ArmSubsystem.arm_motor.set(ArmConstants.arm_speed);
   }
 
   @Override
@@ -58,6 +41,6 @@ public class AutoArm extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return finished;
+    return ArmSubsystem.arm_motor.getSelectedSensorPosition() > goal;
   }
 }
