@@ -36,7 +36,7 @@ public class DriveSubsystem extends SubsystemBase {
   TalonFXConfiguration _leftConfig = new TalonFXConfiguration();
   TalonFXConfiguration _rightConfig = new TalonFXConfiguration();
 
-  private NeutralMode defaultMode = NeutralMode.Coast;
+  private NeutralMode defaultMode = NeutralMode.Brake;
 
   public DriveSubsystem() {
   
@@ -196,7 +196,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public static double getAverageEncoderDistance() {
-    return (getRightEncoderDistance() + getLeftEncoderDistance()) / (2.0);
+    return (getRightEncoderDistance() + getLeftEncoderDistance()) / (2.0) * 1.5d;
   }
 
   public void tankDriveVolts(double leftVolts, double rightVolts) {
@@ -247,7 +247,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   public static void turnDegrees(double degree)
   {
-    arcadeDrive(0, degree > 0 ? 0.3d : -0.3d);
+    arcadeDrive(0, degree < 0 ? 0.3d : -0.3d);
   }
 
   static double Deadband(double value) {

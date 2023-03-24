@@ -35,6 +35,15 @@ public class AutoElevator extends CommandBase {
       case 2:
         goal = ElevatorConstants.middle_row_height;
         break;
+      case 3:
+        goal = ElevatorConstants.middle_row_height - 110000;
+        break;
+      case 4:
+        goal = -26000;
+        break;
+      case 5:
+        goal = 45000;
+        break;
     }
   }
 

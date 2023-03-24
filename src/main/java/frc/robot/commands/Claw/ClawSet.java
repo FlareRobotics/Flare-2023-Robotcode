@@ -16,7 +16,8 @@ public class ClawSet extends CommandBase {
   @Override
   public void initialize() {
     System.out.println("Claw Set Start!");
-    this.cone = RobotContainer.currentState == RobotState.ConeWanted;
+    if(RobotContainer.currentState == RobotState.ConeWanted) cone = true;
+    else cone = false;
     RobotContainer.clawOpen = !RobotContainer.clawOpen;
 
     if(RobotContainer.currentState == RobotState.ConeWanted || RobotContainer.currentState == RobotState.CubeWanted)

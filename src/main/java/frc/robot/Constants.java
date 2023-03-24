@@ -40,6 +40,7 @@ public final class Constants {
 
         // All in cm
         public static int middle_row_distance = 228000;
+        public static int middle_row_distance_Cone = 300000;
     }
 
     public static class ClawConstants {

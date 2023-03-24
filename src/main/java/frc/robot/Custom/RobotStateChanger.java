@@ -14,7 +14,7 @@ public class RobotStateChanger extends CommandBase {
 
     @Override
     public void initialize() {
-        //System.out.println("Robot State Changer START");
+        System.out.println("Robot State Changer START");
         
         switch(istenen_state){
             case 0:
