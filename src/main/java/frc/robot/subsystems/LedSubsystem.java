@@ -1,7 +1,5 @@
 package frc.robot.subsystems;
 
-
-
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -173,8 +171,9 @@ public class LedSubsystem extends SubsystemBase {
         purplePulseBrightness %= 128;
 
         m_led.setData(m_ledBuffer);
-}
-    public void close(){
+    }
+
+    public void close() {
         for (var i = 0; i < m_ledBuffer.getLength(); i++) {
 
             m_ledBuffer.setRGB(i, 0, 0, 0);

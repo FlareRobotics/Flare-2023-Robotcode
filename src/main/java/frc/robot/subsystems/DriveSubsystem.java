@@ -29,17 +29,16 @@ public class DriveSubsystem extends SubsystemBase {
 
   public static DifferentialDrive m_drive = new DifferentialDrive(leftRearMotor, rightRearMotor);
 
- 
   public static Pigeon2 m_gyro = new Pigeon2(Constants.DriveConstants.pigeon_port);
 
   /** Config Objects for motor controllers */
   TalonFXConfiguration _leftConfig = new TalonFXConfiguration();
   TalonFXConfiguration _rightConfig = new TalonFXConfiguration();
 
-  private NeutralMode defaultMode = NeutralMode.Brake;
+  private NeutralMode defaultMode = NeutralMode.Coast;
 
   public DriveSubsystem() {
-  
+
     leftFrontMotor.setInverted(TalonFXInvertType.Clockwise);
     leftRearMotor.setInverted(TalonFXInvertType.Clockwise);
     rightFrontMotor.setInverted(TalonFXInvertType.CounterClockwise);
@@ -158,7 +157,14 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Pigeon Pitch", m_gyro.getPitch());
     SmartDashboard.putNumber("Pigeon Heading", getHeading());
     SmartDashboard.putNumber("Meters Encoder", getAverageEncoderDistance());
-    
+
+  }
+
+  public static void changeNeutralMode(NeutralMode mode) {
+    leftFrontMotor.setNeutralMode(mode);
+    leftRearMotor.setNeutralMode(mode);
+    rightFrontMotor.setNeutralMode(mode);
+    rightRearMotor.setNeutralMode(mode);
   }
 
   public static void zeroSensors() {
@@ -169,7 +175,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    
+
     setDash();
   }
 
@@ -245,8 +251,7 @@ public class DriveSubsystem extends SubsystemBase {
     leftRearMotor.set(TalonFXControlMode.Follower, 3);
   }
 
-  public static void turnDegrees(double degree)
-  {
+  public static void turnDegrees(double degree) {
     arcadeDrive(0, degree < 0 ? 0.3d : -0.3d);
   }
 
@@ -279,20 +284,18 @@ public class DriveSubsystem extends SubsystemBase {
   void setRobotDistanceConfigs(TalonFXInvertType masterInvertType, TalonFXConfiguration masterConfig) {
     if (masterInvertType == TalonFXInvertType.Clockwise) {
 
-      masterConfig.diff0Term = TalonFXFeedbackDevice.IntegratedSensor.toFeedbackDevice(); 
-      masterConfig.diff1Term = TalonFXFeedbackDevice.RemoteSensor0.toFeedbackDevice(); 
-      masterConfig.primaryPID.selectedFeedbackSensor = TalonFXFeedbackDevice.SensorDifference.toFeedbackDevice(); 
-                                                                                                                  
-                                                                                                                 
+      masterConfig.diff0Term = TalonFXFeedbackDevice.IntegratedSensor.toFeedbackDevice();
+      masterConfig.diff1Term = TalonFXFeedbackDevice.RemoteSensor0.toFeedbackDevice();
+      masterConfig.primaryPID.selectedFeedbackSensor = TalonFXFeedbackDevice.SensorDifference.toFeedbackDevice();
+
     } else {
-     
-      masterConfig.sum0Term = TalonFXFeedbackDevice.RemoteSensor0.toFeedbackDevice(); 
-      masterConfig.sum1Term = TalonFXFeedbackDevice.IntegratedSensor.toFeedbackDevice(); 
-      masterConfig.primaryPID.selectedFeedbackSensor = TalonFXFeedbackDevice.SensorSum.toFeedbackDevice(); 
-                                                                                                           
+
+      masterConfig.sum0Term = TalonFXFeedbackDevice.RemoteSensor0.toFeedbackDevice();
+      masterConfig.sum1Term = TalonFXFeedbackDevice.IntegratedSensor.toFeedbackDevice();
+      masterConfig.primaryPID.selectedFeedbackSensor = TalonFXFeedbackDevice.SensorSum.toFeedbackDevice();
+
     }
 
-    
     masterConfig.primaryPID.selectedFeedbackCoefficient = 0.5;
   }
 

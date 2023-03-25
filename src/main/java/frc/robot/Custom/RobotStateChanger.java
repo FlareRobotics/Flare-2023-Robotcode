@@ -1,22 +1,20 @@
 package frc.robot.Custom;
 
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.LedSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class RobotStateChanger extends CommandBase {
     public int istenen_state;
 
-    public RobotStateChanger(LedSubsystem subsystem, int Robotstate) {
+    public RobotStateChanger(int Robotstate) {
         istenen_state = Robotstate;
-        addRequirements(subsystem);
     }
 
     @Override
     public void initialize() {
         System.out.println("Robot State Changer START");
-        
-        switch(istenen_state){
+
+        switch (istenen_state) {
             case 0:
                 RobotContainer.currentState = RobotState.LedCLose;
                 break;
@@ -26,7 +24,7 @@ public class RobotStateChanger extends CommandBase {
             case 2:
                 RobotContainer.currentState = RobotState.NotBalanced;
                 break;
-            }
+        }
     }
 
     @Override
@@ -36,7 +34,7 @@ public class RobotStateChanger extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-    //    System.out.println("Robot State changer End!");
+        System.out.println("Robot State changer End!");
     }
 
     @Override

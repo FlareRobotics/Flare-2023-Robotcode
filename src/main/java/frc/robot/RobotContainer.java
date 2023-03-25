@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Custom.Distance_State;
 import frc.robot.Custom.ResetRobot;
 import frc.robot.Custom.RobotState;
 import frc.robot.Custom.RobotStateChanger;
@@ -51,20 +52,20 @@ public class RobotContainer {
     configureButtonBindings();
     autoChooser.setDefaultOption("No Auto", 0);
     autoChooser.addOption("Mobility", 1);
-    autoChooser.addOption("Mobility + Balance", 2);
-    autoChooser.addOption("Balance", 3);
-    autoChooser.addOption("Middle Cone + Mobility", 4);
-    autoChooser.addOption("Middle Cube + Mobility + Balance", 5);
-    autoChooser.addOption("Middle Cube", 6);
-    autoChooser.addOption("Middle Cube + Hayal", 7);
+    autoChooser.addOption("Balance", 2);
+    autoChooser.addOption("Mobility + Balance", 3);
+    autoChooser.addOption("Middle Cube", 4);
+    autoChooser.addOption("Middle Cone + Mobility", 5);
+    autoChooser.addOption("Middle Cube + Mobility + Balance", 6);
+    autoChooser.addOption("Middle Cone + Hayal", 7);
     SmartDashboard.putData(autoChooser);
 
     ledSubsystem.setDefaultCommand(new LedController(ledSubsystem));
     m_robotDrive.setDefaultCommand(
         new ParallelCommandGroup(new JoystickDriveCommand(
             m_robotDrive,
-            () -> -driver_main.getLeftY()/1.5,
-            () -> -driver_main.getRightX()/2)));
+            () -> -driver_main.getLeftY() / 1.5,
+            () -> -driver_main.getRightX() / 2)));
   }
 
   private void configureButtonBindings() {
@@ -94,82 +95,132 @@ public class RobotContainer {
     // Reset Encoders
     new JoystickButton(driver_2, 9).whileTrue(new ResetRobot(armSubsystem, elevatorsubsystem, clawSubsystem));
     // Home Elevator PID
-    new JoystickButton(driver_2,3).whileTrue(new AutoElevator(elevatorsubsystem, -1));
+    new JoystickButton(driver_2, 3).whileTrue(new AutoElevator(elevatorsubsystem, Distance_State.Zero_All));
 
-    new JoystickButton(driver_2,4).whileTrue(new DriveMeters(m_robotDrive, -100));
-    //Auto Elevator
-    new JoystickButton(driver_2, 2).whileTrue(new AutoElevator(elevatorsubsystem, 1));
+    new JoystickButton(driver_2, 4).whileTrue(new DriveMeters(m_robotDrive, -100));
+    // Auto Elevator
+    new JoystickButton(driver_2, 2).whileTrue(new AutoElevator(elevatorsubsystem, Distance_State.Middle_Cube_Elevator));
 
-    new JoystickButton(driver_2, 1).whileTrue(new AutoElevator(elevatorsubsystem, 2));
-    
-    // Led  Close
-    new JoystickButton(driver_2, 11).whileTrue(new RobotStateChanger(ledSubsystem,0));
+    new JoystickButton(driver_2, 1).whileTrue(new AutoElevator(elevatorsubsystem, Distance_State.Middle_Cone_Elevator));
+
+    // Led Close
+    new JoystickButton(driver_2, 11).whileTrue(new RobotStateChanger(0));
   }
 
   public static Command getAuto() {
     switch (autoChooser.getSelected()) {
       case 0:
-        return new RobotStateChanger(ledSubsystem, 2);
-      case 1:
-      System.out.println("testt");
-        return 
-        new SequentialCommandGroup(new DriveMeters(m_robotDrive, -400), 
-        new RobotStateChanger(ledSubsystem, 1) );
-      case 2:
-        return 
-        new SequentialCommandGroup(new DriveMeters(m_robotDrive, -400), 
-        new Drive_PitchControl(m_robotDrive, true),
-        new AutobalanceCommand(m_robotDrive));
-      case 3:
-        return 
-        new SequentialCommandGroup(new Drive_PitchControl(m_robotDrive, false),
-        new AutobalanceCommand(m_robotDrive));
+        return new RobotStateChanger(2);
 
-        case 4:
-        return
-        new ParallelCommandGroup(new SequentialCommandGroup(new ParallelCommandGroup(new AutoElevator(elevatorsubsystem, 3),
-        new SequentialCommandGroup(new WaitCommand(0.8),new AutoArm(armSubsystem, 2)) ),
-        new ClawSet(clawSubsystem).withTimeout(0.5d),
-        new ParallelCommandGroup(new AutoArm(armSubsystem, -1),
-        new AutoElevator(elevatorsubsystem, -1), new SequentialCommandGroup(new WaitCommand(1.5),new DriveMeters(m_robotDrive, -400)))), new LedController(ledSubsystem));
+      case 1:
+        return new SequentialCommandGroup(
+            new DriveMeters(m_robotDrive, -400),
+            new RobotStateChanger(1));
+
+      case 2:
+        return new SequentialCommandGroup(
+            new Drive_PitchControl(m_robotDrive, false),
+            new AutobalanceCommand(m_robotDrive));
+
+      case 3:
+        return new SequentialCommandGroup(new DriveMeters(m_robotDrive, -400),
+            new Drive_PitchControl(m_robotDrive, true),
+            new AutobalanceCommand(m_robotDrive));
+
+      case 4:
+        return new SequentialCommandGroup(
+            new ParallelCommandGroup(
+                new AutoElevator(elevatorsubsystem, Distance_State.Middle_Cube_Elevator),
+                new SequentialCommandGroup(
+                    new WaitCommand(.5),
+                    new AutoArm(armSubsystem, Distance_State.Middle_Cone_Arm))),
+            new ClawSet(clawSubsystem).withTimeout(0.5d),
+            new AutoArm(armSubsystem, Distance_State.Zero_All),
+            new AutoElevator(elevatorsubsystem, Distance_State.Zero_All),
+            new RobotStateChanger(1));
 
       case 5:
-      return
-      new ParallelCommandGroup(new SequentialCommandGroup(new ParallelCommandGroup(new AutoElevator(elevatorsubsystem, 1),
-      new SequentialCommandGroup(new WaitCommand(.5),new AutoArm(armSubsystem, 1)) ),
-      new ClawSet(clawSubsystem).withTimeout(0.5d),
-      new ParallelCommandGroup(new AutoArm(armSubsystem, -1),
-      new AutoElevator(elevatorsubsystem, -1), new SequentialCommandGroup(new WaitCommand(1.5),new DriveMeters(m_robotDrive, -400))),
-      new Drive_PitchControl(m_robotDrive, true),
-      new AutobalanceCommand(m_robotDrive)), new LedController(ledSubsystem));
+        return new SequentialCommandGroup(
+            new ParallelCommandGroup(
+                new AutoElevator(elevatorsubsystem, Distance_State.Middle_Cone_Elevator_Auto),
+                new SequentialCommandGroup(
+                    new WaitCommand(0.8),
+                    new AutoArm(armSubsystem, Distance_State.Middle_Cone_Arm))),
+            new ClawSet(clawSubsystem).withTimeout(0.5d),
+            new ParallelCommandGroup(
+                new AutoArm(armSubsystem, Distance_State.Zero_All),
+                new AutoElevator(elevatorsubsystem, Distance_State.Zero_All),
+                new SequentialCommandGroup(
+                    new WaitCommand(1.5),
+                    new DriveMeters(m_robotDrive, -400))),
+            new RobotStateChanger(1));
 
       case 6:
-      return
-      new SequentialCommandGroup(new ParallelCommandGroup(new AutoElevator(elevatorsubsystem, 1),
-       new SequentialCommandGroup(new WaitCommand(.5),new AutoArm(armSubsystem, 1)) ),
-      new ClawSet(clawSubsystem).withTimeout(0.5d),
-      new AutoArm(armSubsystem, -1),
-      new AutoElevator(elevatorsubsystem, -1),
-      new RobotStateChanger(ledSubsystem, 1));
+        return new SequentialCommandGroup(
+            new ParallelCommandGroup(
+                new AutoElevator(elevatorsubsystem, Distance_State.Middle_Cube_Elevator),
+                new SequentialCommandGroup(
+                    new WaitCommand(.5),
+                    new AutoArm(armSubsystem, Distance_State.Middle_Cube_Arm))),
+            new ClawSet(clawSubsystem).withTimeout(0.5d),
+            new ParallelCommandGroup(
+                new AutoArm(armSubsystem, Distance_State.Zero_All),
+                new AutoElevator(elevatorsubsystem, Distance_State.Zero_All),
+                new SequentialCommandGroup(
+                    new WaitCommand(1.5),
+                    new DriveMeters(m_robotDrive, -400))),
+            new Drive_PitchControl(m_robotDrive, true),
+            new AutobalanceCommand(m_robotDrive));
+
+      // case 7:
+      // return
+      // new ParallelCommandGroup(new SequentialCommandGroup(new
+      // ParallelCommandGroup(new AutoElevator(elevatorsubsystem, 3),
+      // new SequentialCommandGroup(new WaitCommand(0.8),new AutoArm(armSubsystem, 2))
+      // ),
+      // new ClawSet(clawSubsystem).withTimeout(0.5d),
+      // new ParallelCommandGroup(new AutoArm(armSubsystem, 3),
+      // new AutoElevator(elevatorsubsystem, 5), new DriveMeters(m_robotDrive, -450)),
+      // new TurnDegrees(m_robotDrive, 120),
+      // new AutoElevator(elevatorsubsystem, 4), new
+      // ClawSet(clawSubsystem).withTimeout(0.5d), new TurnDegrees(m_robotDrive,
+      // -120),
+      // new DriveMeters(m_robotDrive, 400), new TurnDegrees(m_robotDrive, 30),new
+      // ClawSet(clawSubsystem).withTimeout(0.5d)), new LedController(ledSubsystem));
 
       case 7:
-      return
-      new ParallelCommandGroup(new SequentialCommandGroup(new ParallelCommandGroup(new AutoElevator(elevatorsubsystem, 3),
-      new SequentialCommandGroup(new WaitCommand(0.8),new AutoArm(armSubsystem, 2)) ),
-      new ClawSet(clawSubsystem).withTimeout(0.5d),
-      new ParallelCommandGroup(new AutoArm(armSubsystem, 3),
-      new AutoElevator(elevatorsubsystem, 5), new DriveMeters(m_robotDrive, -450)), new TurnDegrees(m_robotDrive, 120), 
-      new AutoElevator(elevatorsubsystem, 4), new ClawSet(clawSubsystem).withTimeout(0.5d), new TurnDegrees(m_robotDrive, -120), 
-      new DriveMeters(m_robotDrive, 400), new TurnDegrees(m_robotDrive, 30),new ClawSet(clawSubsystem).withTimeout(0.5d)), new LedController(ledSubsystem));
-
+        return new SequentialCommandGroup(
+            new ParallelCommandGroup(
+                new AutoElevator(elevatorsubsystem, Distance_State.Middle_Cone_Elevator_Auto),
+                new SequentialCommandGroup(
+                    new WaitCommand(0.8),
+                    new AutoArm(armSubsystem, Distance_State.Middle_Cone_Arm))),
+            new ClawSet(clawSubsystem).withTimeout(0.5d),
+            new ParallelCommandGroup(
+                new AutoArm(armSubsystem, Distance_State.Pick_Cube_Arm),
+                new AutoElevator(elevatorsubsystem, Distance_State.Cube_Above_Elevator),
+                new SequentialCommandGroup(
+                    new WaitCommand(1),
+                    new DriveMeters(m_robotDrive, -450)),
+                new TurnDegrees(m_robotDrive, 120),
+                new AutoElevator(elevatorsubsystem, Distance_State.Pick_Cube_Elevator),
+                new ClawSet(clawSubsystem).withTimeout(0.5d),
+                new TurnDegrees(m_robotDrive, -120),
+                new ParallelCommandGroup(
+                    new AutoArm(armSubsystem, Distance_State.Middle_Cube_Arm),
+                    new AutoElevator(elevatorsubsystem, Distance_State.Middle_Cube_Elevator),
+                    new DriveMeters(m_robotDrive, 450)),
+                new ClawSet(clawSubsystem).withTimeout(0.5d)));
 
       default:
-        return new RobotStateChanger(ledSubsystem, 2);
+        return new RobotStateChanger(2);
     }
-
   }
 
   public Command getAutonomousCommand() {
-    return new ResetRobot(armSubsystem, elevatorsubsystem, clawSubsystem).withTimeout(0.1).andThen(getAuto());
+    return new ResetRobot(armSubsystem, elevatorsubsystem, clawSubsystem).withTimeout(0.1)
+        .andThen(
+            new ParallelCommandGroup(
+                getAuto(), new LedController(ledSubsystem)));
   }
 }

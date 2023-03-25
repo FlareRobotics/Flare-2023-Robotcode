@@ -22,7 +22,7 @@ public class ManuelElevator extends CommandBase {
     if (yon) {
       ElevatorSubsystem.elevator_motor_set(ElevatorConstants.elevator_speed * 1);
     } else {
-      ElevatorSubsystem.elevator_motor_set(0.3 * -1);
+      ElevatorSubsystem.elevator_motor_set(0.45 * -1);
     }
   }
 

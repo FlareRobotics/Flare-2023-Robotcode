@@ -4,9 +4,13 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Custom.RobotState;
+import frc.robot.subsystems.DriveSubsystem;
 
 
 
@@ -38,7 +42,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+    RobotContainer.currentState = RobotState.None;
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    DriveSubsystem.changeNeutralMode(NeutralMode.Brake);
 
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
@@ -49,8 +55,10 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
-     // RobotContainer.mainPathEvents.clear();
     }
+
+    RobotContainer.currentState = RobotState.None;
+    DriveSubsystem.changeNeutralMode(NeutralMode.Coast);
   }
 
   /** This function is called periodically during operator control. */

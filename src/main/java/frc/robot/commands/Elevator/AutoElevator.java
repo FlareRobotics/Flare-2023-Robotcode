@@ -42,7 +42,7 @@ public class AutoElevator extends CommandBase {
         goal = -26000;
         break;
       case 5:
-        goal = 45000;
+        goal = 120000;
         break;
     }
   }
@@ -56,7 +56,7 @@ public class AutoElevator extends CommandBase {
     }
     else
     {
-      ElevatorSubsystem.elevator_motor.configMotionCruiseVelocity(7500, PidConstants.TurretConstants.kTimeoutMs);
+      ElevatorSubsystem.elevator_motor.configMotionCruiseVelocity(10000, PidConstants.TurretConstants.kTimeoutMs);
       ElevatorSubsystem.elevator_motor.configMotionAcceleration(15000, PidConstants.TurretConstants.kTimeoutMs);
     }
     ElevatorSubsystem.elevator_motor.set(TalonFXControlMode.MotionMagic, goal);

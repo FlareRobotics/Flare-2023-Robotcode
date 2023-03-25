@@ -34,6 +34,6 @@ public class TurnDegrees extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return Math.abs(DriveSubsystem.m_gyro.getYaw()) > angle - 3;
+    return Math.abs(DriveSubsystem.m_gyro.getYaw()) > Math.abs(angle) - 3;
   }
 }
