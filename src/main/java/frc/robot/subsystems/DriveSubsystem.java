@@ -1,8 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
-import com.ctre.phoenix.motorcontrol.StatusFrame;
+
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
@@ -32,13 +31,11 @@ public class DriveSubsystem extends SubsystemBase {
   public static Pigeon2 m_gyro = new Pigeon2(Constants.DriveConstants.pigeon_port);
 
   /** Config Objects for motor controllers */
-  TalonFXConfiguration _leftConfig = new TalonFXConfiguration();
   TalonFXConfiguration _rightConfig = new TalonFXConfiguration();
 
   private NeutralMode defaultMode = NeutralMode.Coast;
 
   public DriveSubsystem() {
-
     leftFrontMotor.setInverted(TalonFXInvertType.Clockwise);
     leftRearMotor.setInverted(TalonFXInvertType.Clockwise);
     rightFrontMotor.setInverted(TalonFXInvertType.CounterClockwise);
@@ -56,99 +53,81 @@ public class DriveSubsystem extends SubsystemBase {
     leftFrontMotor.setNeutralMode(defaultMode);
     rightFrontMotor.setNeutralMode(defaultMode);
 
-    leftFrontMotor.follow(leftRearMotor);
-    rightFrontMotor.follow(rightRearMotor);
-    /* Configure the left Talon's selected sensor as integrated sensor */
-    _leftConfig.primaryPID.selectedFeedbackSensor = TalonFXFeedbackDevice.IntegratedSensor.toFeedbackDevice(); // Local
-                                                                                                               // Feedback
-                                                                                                               // Source
+    rightFrontMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,
+        PidConstants.DriveConstants.kPIDLoopIdx,
+        PidConstants.DriveConstants.kTimeoutMs);
+    rightFrontMotor.configNeutralDeadband(0.001, PidConstants.DriveConstants.kTimeoutMs);
+    rightFrontMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10,
+        PidConstants.DriveConstants.kTimeoutMs);
+    rightFrontMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10,
+        PidConstants.DriveConstants.kTimeoutMs);
+    rightFrontMotor.configNominalOutputForward(0, PidConstants.DriveConstants.kTimeoutMs);
+    rightFrontMotor.configNominalOutputReverse(0, PidConstants.DriveConstants.kTimeoutMs);
+    rightFrontMotor.configPeakOutputForward(PidConstants.DriveConstants.kGains.kPeakOutput,
+        PidConstants.DriveConstants.kTimeoutMs);
+    rightFrontMotor.configPeakOutputReverse(-PidConstants.DriveConstants.kGains.kPeakOutput,
+        PidConstants.DriveConstants.kTimeoutMs);
+    rightFrontMotor.selectProfileSlot(PidConstants.DriveConstants.kSlotIdx,
+        PidConstants.DriveConstants.kPIDLoopIdx);
+    rightFrontMotor.config_kF(PidConstants.DriveConstants.kSlotIdx, PidConstants.DriveConstants.kGains.kF,
+        PidConstants.DriveConstants.kTimeoutMs);
+    rightFrontMotor.config_kP(PidConstants.DriveConstants.kSlotIdx, PidConstants.DriveConstants.kGains.kP,
+        PidConstants.DriveConstants.kTimeoutMs);
+    rightFrontMotor.config_kI(PidConstants.DriveConstants.kSlotIdx, PidConstants.DriveConstants.kGains.kI,
+        PidConstants.DriveConstants.kTimeoutMs);
+    rightFrontMotor.config_kD(PidConstants.DriveConstants.kSlotIdx, PidConstants.DriveConstants.kGains.kD,
+        PidConstants.DriveConstants.kTimeoutMs);
 
-    /*
-     * Configure the Remote (Left) Talon's selected sensor as a remote sensor for
-     * the right Talon
-     */
-    _rightConfig.remoteFilter0.remoteSensorDeviceID = leftRearMotor.getDeviceID(); // Device ID of Remote Source
-    _rightConfig.remoteFilter0.remoteSensorSource = RemoteSensorSource.TalonFX_SelectedSensor; // Remote Source Type
+    /* Set acceleration and vcruise velocity - see documentation */
+    rightFrontMotor.configMotionCruiseVelocity(15000, PidConstants.DriveConstants.kTimeoutMs);
+    rightFrontMotor.configMotionAcceleration(18000, PidConstants.DriveConstants.kTimeoutMs);
 
-    /*
-     * Now that the Left sensor can be used by the master Talon,
-     * set up the Left (Aux) and Right (Master) distance into a single
-     * Robot distance as the Master's Selected Sensor 0.
-     */
-    setRobotDistanceConfigs(TalonFXInvertType.Clockwise, _rightConfig);
+    /* Zero the sensor once on robot boot up */
+    rightFrontMotor.setSelectedSensorPosition(0, PidConstants.DriveConstants.kPIDLoopIdx,
+        PidConstants.DriveConstants.kTimeoutMs);
 
-    /* FPID for Distance */
-    _rightConfig.slot0.kF = PidConstants.DriveConstants.kGains_Distanc.kF;
-    _rightConfig.slot0.kP = PidConstants.DriveConstants.kGains_Distanc.kP;
-    _rightConfig.slot0.kI = PidConstants.DriveConstants.kGains_Distanc.kI;
-    _rightConfig.slot0.kD = PidConstants.DriveConstants.kGains_Distanc.kD;
-    _rightConfig.slot0.integralZone = PidConstants.DriveConstants.kGains_Distanc.kIzone;
-    _rightConfig.slot0.closedLoopPeakOutput = PidConstants.DriveConstants.kGains_Distanc.kPeakOutput;
+    rightFrontMotor.configMotionSCurveStrength(1);
 
-    /*
-     * false means talon's local output is PID0 + PID1, and other side Talon is PID0
-     * - PID1
-     * This is typical when the master is the right Talon FX and using Pigeon
-     * 
-     * true means talon's local output is PID0 - PID1, and other side Talon is PID0
-     * + PID1
-     * This is typical when the master is the left Talon FX and using Pigeon
-     */
-    _rightConfig.auxPIDPolarity = false;
+    leftFrontMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,
+        PidConstants.DriveConstants.kPIDLoopIdx,
+        PidConstants.DriveConstants.kTimeoutMs);
+    leftFrontMotor.configNeutralDeadband(0.001, PidConstants.DriveConstants.kTimeoutMs);
+    leftFrontMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10,
+        PidConstants.DriveConstants.kTimeoutMs);
+    leftFrontMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10,
+        PidConstants.DriveConstants.kTimeoutMs);
+    leftFrontMotor.configNominalOutputForward(0, PidConstants.DriveConstants.kTimeoutMs);
+    leftFrontMotor.configNominalOutputReverse(0, PidConstants.DriveConstants.kTimeoutMs);
+    leftFrontMotor.configPeakOutputForward(PidConstants.DriveConstants.kGains.kPeakOutput,
+        PidConstants.DriveConstants.kTimeoutMs);
+    leftFrontMotor.configPeakOutputReverse(-PidConstants.DriveConstants.kGains.kPeakOutput,
+        PidConstants.DriveConstants.kTimeoutMs);
+    leftFrontMotor.selectProfileSlot(PidConstants.DriveConstants.kSlotIdx,
+        PidConstants.DriveConstants.kPIDLoopIdx);
+    leftFrontMotor.config_kF(PidConstants.DriveConstants.kSlotIdx, PidConstants.DriveConstants.kGains.kF,
+        PidConstants.DriveConstants.kTimeoutMs);
+    leftFrontMotor.config_kP(PidConstants.DriveConstants.kSlotIdx, PidConstants.DriveConstants.kGains.kP,
+        PidConstants.DriveConstants.kTimeoutMs);
+    leftFrontMotor.config_kI(PidConstants.DriveConstants.kSlotIdx, PidConstants.DriveConstants.kGains.kI,
+        PidConstants.DriveConstants.kTimeoutMs);
+    leftFrontMotor.config_kD(PidConstants.DriveConstants.kSlotIdx, PidConstants.DriveConstants.kGains.kD,
+        PidConstants.DriveConstants.kTimeoutMs);
 
-    /* FPID for Heading */
-    _rightConfig.slot1.kF = PidConstants.DriveConstants.kGains_Turning.kF;
-    _rightConfig.slot1.kP = PidConstants.DriveConstants.kGains_Turning.kP;
-    _rightConfig.slot1.kI = PidConstants.DriveConstants.kGains_Turning.kI;
-    _rightConfig.slot1.kD = PidConstants.DriveConstants.kGains_Turning.kD;
-    _rightConfig.slot1.integralZone = PidConstants.DriveConstants.kGains_Turning.kIzone;
-    _rightConfig.slot1.closedLoopPeakOutput = PidConstants.DriveConstants.kGains_Turning.kPeakOutput;
+    /* Set acceleration and vcruise velocity - see documentation */
+    leftFrontMotor.configMotionCruiseVelocity(15000, PidConstants.DriveConstants.kTimeoutMs);
+    leftFrontMotor.configMotionAcceleration(18000, PidConstants.DriveConstants.kTimeoutMs);
 
-    /* Config the neutral deadband. */
-    _leftConfig.neutralDeadband = PidConstants.DriveConstants.kNeutralDeadband;
-    _rightConfig.neutralDeadband = PidConstants.DriveConstants.kNeutralDeadband;
+    /* Zero the sensor once on robot boot up */
+    leftFrontMotor.setSelectedSensorPosition(0, PidConstants.DriveConstants.kPIDLoopIdx,
+        PidConstants.DriveConstants.kTimeoutMs);
 
-    /**
-     * 1ms per loop. PID loop can be slowed down if need be.
-     * For example,
-     * - if sensor updates are too slow
-     * - sensor deltas are very small per update, so derivative error never gets
-     * large enough to be useful.
-     * - sensor movement is very slow causing the derivative error to be near zero.
-     */
-    int closedLoopTimeMs = 1;
-    _rightConfig.slot0.closedLoopPeriod = closedLoopTimeMs;
-    _rightConfig.slot1.closedLoopPeriod = closedLoopTimeMs;
-    _rightConfig.slot2.closedLoopPeriod = closedLoopTimeMs;
-    _rightConfig.slot3.closedLoopPeriod = closedLoopTimeMs;
+    leftFrontMotor.configMotionSCurveStrength(1);
 
-    /* Motion Magic Configs */
-    _rightConfig.motionAcceleration = 5000; // (distance units per 100 ms) per second
-    _rightConfig.motionCruiseVelocity = 3000; // distance units per 100 ms
-
-    /* APPLY the config settings */
-
-    leftRearMotor.configAllSettings(_rightConfig);
-    rightRearMotor.configAllSettings(_rightConfig);
-
-    /* Set status frame periods to ensure we don't have stale data */
-    rightRearMotor.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 20, Constants.kTimeoutMs);
-    rightRearMotor.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 20, Constants.kTimeoutMs);
-    leftRearMotor.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 20, Constants.kTimeoutMs);
-    leftRearMotor.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 20, Constants.kTimeoutMs);
-    /* Initialize */
-    rightRearMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_10_Targets, 10);
-    rightRearMotor.configMotionSCurveStrength(0);
-    rightRearMotor.selectProfileSlot(PidConstants.DriveConstants.kSlot_Distanc,
-        PidConstants.DriveConstants.PID_PRIMARY);
-    leftRearMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_10_Targets, 10);
-    leftRearMotor.configMotionSCurveStrength(0);
-    leftRearMotor.selectProfileSlot(PidConstants.DriveConstants.kSlot_Distanc,
-        PidConstants.DriveConstants.PID_PRIMARY);
     zeroSensors();
-
     setDash();
 
+    leftRearMotor.follow(leftFrontMotor);
+    rightRearMotor.follow(rightFrontMotor);
   }
 
   void setDash() {
@@ -168,14 +147,13 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public static void zeroSensors() {
-    leftRearMotor.getSensorCollection().setIntegratedSensorPosition(0, Constants.kTimeoutMs);
-    rightRearMotor.getSensorCollection().setIntegratedSensorPosition(0, Constants.kTimeoutMs);
+    rightFrontMotor.getSensorCollection().setIntegratedSensorPosition(0, Constants.kTimeoutMs);
+    leftFrontMotor.getSensorCollection().setIntegratedSensorPosition(0, Constants.kTimeoutMs);
     m_gyro.setYaw(0);
   }
 
   @Override
   public void periodic() {
-
     setDash();
   }
 
@@ -194,11 +172,11 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public static double getRightEncoderDistance() {
-    return rightRearMotor.getSelectedSensorPosition() * 47.85d / DriveConstants.drive_disli_orani / 2048;
+    return rightFrontMotor.getSelectedSensorPosition() * 47.85d / DriveConstants.drive_disli_orani / 2048;
   }
 
   public static double getLeftEncoderDistance() {
-    return leftRearMotor.getSelectedSensorPosition() * 47.85d / DriveConstants.drive_disli_orani / 2048;
+    return leftFrontMotor.getSelectedSensorPosition() * 47.85d / DriveConstants.drive_disli_orani / 2048;
   }
 
   public static double getAverageEncoderDistance() {
@@ -335,8 +313,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   public static boolean drive_PID_centimeters(double cm) {
     var target_sensorUnits = cm / (Units.inchesToMeters(6) * Math.PI * 2) * DriveConstants.drive_disli_orani * 2048;
-    rightRearMotor.set(TalonFXControlMode.MotionMagic, target_sensorUnits);
-    leftRearMotor.set(TalonFXControlMode.MotionMagic, target_sensorUnits);
-    return (getAverageEncoderDistance() >= cm);
+    rightFrontMotor.set(TalonFXControlMode.MotionMagic, target_sensorUnits);
+    leftFrontMotor.set(TalonFXControlMode.MotionMagic, target_sensorUnits);
+    return Math.abs(getAverageEncoderDistance()) > Math.abs(cm);
   }
 }
