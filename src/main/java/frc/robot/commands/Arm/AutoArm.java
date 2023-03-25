@@ -2,6 +2,7 @@ package frc.robot.commands.Arm;
 
 
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Custom.Distance_State;
 import frc.robot.PID.PidConstants;
 import frc.robot.subsystems.ArmSubsystem;
 
@@ -10,12 +11,12 @@ import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class AutoArm extends CommandBase {
-  public int yukseklik;
+  public Distance_State yukseklik;
   private boolean finished = false;
   private double offsetLimit = 400;
   private double goal = 0;
 
-  public AutoArm(ArmSubsystem armSubsystem, int yukseklik) {
+  public AutoArm(ArmSubsystem armSubsystem, Distance_State yukseklik) {
     this.yukseklik = yukseklik;
     addRequirements(armSubsystem);
   }
@@ -24,18 +25,20 @@ public class AutoArm extends CommandBase {
   public void initialize() {
     System.out.println("AUTO arm Start");
     switch (yukseklik) {
-      case -1:
+      case Zero_All:
       goal = 0;
       break;
       // Alt
-      case 1:
+      case Middle_Cone_Arm:
         goal = ArmConstants.middle_row_distance;
         break;
-      case 2:
+      case Middle_Cube_Arm:
         goal = ArmConstants.middle_row_distance_Cone;
         break;
-      case 3:
+      case Pick_Cube_Arm:
         goal = 160000;
+        break;
+      default:
         break;
     }
   }

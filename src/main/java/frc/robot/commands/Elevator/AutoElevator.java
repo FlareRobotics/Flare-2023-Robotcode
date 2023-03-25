@@ -2,6 +2,7 @@ package frc.robot.commands.Elevator;
 
 
 import frc.robot.Constants.ElevatorConstants;
+import frc.robot.Custom.Distance_State;
 import frc.robot.PID.PidConstants;
 import frc.robot.subsystems.ElevatorSubsystem;
 
@@ -10,12 +11,12 @@ import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class AutoElevator extends CommandBase {
-  public int yukseklik;
+  public Distance_State yukseklik;
   private boolean finished = false;
   private double offsetLimit = 500;
   private double goal = 0;
 
-  public AutoElevator(ElevatorSubsystem elevatorSubsystem, int yukseklik) {
+  public AutoElevator(ElevatorSubsystem elevatorSubsystem, Distance_State yukseklik) {
     this.yukseklik = yukseklik;
     addRequirements(elevatorSubsystem);
   }
@@ -24,25 +25,27 @@ public class AutoElevator extends CommandBase {
   public void initialize() {
     System.out.println("AUTO Elevator Start");
     switch (yukseklik) {
-      case -1:
+      case Zero_All:
       goal = 0;
       break;
       // Alt
-      case 1:
+      case Middle_Cube_Elevator:
         goal = ElevatorConstants.middle_row_height_cube;
         break;
       // Orta
-      case 2:
+      case Middle_Cone_Elevator:
         goal = ElevatorConstants.middle_row_height;
         break;
-      case 3:
+      case Middle_Cone_Elevator_Auto:
         goal = ElevatorConstants.middle_row_height - 110000;
         break;
-      case 4:
+      case Pick_Cube_Elevator:
         goal = -26000;
         break;
-      case 5:
+      case Cube_Above_Elevator:
         goal = 120000;
+        break;
+      default:
         break;
     }
   }

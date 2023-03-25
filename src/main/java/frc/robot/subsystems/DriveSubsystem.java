@@ -259,23 +259,6 @@ public class DriveSubsystem extends SubsystemBase {
     return 0;
   }
 
-  void setRobotDistanceConfigs(TalonFXInvertType masterInvertType, TalonFXConfiguration masterConfig) {
-    if (masterInvertType == TalonFXInvertType.Clockwise) {
-
-      masterConfig.diff0Term = TalonFXFeedbackDevice.IntegratedSensor.toFeedbackDevice();
-      masterConfig.diff1Term = TalonFXFeedbackDevice.RemoteSensor0.toFeedbackDevice();
-      masterConfig.primaryPID.selectedFeedbackSensor = TalonFXFeedbackDevice.SensorDifference.toFeedbackDevice();
-
-    } else {
-
-      masterConfig.sum0Term = TalonFXFeedbackDevice.RemoteSensor0.toFeedbackDevice();
-      masterConfig.sum1Term = TalonFXFeedbackDevice.IntegratedSensor.toFeedbackDevice();
-      masterConfig.primaryPID.selectedFeedbackSensor = TalonFXFeedbackDevice.SensorSum.toFeedbackDevice();
-
-    }
-
-    masterConfig.primaryPID.selectedFeedbackCoefficient = 0.5;
-  }
 
   public void zeroHeading() {
     m_gyro.setYaw(0);

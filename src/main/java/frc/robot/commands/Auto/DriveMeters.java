@@ -1,8 +1,6 @@
 package frc.robot.commands.Auto;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
-import frc.robot.Custom.RobotState;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class DriveMeters extends CommandBase {
@@ -32,7 +30,6 @@ public class DriveMeters extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     DriveSubsystem.arcadeDrive(0, 0);
-    RobotContainer.currentState = RobotState.Balanced;
   }
 
   @Override
