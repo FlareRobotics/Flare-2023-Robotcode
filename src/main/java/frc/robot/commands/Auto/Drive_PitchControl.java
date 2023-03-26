@@ -1,11 +1,10 @@
 package frc.robot.commands.Auto;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class Drive_PitchControl extends CommandBase {
-
-  
   private final DriveSubsystem m_drive;
 
   private boolean yon;
@@ -32,6 +31,6 @@ public class Drive_PitchControl extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return DriveSubsystem.m_gyro.getPitch() > 1;
+    return DriveSubsystem.m_gyro.getPitch() < -AutoConstants.pitch_tolerance;
   }
 }
