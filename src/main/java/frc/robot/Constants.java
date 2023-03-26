@@ -18,7 +18,7 @@ public final class Constants {
         // All in cm
         public static int middle_row_height_cube = 315000;
         public static int middle_row_height = 485000;
-
+        public static int substation_height = 485000;
     }
 
     public static class AlignConstants {
@@ -41,6 +41,7 @@ public final class Constants {
         // All in cm
         public static int middle_row_distance = 228000;
         public static int middle_row_distance_Cone = 300000;
+        public static int substation_distance = 300000;
     }
 
     public static class ClawConstants {

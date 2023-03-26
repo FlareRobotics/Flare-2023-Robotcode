@@ -9,5 +9,7 @@ public enum Distance_State {
     Pick_Cube_Arm,
     Pick_Cube_Elevator,
     Cube_Above_Elevator,
+    Substation_Elevator,
+    Substation_Arm,
     Zero_All
 }

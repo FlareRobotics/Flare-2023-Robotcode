@@ -39,6 +39,9 @@ public class AutoElevator extends CommandBase {
       case Middle_Cone_Elevator_Auto:
         goal = ElevatorConstants.middle_row_height - 110000;
         break;
+      case Substation_Elevator:
+        goal = ElevatorConstants.substation_height;
+        break;
       case Pick_Cube_Elevator:
         goal = -26000;
         break;

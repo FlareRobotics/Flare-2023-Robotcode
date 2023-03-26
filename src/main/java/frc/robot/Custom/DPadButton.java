@@ -1,15 +1,15 @@
 package frc.robot.Custom;
 
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.Button;
 
 @SuppressWarnings("deprecation")
 public class DPadButton extends Button {
 
-    static XboxController joystick;
+    static Joystick joystick;
     static Direction direction;
 
-    public DPadButton(XboxController Joystick, Direction Direction) {
+    public DPadButton(Joystick Joystick, Direction Direction) {
         super(() -> get());
         joystick = Joystick;
         direction = Direction;

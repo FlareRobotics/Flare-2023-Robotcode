@@ -35,6 +35,9 @@ public class AutoArm extends CommandBase {
       case Middle_Cube_Arm:
         goal = ArmConstants.middle_row_distance_Cone;
         break;
+      case Substation_Arm:
+        goal = ArmConstants.substation_distance;
+        break;
       case Pick_Cube_Arm:
         goal = 160000;
         break;
