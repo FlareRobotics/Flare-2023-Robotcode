@@ -111,12 +111,12 @@ public class RobotContainer {
     new SequentialCommandGroup(new WaitCommand(1d), new AutoArm(armSubsystem, Distance_State.Substation_Arm))));
 
     //Auto Cube Test
-    new JoystickButton(driver_2, 999).whileTrue(new ParallelCommandGroup(new AutoElevator(elevatorsubsystem, Distance_State.Middle_Cube_Elevator), 
-    new SequentialCommandGroup(new WaitCommand(0.5d), new AutoArm(armSubsystem, Distance_State.Middle_Cube_Arm))));
+    //new JoystickButton(driver_2, 999).whileTrue(new ParallelCommandGroup(new AutoElevator(elevatorsubsystem, Distance_State.Middle_Cube_Elevator), 
+    //new SequentialCommandGroup(new WaitCommand(0.5d), new AutoArm(armSubsystem, Distance_State.Middle_Cube_Arm))));
 
     //Auto Cone Test
-    new JoystickButton(driver_2, 999).whileTrue(new ParallelCommandGroup(new AutoElevator(elevatorsubsystem, Distance_State.Middle_Cone_Elevator), 
-    new SequentialCommandGroup(new WaitCommand(0.8d), new AutoArm(armSubsystem, Distance_State.Middle_Cone_Arm))));
+    //new JoystickButton(driver_2, 999).whileTrue(new ParallelCommandGroup(new AutoElevator(elevatorsubsystem, Distance_State.Middle_Cone_Elevator), 
+    //new SequentialCommandGroup(new WaitCommand(0.8d), new AutoArm(armSubsystem, Distance_State.Middle_Cone_Arm))));
   }
 
   public static Command getAuto() {
