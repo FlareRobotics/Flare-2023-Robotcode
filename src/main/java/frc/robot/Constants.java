@@ -39,7 +39,7 @@ public final class Constants {
         public static double arm_forward_limit = 410000;
 
         // All in cm
-        public static int middle_row_distance = 228000;
+        public static int middle_row_distance = 315000;
         public static int middle_row_distance_Cone = 300000;
         public static int substation_distance = 300000;
     }

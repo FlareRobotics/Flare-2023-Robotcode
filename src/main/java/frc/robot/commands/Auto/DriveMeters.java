@@ -24,7 +24,7 @@ public class DriveMeters extends CommandBase {
 
   @Override
   public void execute() {
-    DriveSubsystem.arcadeDrive(cm > 0 ? 0.75d : -0.75d, 0);
+    DriveSubsystem.arcadeDrive(cm > 0 ? 0.5d : -0.5d, 0);
   }
 
   @Override
