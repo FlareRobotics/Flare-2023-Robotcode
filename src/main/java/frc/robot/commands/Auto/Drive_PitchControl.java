@@ -1,7 +1,6 @@
 package frc.robot.commands.Auto;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.AutoConstants;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class Drive_PitchControl extends CommandBase {
@@ -21,7 +20,7 @@ public class Drive_PitchControl extends CommandBase {
 
   @Override
   public void execute() {
-    DriveSubsystem.arcadeDrive(yon ? 0.3d : -0.3d,0);
+    DriveSubsystem.arcadeDrive(yon ? 0.5d : 0.5d,0);
   }
 
   @Override
@@ -31,6 +30,6 @@ public class Drive_PitchControl extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return DriveSubsystem.m_gyro.getPitch() < -AutoConstants.pitch_tolerance;
+    return DriveSubsystem.m_gyro.getPitch() < -10;
   }
 }

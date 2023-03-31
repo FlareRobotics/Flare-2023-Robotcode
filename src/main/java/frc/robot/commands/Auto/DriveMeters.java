@@ -10,7 +10,7 @@ public class DriveMeters extends CommandBase {
 
   private final double cm;
 
-  public DriveMeters(
+  public  DriveMeters(
       DriveSubsystem drive,
       double meters) {
     m_drive = drive;
@@ -24,7 +24,7 @@ public class DriveMeters extends CommandBase {
 
   @Override
   public void execute() {
-    DriveSubsystem.arcadeDrive(cm > 0 ? 0.5d : -0.5d, 0);
+    DriveSubsystem.arcadeDrive(cm > 0 ? 0.7d : -0.7d, 0);
   }
 
   @Override

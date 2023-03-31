@@ -57,13 +57,15 @@ public class RobotContainer {
         autoChooser.addOption("Middle Cube", 4);
         autoChooser.addOption("Middle Cone + Mobility", 5);
         autoChooser.addOption("Middle Cube + Mobility + Balance", 6);
+        autoChooser.addOption("Middle Cube + Turn + Balance", 7);
+        autoChooser.addOption("Middle Cube + Mobility", 8);
         SmartDashboard.putData(autoChooser);
 
         ledSubsystem.setDefaultCommand(new LedController(ledSubsystem));
         m_robotDrive.setDefaultCommand(
                 new ParallelCommandGroup(new JoystickDriveCommand(
                         m_robotDrive,
-                        () -> -driver_main.getLeftY() / 1.5,
+                        () -> -driver_main.getLeftY() / 1.25,
                         () -> -driver_main.getRightX() / 2)));
     }
 
@@ -127,7 +129,7 @@ public class RobotContainer {
 
             case 2:
                 return new SequentialCommandGroup(
-                        new Drive_PitchControl(m_robotDrive, false),
+                        new Drive_PitchControl(m_robotDrive, true),
                         new AutobalanceCommand(m_robotDrive));
 
             case 3:
@@ -180,6 +182,41 @@ public class RobotContainer {
                                 new DriveMeters(m_robotDrive, -390))),
                         new Drive_PitchControl(m_robotDrive, true),
                         new AutobalanceCommand(m_robotDrive));
+
+                case 7:
+                        return new SequentialCommandGroup(
+                                new ParallelCommandGroup(
+                                        new AutoElevator(elevatorsubsystem, Distance_State.Middle_Cube_Elevator),
+                                        new SequentialCommandGroup(
+                                                new WaitCommand(.5),
+                                                new AutoArm(armSubsystem, Distance_State.Middle_Cube_Arm))),
+                                new ClawSet(clawSubsystem).withTimeout(0.5d),
+                                new ParallelCommandGroup(
+                                        new SequentialCommandGroup(new WaitCommand(0.5),
+                                                new AutoElevator(elevatorsubsystem, Distance_State.Zero_All)),
+                                        new AutoArm(armSubsystem, Distance_State.Zero_All),
+                                new SequentialCommandGroup(
+                                        new WaitCommand(2.82),
+                                        new DriveMeters(m_robotDrive, -20),
+                                        new TurnDegrees(m_robotDrive, 160))),
+                                new Drive_PitchControl(m_robotDrive, true),
+                                new AutobalanceCommand(m_robotDrive));
+
+                        case 8:
+                                return new SequentialCommandGroup(
+                                        new ParallelCommandGroup(
+                                                new AutoElevator(elevatorsubsystem, Distance_State.Middle_Cube_Elevator),
+                                                new SequentialCommandGroup(
+                                                        new WaitCommand(0.7d),
+                                                        new AutoArm(armSubsystem, Distance_State.Middle_Cube_Arm))),
+                                        new ClawSet(clawSubsystem).withTimeout(0.5d),
+                                        new ParallelCommandGroup(
+                                                new AutoArm(armSubsystem, Distance_State.Zero_All),
+                                                new AutoElevator(elevatorsubsystem, Distance_State.Zero_All),
+                                                new SequentialCommandGroup(
+                                                        new WaitCommand(1.5),
+                                                        new DriveMeters(m_robotDrive, -390))),
+                                        new RobotStateChanger(1));
 
             default:
                 return new RobotStateChanger(2);

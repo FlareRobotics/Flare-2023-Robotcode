@@ -129,7 +129,8 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Pigeon Pitch", m_gyro.getPitch());
     SmartDashboard.putNumber("Pigeon Heading", getHeading());
     SmartDashboard.putNumber("Meters Encoder", getAverageEncoderDistance());
-
+    SmartDashboard.putBoolean("Compressor Switch", ClawSubsystem.Compressor.getPressureSwitchValue());
+    SmartDashboard.putBoolean("Compressor Enabled", ClawSubsystem.Compressor.isEnabled());
   }
 
   public static void changeNeutralMode(NeutralMode mode) {
@@ -223,7 +224,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public static void turnDegrees(double degree) {
-    arcadeDrive(0, degree < 0 ? 0.3d : -0.3d);
+    arcadeDrive(0, degree < 0 ? 0.4d : -0.4d);
   }
 
   static double Deadband(double value) {

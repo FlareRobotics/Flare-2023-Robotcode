@@ -32,7 +32,7 @@ public final class Constants {
 
         public static double arm_gear_ratio = 20d;
 
-        public static double arm_speed = 0.5d;
+        public static double arm_speed = 0.7d;
 
         public static double arm_distance_per_rotation = 4.5d;
 
@@ -40,7 +40,7 @@ public final class Constants {
 
         // All in cm
         public static int middle_row_distance = 315000;
-        public static int middle_row_distance_Cone = 300000;
+        public static int middle_row_distance_Cone = 340000;
         public static int substation_distance = 300000;
     }
 
