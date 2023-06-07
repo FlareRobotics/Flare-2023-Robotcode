@@ -76,6 +76,12 @@ public class RobotContainer {
         new JoystickButton(driver_2, 7)
                 .whileTrue(new ManuelElevator(elevatorsubsystem, false));
 
+        // Manuel Elevator
+        new JoystickButton(driver_2, 8)
+                .whileTrue(new ManuelElevator(elevatorsubsystem, true));
+        new JoystickButton(driver_2, 7)
+                .whileTrue(new ManuelElevator(elevatorsubsystem, false));
+
         // Manuel Arm
         new JoystickButton(driver_main, XboxController.Button.kB.value).whileTrue(new ManuelArm(armSubsystem, true));
         new JoystickButton(driver_main, XboxController.Button.kX.value).whileTrue(new ManuelArm(armSubsystem, false));
@@ -88,22 +94,19 @@ public class RobotContainer {
         new JoystickButton(driver_main, XboxController.Button.kRightBumper.value)
                 .toggleOnTrue(new ClawSet(clawSubsystem));
 
-        new JoystickButton(driver_main, XboxController.Button.kLeftBumper.value)
-                .whileTrue(new TurnDegrees(m_robotDrive, 90));
-
         // Wanted Status
         new JoystickButton(driver_2, 5).toggleOnTrue(new SupplyGather(ledSubsystem));
         // Reset Encoders
         new JoystickButton(driver_2, 9).whileTrue(new ResetRobot(armSubsystem, elevatorsubsystem, clawSubsystem));
         // Home Elevator PID
-        new JoystickButton(driver_2, 3).whileTrue(new AutoElevator(elevatorsubsystem, Distance_State.Zero_All));
+        // new JoystickButton(driver_2, 3).whileTrue(new AutoElevator(elevatorsubsystem, Distance_State.Zero_All));
 
-        // Auto Elevator
-        new JoystickButton(driver_2, 2)
-                .whileTrue(new AutoElevator(elevatorsubsystem, Distance_State.Middle_Cube_Elevator));
+        // // Auto Elevator
+        // new JoystickButton(driver_2, 2)
+        //         .whileTrue(new AutoElevator(elevatorsubsystem, Distance_State.Middle_Cube_Elevator));
 
-        new JoystickButton(driver_2, 1)
-                .whileTrue(new AutoElevator(elevatorsubsystem, Distance_State.Middle_Cone_Elevator));
+        // new JoystickButton(driver_2, 1)
+        //         .whileTrue(new AutoElevator(elevatorsubsystem, Distance_State.Middle_Cone_Elevator));
 
         // Led Close
         new JoystickButton(driver_2, 11).whileTrue(new RobotStateChanger(0));
@@ -113,6 +116,26 @@ public class RobotContainer {
                 new ParallelCommandGroup(new AutoElevator(elevatorsubsystem, Distance_State.Substation_Elevator),
                         new SequentialCommandGroup(new WaitCommand(1d),
                                 new AutoArm(armSubsystem, Distance_State.Substation_Arm))));
+
+        new JoystickButton(driver_2, 1).toggleOnTrue(new ParallelCommandGroup(
+                new AutoElevator(elevatorsubsystem, Distance_State.Middle_Cube_Elevator),
+                new SequentialCommandGroup(
+                        new WaitCommand(.5),
+                        new AutoArm(armSubsystem, Distance_State.Middle_Cone_Arm))));
+
+        new JoystickButton(driver_2, 4).toggleOnTrue(new ParallelCommandGroup(
+                new AutoElevator(elevatorsubsystem, Distance_State.Middle_Cone_Elevator_Auto),
+                new SequentialCommandGroup(
+                        new WaitCommand(.5),
+                        new AutoArm(armSubsystem, Distance_State.Middle_Cone_Arm))));
+
+        new JoystickButton(driver_2, 2).toggleOnTrue(new ParallelCommandGroup(
+                new AutoArm(armSubsystem, Distance_State.Zero_All),
+                new SequentialCommandGroup(
+                        new WaitCommand(.5),
+                        new AutoElevator(elevatorsubsystem, Distance_State.Zero_All))));
+
+        new JoystickButton(driver_2, 3).toggleOnTrue(new AutoArm(armSubsystem, Distance_State.Zero_All));
 
        
     }
@@ -196,8 +219,8 @@ public class RobotContainer {
                                                 new AutoElevator(elevatorsubsystem, Distance_State.Zero_All)),
                                         new AutoArm(armSubsystem, Distance_State.Zero_All),
                                 new SequentialCommandGroup(
-                                        new WaitCommand(2.82),
-                                        new DriveMeters(m_robotDrive, -20),
+                                        new WaitCommand(1.9d),
+                                        new DriveMeters(m_robotDrive, -3),
                                         new TurnDegrees(m_robotDrive, 160))),
                                 new Drive_PitchControl(m_robotDrive, true),
                                 new AutobalanceCommand(m_robotDrive));

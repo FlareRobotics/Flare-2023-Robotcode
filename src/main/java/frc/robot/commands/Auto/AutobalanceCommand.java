@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class AutobalanceCommand extends CommandBase {
 
-  private boolean finished = false;
   public AutobalanceCommand(DriveSubsystem subsystem) {
     addRequirements(subsystem);
   }
@@ -29,7 +28,6 @@ public class AutobalanceCommand extends CommandBase {
     } else {
       RobotContainer.currentState = RobotState.Balanced;
       DriveSubsystem.arcadeDrive(0, 0);
-      finished = true;
     }
   }
 
@@ -40,6 +38,6 @@ public class AutobalanceCommand extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return finished;
+    return false;
   }
 }

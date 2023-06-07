@@ -23,7 +23,7 @@ public class DriveSubsystem extends SubsystemBase {
   public static WPI_TalonFX rightFrontMotor = new WPI_TalonFX(Constants.DriveConstants.sagon_falcon_port);
   public static WPI_TalonFX rightRearMotor = new WPI_TalonFX(Constants.DriveConstants.sagarka_falcon_port);
 
-  public static DifferentialDrive m_drive = new DifferentialDrive(leftFrontMotor, rightFrontMotor);
+  public static DifferentialDrive drive_ = new DifferentialDrive(leftFrontMotor, rightFrontMotor);
 
   public static Pigeon2 m_gyro = new Pigeon2(Constants.DriveConstants.pigeon_port);
 
@@ -32,6 +32,12 @@ public class DriveSubsystem extends SubsystemBase {
 
 
   public DriveSubsystem() {
+    leftFrontMotor.configFactoryDefault();
+    leftRearMotor.configFactoryDefault();
+    rightFrontMotor.configFactoryDefault();
+    rightRearMotor.configFactoryDefault();
+
+
     leftFrontMotor.setInverted(TalonFXInvertType.Clockwise);
     leftRearMotor.setInverted(TalonFXInvertType.Clockwise);
     rightFrontMotor.setInverted(TalonFXInvertType.CounterClockwise);
@@ -42,7 +48,11 @@ public class DriveSubsystem extends SubsystemBase {
     leftRearMotor.set(TalonFXControlMode.PercentOutput, 0);
     rightFrontMotor.set(TalonFXControlMode.PercentOutput, 0);
     leftFrontMotor.set(TalonFXControlMode.PercentOutput, 0);
+    leftFrontMotor.setNeutralMode(NeutralMode.Coast);
+    leftRearMotor.setNeutralMode(NeutralMode.Coast);
 
+    rightFrontMotor.setNeutralMode(NeutralMode.Coast);
+    rightRearMotor.setNeutralMode(NeutralMode.Coast);
     /* Set neutral modes */
    
 
@@ -116,11 +126,13 @@ public class DriveSubsystem extends SubsystemBase {
 
     // leftFrontMotor.configMotionSCurveStrength(1);
 
+    leftRearMotor.follow(leftFrontMotor);
+    rightRearMotor.follow(rightFrontMotor);
+
     zeroSensors();
     setDash();
 
-    leftRearMotor.follow(leftFrontMotor);
-    rightRearMotor.follow(rightFrontMotor);
+ 
   }
 
   void setDash() {
@@ -133,12 +145,7 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("Compressor Enabled", ClawSubsystem.Compressor.isEnabled());
   }
 
-  public static void changeNeutralMode(NeutralMode mode) {
-    leftFrontMotor.setNeutralMode(mode);
-    leftRearMotor.setNeutralMode(mode);
-    rightFrontMotor.setNeutralMode(mode);
-    rightRearMotor.setNeutralMode(mode);
-  }
+
 
   public static void zeroSensors() {
     rightFrontMotor.getSensorCollection().setIntegratedSensorPosition(0, Constants.kTimeoutMs);
@@ -189,11 +196,9 @@ public class DriveSubsystem extends SubsystemBase {
      */
     rightRearMotor.setVoltage(-rightVolts);
     rightFrontMotor.setVoltage(-rightVolts);
-    m_drive.feed();
   }
 
   public void setMaxOutput(double maxOutput) {
-    m_drive.setMaxOutput(maxOutput);
   }
 
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
@@ -210,9 +215,9 @@ public class DriveSubsystem extends SubsystemBase {
 
   public static void arcadeDrive(double fwd, double rot) {
     fwd = Deadband(fwd);
-    rot = turnDeadband(rot);
-
-    m_drive.arcadeDrive(fwd, rot);
+    rot = Deadband(rot);
+    
+    drive_.arcadeDrive(fwd, rot);
   }
 
   public static void pidDrive(double forward) {

@@ -82,7 +82,7 @@ public class ElevatorSubsystem extends SubsystemBase {
                 elevator_motor.setSelectedSensorPosition(0, PidConstants.TurretConstants.kPIDLoopIdx,
                                 PidConstants.TurretConstants.kTimeoutMs);
 
-                elevator_motor.setNeutralMode(NeutralMode.Coast);
+                elevator_motor.setNeutralMode(NeutralMode.Brake);
 
                 elevator_motor.configMotionSCurveStrength(1);
 

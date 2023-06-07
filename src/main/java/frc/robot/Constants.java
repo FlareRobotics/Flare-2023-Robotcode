@@ -118,6 +118,6 @@ public final class Constants {
                 kTrackwidthMeters);
 
         // Auto Balance pitch axis tolerance
-        public static final double pitch_tolerance = 3;
+        public static final double pitch_tolerance = 4;
     }
 }
