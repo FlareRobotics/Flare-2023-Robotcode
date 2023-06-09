@@ -53,10 +53,8 @@ public class RobotContainer {
         autoChooser.setDefaultOption("No Auto", 0);
         autoChooser.addOption("Mobility", 1);
         autoChooser.addOption("Balance", 2);
-        autoChooser.addOption("Mobility + Balance", 3);
         autoChooser.addOption("Middle Cube", 4);
         autoChooser.addOption("Middle Cone + Mobility", 5);
-        autoChooser.addOption("Middle Cube + Mobility + Balance", 6);
         autoChooser.addOption("Middle Cube + Turn + Balance", 7);
         autoChooser.addOption("Middle Cube + Mobility", 8);
         SmartDashboard.putData(autoChooser);
@@ -70,12 +68,6 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
-        // Manuel Elevator
-        new JoystickButton(driver_2, 8)
-                .whileTrue(new ManuelElevator(elevatorsubsystem, true));
-        new JoystickButton(driver_2, 7)
-                .whileTrue(new ManuelElevator(elevatorsubsystem, false));
-
         // Manuel Elevator
         new JoystickButton(driver_2, 8)
                 .whileTrue(new ManuelElevator(elevatorsubsystem, true));
