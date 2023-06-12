@@ -89,8 +89,8 @@ public class ElevatorSubsystem extends SubsystemBase {
                 elevator_motor.configForwardSoftLimitThreshold(Constants.ElevatorConstants.elevator_forward_limit);
                 elevator_motor.configReverseSoftLimitThreshold(0);
 
-                //elevator_motor.configForwardSoftLimitEnable(true, 0);
-              //  elevator_motor.configReverseSoftLimitEnable(true, 0);
+                elevator_motor.configForwardSoftLimitEnable(true, 0);
+              //elevator_motor.configReverseSoftLimitEnable(true, 0);
         }
 
         @Override

@@ -13,12 +13,12 @@ public final class Constants {
 
         public static double elevator_distance_per_rotation = 4.5d;
 
-        public static double elevator_forward_limit = 510000;
+        public static double elevator_forward_limit = 240000;
 
         // All in cm
-        public static int middle_row_height_cube = 315000;
-        public static int middle_row_height = 485000;
-        public static int substation_height = 400000;
+        public static int middle_row_height_cube = 200000;
+        public static int middle_row_height = 222000;
+        public static int substation_height = 222600;
     }
 
     public static class AlignConstants {
@@ -39,7 +39,7 @@ public final class Constants {
         public static double arm_forward_limit = 410000;
 
         // All in cm
-        public static int middle_row_distance = 330000;
+        public static int middle_row_distance = 380000;
         public static int middle_row_distance_Cone = 340000;
         public static int substation_distance = 200000
         ;

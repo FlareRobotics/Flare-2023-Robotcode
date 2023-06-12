@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -47,7 +48,7 @@ public class RobotContainer {
     public static boolean clawOpen = true;
     public static RobotState currentState = RobotState.None;
     public static boolean wantedCone = false;
-
+    public float turn_rate = 2.0f; 
     public RobotContainer() {
         configureButtonBindings();
         autoChooser.setDefaultOption("No Auto", 0);
@@ -64,7 +65,7 @@ public class RobotContainer {
                 new ParallelCommandGroup(new JoystickDriveCommand(
                         m_robotDrive,
                         () -> -driver_main.getLeftY() / 1.25,
-                        () -> -driver_main.getRightX() / 2)));
+                        () -> -driver_main.getRightX() / turn_rate)));
     }
 
     private void configureButtonBindings() {
@@ -104,7 +105,7 @@ public class RobotContainer {
         new JoystickButton(driver_2, 11).whileTrue(new RobotStateChanger(0));
 
         // Substation Test
-        new JoystickButton(driver_2, 6).whileTrue(
+        new JoystickButton(driver_2, 6).toggleOnTrue(
                 new ParallelCommandGroup(new AutoElevator(elevatorsubsystem, Distance_State.Substation_Elevator),
                         new SequentialCommandGroup(new WaitCommand(1d),
                                 new AutoArm(armSubsystem, Distance_State.Substation_Arm))));
@@ -124,11 +125,14 @@ public class RobotContainer {
         new JoystickButton(driver_2, 2).toggleOnTrue(new ParallelCommandGroup(
                 new AutoArm(armSubsystem, Distance_State.Zero_All),
                 new SequentialCommandGroup(
-                        new WaitCommand(.5),
+                        new WaitCommand(.8),
                         new AutoElevator(elevatorsubsystem, Distance_State.Zero_All))));
 
         new JoystickButton(driver_2, 3).toggleOnTrue(new AutoArm(armSubsystem, Distance_State.Zero_All));
 
+       
+        new JoystickButton(driver_main, XboxController.Button.kLeftStick.value).whileTrue(new RunCommand(() -> turn_rate = 2.8f));
+       new JoystickButton(driver_main, XboxController.Button.kRightStick.value).whileTrue(new RunCommand(() -> turn_rate = 2.0f));
        
     }
 
